@@ -28,9 +28,9 @@
 
 #pragma comment(lib,"d2d1.lib")
 
-template<class Interface>
+template <class Interface>
 inline void SafeRelease(
-	Interface **ppInterfaceToRelease
+	Interface** ppInterfaceToRelease
 ) {
 	if (*ppInterfaceToRelease != NULL) {
 		(*ppInterfaceToRelease)->Release();

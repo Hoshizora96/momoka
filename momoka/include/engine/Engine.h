@@ -12,23 +12,23 @@ public:
 	void Shutdown();
 	void Run();
 
-	LRESULT CALLBACK MessageHandler(HWND, UINT, WPARAM, LPARAM);
+	LRESULT CALLBACK MessageHandler(HWND hwnd, UINT umsg, WPARAM wParam, LPARAM lParam) const;
 
 private:
 	bool Frame();
-	HRESULT InitializeWindow(UINT &screenWidth, UINT &screenHeight);
+	HRESULT InitializeWindow(UINT& screenWidth, UINT& screenHeight);
 	void ShutdownWindow();
 
 private:
-	LPCWSTR m_applicationName;
-	HWND m_hwnd;
+	LPCWSTR m_applicationName_;
+	HWND m_hwnd_;
 
-	InputTools *m_pInputTools;
-	GraphicsTools *m_pGraphicsTools;
+	InputTools* m_pInputTools_;
+	GraphicsTools* m_pGraphicsTools_;
 
 	static LRESULT CALLBACK WndProc(HWND hwnd, UINT umsg, WPARAM wParam, LPARAM lParam);
 
-	static Engine* ApplicationHandle;
+	static Engine* m_pApplicationHandle_;
 };
 
 

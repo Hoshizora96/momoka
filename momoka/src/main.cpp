@@ -5,19 +5,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	Engine* pEngine;
 	bool result;
 
-	// 创建system对象。
+	// 创建Engine对象。
 	pEngine = new Engine();
 	if (!pEngine) {
 		return 0;
 	}
 
-	//初始化并运行system对象。
+	//初始化并运行Engine对象。
 	result = pEngine->Initialize();
 	if (result) {
 		pEngine->Run();
 	}
 
-	// 关闭并释放system对象。
+	// 关闭并释放Engine对象。
 	pEngine->Shutdown();
 
 	delete pEngine;

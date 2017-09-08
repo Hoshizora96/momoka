@@ -4,22 +4,27 @@
 class GraphicsTools {
 
 public:
-	GraphicsTools();
+	GraphicsTools(HWND& hwnd);
 	~GraphicsTools();
 
 public:
-	HRESULT Initialize(const HWND& hwnd);
+	HRESULT Initialize();
 	void Shutdown();
 
 	HRESULT CreateDeviceIndependentResources();
 	HRESULT CreateDeviceResources();
 	void DiscardDeviceResources();
-	void GetDpi(FLOAT &dpiX, FLOAT &dpiY);
+	void GetDpi(FLOAT &dpiX, FLOAT &dpiY) const;
+	HRESULT DrawRect();
+
+	void OnResize(UINT width, UINT height);
 
 private:
-	HWND m_hwnd;
-	ID2D1Factory* m_pDirect2dFactory;
-	ID2D1HwndRenderTarget* m_pRenderTarget;
+	const HWND& m_hwnd_;  // 通过引用绑定engine中的m_hwnd_
+	ID2D1Factory* m_pDirect2DFactory_;
+	ID2D1HwndRenderTarget* m_pRenderTarget_;
+	ID2D1SolidColorBrush* m_pLightSlateGrayBrush_;
+	ID2D1SolidColorBrush* m_pCornflowerBlueBrush_;
 };
 
 /*
