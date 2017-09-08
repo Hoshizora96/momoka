@@ -70,6 +70,8 @@ HRESULT GraphicsTools::CreateDeviceResources() {
 void GraphicsTools::DiscardDeviceResources() {
 	SafeRelease(&m_pDirect2DFactory_);
 	SafeRelease(&m_pRenderTarget_);
+	SafeRelease(&m_pLightSlateGrayBrush_);
+	SafeRelease(&m_pCornflowerBlueBrush_);
 }
 
 void GraphicsTools::GetDpi(FLOAT& dpiX, FLOAT& dpiY) const {

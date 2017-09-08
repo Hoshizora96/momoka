@@ -4,7 +4,7 @@
 class GraphicsTools {
 
 public:
-	GraphicsTools(HWND& hwnd);
+	explicit GraphicsTools(HWND& hwnd);
 	~GraphicsTools();
 
 public:
@@ -26,6 +26,9 @@ private:
 	ID2D1SolidColorBrush* m_pLightSlateGrayBrush_;
 	ID2D1SolidColorBrush* m_pCornflowerBlueBrush_;
 };
+
+
+
 
 /*
 设备独立资源包括：

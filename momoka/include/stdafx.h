@@ -23,10 +23,14 @@
 
 #include <d2d1.h>
 #include <d2d1helper.h>
+#include <dinput.h>
 #include <dwrite.h>
 #include <wincodec.h>
 
-#pragma comment(lib,"d2d1.lib")
+#pragma comment(lib, "dinput8.lib") 
+#pragma comment(lib, "d2d1.lib")
+#pragma comment(lib,"dxguid.lib")
+  
 
 template <class Interface>
 inline void SafeRelease(
@@ -39,6 +43,18 @@ inline void SafeRelease(
 	}
 }
 
+template <class Interface>
+inline void SafeUnacquire(
+	Interface** ppInterfaceToRelease
+) {
+	if (*ppInterfaceToRelease != NULL) {
+		(*ppInterfaceToRelease)->Unacquire();
+
+		(*ppInterfaceToRelease) = NULL;
+	}
+}
+
+
 
 #ifndef Assert
 #if defined( DEBUG ) || defined( _DEBUG )
@@ -46,4 +62,9 @@ inline void SafeRelease(
 #else
 #define Assert(b)
 #endif //DEBUG || _DEBUG
+#endif
+
+#ifndef HINST_THISCOMPONENT
+EXTERN_C IMAGE_DOS_HEADER __ImageBase;
+#define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
 #endif

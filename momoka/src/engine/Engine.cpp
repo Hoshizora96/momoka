@@ -13,6 +13,7 @@ bool Engine::Initialize() {
 
 	UINT screenWidth = 800, screenHeight = 600;
 
+	// 此时m_hwnd_为NULL，不过不影响，传递的是引用
 	m_pGraphicsTools_ = new GraphicsTools(m_hwnd_);
 	if (!m_pGraphicsTools_) {
 		return false;
@@ -22,16 +23,18 @@ bool Engine::Initialize() {
 		return false;
 	}
 
+	// 由于InitializeWindow中使用m_pGraphicsTools_获取dpi，所以先初始化m_pGraphicsTools_
+	// dpi的获取是利用设备无关资源，所以即便在初始化m_pGraphicsTools_的时候m_hwnd_为NULL也可以正常运行
 	if (!SUCCEEDED(InitializeWindow(screenWidth, screenHeight))) {
 		return false;
 	}
 
-	if (!m_pInputTools_->Initialize()) {
+	m_pInputTools_ = new InputTools(m_hwnd_);
+	if (!m_pInputTools_) {
 		return false;
 	}
 
-	m_pInputTools_ = new InputTools();
-	if (!m_pInputTools_) {
+	if (!SUCCEEDED(m_pInputTools_->Initialize())) {
 		return false;
 	}
 
@@ -107,7 +110,7 @@ LRESULT Engine::MessageHandler(HWND hwnd, UINT umsg, WPARAM wParam, LPARAM lPara
 
 bool Engine::Frame() {
 	bool result;
-	// TODO: add some action
+	// TODO: 这里添加帧的具体内容
 	m_pGraphicsTools_->DrawRect();
 	return true;
 }
