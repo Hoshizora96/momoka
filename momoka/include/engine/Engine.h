@@ -2,17 +2,23 @@
 #include "stdafx.h"
 #include "InputTools.h"
 #include "GraphicsTools.h"
+#include "engine/DebugTools.h"
 
 class Engine {
 public:
 	Engine();
 
-public:
 	bool Initialize();
 	void Shutdown();
 	void Run();
+
 	int GetCurrentFps() const;
 	int GetExpectFps() const;
+	
+	InputTools* GetInputTools() const;
+	GraphicsTools* GetGraphicsTools() const;
+
+	static const Engine* GetUniEngineHandle();
 
 private:
 	bool Frame();
@@ -42,8 +48,5 @@ private:
 	static Engine* m_pUniEngineHandle_;
 
 	// TODO: 把测试的部分分离出去
-	WCHAR m_fpsStr_[40] = {0};
-
-	float m_posX_;
-	float m_posY_;
+	DebugInfo* m_pDebugInfo_;
 };

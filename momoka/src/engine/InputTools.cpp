@@ -57,8 +57,7 @@ void InputTools::Update() {
 }
 
 HRESULT InputTools::KeyboardInitialize() {
-	HRESULT hr = S_OK;
-	hr = m_pDirectInput_->CreateDevice(GUID_SysKeyboard, &m_pKeyboardDevice_, nullptr);
+	HRESULT hr = m_pDirectInput_->CreateDevice(GUID_SysKeyboard, &m_pKeyboardDevice_, nullptr);
 
 	if (SUCCEEDED(hr)) {
 		m_pKeyboardDevice_->SetDataFormat(&c_dfDIKeyboard);
@@ -70,8 +69,7 @@ HRESULT InputTools::KeyboardInitialize() {
 }
 
 HRESULT InputTools::MouseInitialize() {
-	HRESULT hr = S_OK;
-	hr = m_pDirectInput_->CreateDevice(GUID_SysMouse, &m_pMouseDevice_, nullptr);
+	HRESULT hr = m_pDirectInput_->CreateDevice(GUID_SysMouse, &m_pMouseDevice_, nullptr);
 
 	if (SUCCEEDED(hr)) {
 		m_pMouseDevice_->SetDataFormat(&c_dfDIMouse);

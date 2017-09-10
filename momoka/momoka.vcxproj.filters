@@ -36,7 +36,7 @@
     <ClInclude Include="include\engine\GraphicsTools.h">
       <Filter>头文件\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\engine\DebugInfo.h">
+    <ClInclude Include="include\engine\DebugTools.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -55,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="src\engine\InputTools.cpp">
       <Filter>源文件\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\DebugInfo.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

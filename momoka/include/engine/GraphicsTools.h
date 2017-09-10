@@ -15,9 +15,12 @@ public:
 	HRESULT CreateDeviceResources();
 	void DiscardDeviceResources();
 	void GetDpi(FLOAT &dpiX, FLOAT &dpiY) const;
-	HRESULT DrawDemo(WCHAR* fpsStr, FLOAT posX, FLOAT posY);
+	HRESULT DrawDemo() const;
+	bool Draw2DText(WCHAR* text);
 
 	void OnResize(UINT width, UINT height) const;
+	HRESULT BeginDraw();
+	HRESULT EndDraw();
 
 private:
 	const HWND& m_hwnd_;  // 通过引用绑定engine中的m_hwnd_

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "engine/Engine.h"
-#include <cstdio>
+#include "engine/DebugTools.h"
+
 
 Engine* Engine::m_pUniEngineHandle_ = nullptr;
 
@@ -10,7 +11,7 @@ Engine::Engine(): m_applicationName_(nullptr),
                   m_pGraphicsTools_(nullptr),
                   m_tickForDrawFrame_(0), m_tickForCountFrame_(0),
                   m_freq_(0), m_currentFps_(0),
-                  m_frame_(0), m_posX_(0), m_posY_(0) {
+                  m_frame_(0){
 }
 
 bool Engine::Initialize() {
@@ -30,6 +31,8 @@ bool Engine::Initialize() {
 	if (!SUCCEEDED(m_pGraphicsTools_->Initialize())) {
 		return false;
 	}
+
+	m_pDebugInfo_ = new DebugInfo();
 
 	// 由于InitializeWindow中使用m_pGraphicsTools_获取dpi，所以先初始化m_pGraphicsTools_
 	// dpi的获取是利用设备无关资源，所以即便在初始化m_pGraphicsTools_的时候m_hwnd_为NULL也可以正常运行
@@ -91,7 +94,6 @@ void Engine::Run() {
 				if (!Frame()) {
 					gameover = true;
 				}
-				Update();
 
 				m_frame_++;
 				if ((m_freq_ != 0) && (currentTick - m_tickForCountFrame_) * 1000 / m_freq_ > 1000 * 1) {
@@ -100,6 +102,8 @@ void Engine::Run() {
 					m_tickForCountFrame_ = currentTick;
 				}
 				m_tickForDrawFrame_ = currentTick;
+
+				Update();
 			}
 		}
 	}
@@ -111,6 +115,18 @@ int Engine::GetCurrentFps() const {
 
 int Engine::GetExpectFps() const {
 	return m_expectFps_;
+}
+
+const Engine* Engine::GetUniEngineHandle() {
+	return m_pUniEngineHandle_;
+}
+
+InputTools* Engine::GetInputTools() const {
+	return m_pInputTools_;
+}
+
+GraphicsTools* Engine::GetGraphicsTools() const {
+	return m_pGraphicsTools_;
 }
 
 LRESULT Engine::MessageHandler(HWND hwnd, UINT umsg, WPARAM wParam, LPARAM lParam) {
@@ -139,13 +155,20 @@ LRESULT Engine::MessageHandler(HWND hwnd, UINT umsg, WPARAM wParam, LPARAM lPara
 
 bool Engine::Frame() {
 
+	m_pGraphicsTools_->BeginDraw();
 	// TODO: 这里添加帧的具体内容
 
-	bool result = SUCCEEDED(m_pGraphicsTools_->DrawDemo(m_fpsStr_, m_posX_, m_posY_));
-	return result;
+	m_pGraphicsTools_->DrawDemo();
+	m_pDebugInfo_->Draw();
+
+	m_pGraphicsTools_->EndDraw();
+	return true;
 }
 
 bool Engine::Update() {
+	m_pInputTools_->Update();
+
+	m_pDebugInfo_->Update();
 	return true;
 }
 

@@ -150,7 +150,7 @@
     <Text Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\engine\DebugInfo.h" />
+    <ClInclude Include="include\engine\DebugTools.h" />
     <ClInclude Include="include\engine\GraphicsTools.h" />
     <ClInclude Include="include\engine\InputTools.h" />
     <ClInclude Include="include\stdafx.h" />
@@ -158,6 +158,7 @@
     <ClInclude Include="include\engine\Engine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\DebugInfo.cpp" />
     <ClCompile Include="src\engine\GraphicsTools.cpp" />
     <ClCompile Include="src\engine\InputTools.cpp" />
     <ClCompile Include="src\main.cpp" />

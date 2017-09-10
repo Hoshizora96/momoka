@@ -95,6 +95,8 @@ HRESULT GraphicsTools::CreateDeviceResources() {
 void GraphicsTools::DiscardDeviceResources() {
 	SafeRelease(&m_pDirect2DFactory_);
 	SafeRelease(&m_pRenderTarget_);
+	SafeRelease(&m_pDWriteFactory_);
+	SafeRelease(&m_pITextFormat_);
 	SafeRelease(&m_pLightSlateGrayBrush_);
 	SafeRelease(&m_pCornflowerBlueBrush_);
 }
@@ -103,75 +105,50 @@ void GraphicsTools::GetDpi(FLOAT& dpiX, FLOAT& dpiY) const {
 	m_pDirect2DFactory_->GetDesktopDpi(&dpiX, &dpiY);
 }
 
-HRESULT GraphicsTools::DrawDemo(WCHAR* fpsStr, FLOAT posX, FLOAT posY) {
-	HRESULT hr;
+HRESULT GraphicsTools::DrawDemo() const {
+	HRESULT hr = S_OK;
 
-	hr = CreateDeviceResources();
-	if (SUCCEEDED(hr)) {
-		m_pRenderTarget_->BeginDraw();
-		m_pRenderTarget_->SetTransform(D2D1::Matrix3x2F::Identity());
-		m_pRenderTarget_->Clear(D2D1::ColorF(D2D1::ColorF::White));
-		D2D1_SIZE_F rtSize = m_pRenderTarget_->GetSize();
+	m_pRenderTarget_->SetTransform(D2D1::Matrix3x2F::Identity());
+	m_pRenderTarget_->Clear(D2D1::ColorF(D2D1::ColorF::White));
+	D2D1_SIZE_F rtSize = m_pRenderTarget_->GetSize();
 
-		int width = static_cast<int>(rtSize.width);
-		int height = static_cast<int>(rtSize.height);
+	int width = static_cast<int>(rtSize.width);
+	int height = static_cast<int>(rtSize.height);
 
-		for (int x = 0; x < width; x += 10) {
-			m_pRenderTarget_->DrawLine(
-				D2D1::Point2F(static_cast<FLOAT>(x), 0.0f),
-				D2D1::Point2F(static_cast<FLOAT>(x), rtSize.height),
-				m_pLightSlateGrayBrush_,
-				0.5f
-			);
-		}
-
-		for (int y = 0; y < height; y += 10) {
-			m_pRenderTarget_->DrawLine(
-				D2D1::Point2F(0.0f, static_cast<FLOAT>(y)),
-				D2D1::Point2F(rtSize.width, static_cast<FLOAT>(y)),
-				m_pLightSlateGrayBrush_,
-				0.5f
-			);
-		}
-
-		D2D1_RECT_F rectangle1 = D2D1::RectF(
-			posX - 50.0f,
-			posY - 50.0f,
-			posX + 50.0f,
-			posY + 50.0f
+	for (int x = 0; x < width; x += 10) {
+		m_pRenderTarget_->DrawLine(
+			D2D1::Point2F(static_cast<FLOAT>(x), 0.0f),
+			D2D1::Point2F(static_cast<FLOAT>(x), rtSize.height),
+			m_pLightSlateGrayBrush_,
+			0.5f
 		);
-
-		D2D1_RECT_F rectangle2 = D2D1::RectF(
-			rtSize.width / 2 - 100.0f,
-			rtSize.height / 2 - 100.0f,
-			rtSize.width / 2 + 100.0f,
-			rtSize.height / 2 + 100.0f
-		);
-
-		m_pRenderTarget_->FillRectangle(&rectangle1, m_pLightSlateGrayBrush_);
-		m_pRenderTarget_->DrawRectangle(&rectangle2, m_pCornflowerBlueBrush_);
-
-		D2D1_RECT_F layoutRect = D2D1::RectF(0.f, 0.f, 100.f, 100.f);
-
-		if (SUCCEEDED(hr)) {
-			m_pRenderTarget_->DrawText(
-				fpsStr,
-				wcslen(fpsStr),
-				m_pITextFormat_,
-				layoutRect,
-				m_pCornflowerBlueBrush_
-			);
-		}
-
-		hr = m_pRenderTarget_->EndDraw();
-
-		if (hr == D2DERR_RECREATE_TARGET) {
-			hr = S_OK;
-			DiscardDeviceResources();
-		}
 	}
+
+	for (int y = 0; y < height; y += 10) {
+		m_pRenderTarget_->DrawLine(
+			D2D1::Point2F(0.0f, static_cast<FLOAT>(y)),
+			D2D1::Point2F(rtSize.width, static_cast<FLOAT>(y)),
+			m_pLightSlateGrayBrush_,
+			0.5f
+		);
+	}
+
 	return hr;
 }
+
+bool GraphicsTools::Draw2DText(WCHAR* text) {
+	D2D1_RECT_F layoutRect = D2D1::RectF(0.f, 0.f, 100.f, 100.f);
+	m_pRenderTarget_->DrawText(
+		text,
+		wcslen(text),
+		m_pITextFormat_,
+		layoutRect,
+		m_pCornflowerBlueBrush_
+	);
+
+	return true;
+}
+
 
 void GraphicsTools::OnResize(UINT width, UINT height) const {
 	if (m_pRenderTarget_) {
@@ -180,4 +157,23 @@ void GraphicsTools::OnResize(UINT width, UINT height) const {
 		// the next time EndDraw is called.
 		m_pRenderTarget_->Resize(D2D1::SizeU(width, height));
 	}
+}
+
+HRESULT GraphicsTools::BeginDraw() {
+	HRESULT hr;
+	hr = CreateDeviceResources();
+	if (SUCCEEDED(hr)) {
+		m_pRenderTarget_->BeginDraw();
+	}
+
+	return hr;
+}
+
+HRESULT GraphicsTools::EndDraw() {
+	HRESULT hr = m_pRenderTarget_->EndDraw();
+	if (hr == D2DERR_RECREATE_TARGET) {
+		hr = S_OK;
+		DiscardDeviceResources();
+	}
+	return hr;
 }
