@@ -4,10 +4,12 @@
 // TODO: 先令这部分跑起来
 
 GraphicsTools::GraphicsTools(HWND& hwnd) : m_hwnd_(hwnd),
-                                 m_pDirect2DFactory_(nullptr),
-                                 m_pRenderTarget_(nullptr),
-                                 m_pLightSlateGrayBrush_(nullptr),
-                                 m_pCornflowerBlueBrush_(nullptr) {
+                                           m_pDirect2DFactory_(nullptr),
+                                           m_pDWriteFactory_(nullptr),
+                                           m_pRenderTarget_(nullptr),
+                                           m_pLightSlateGrayBrush_(nullptr),
+                                           m_pCornflowerBlueBrush_(nullptr),
+                                           m_pITextFormat_(nullptr) {
 }
 
 GraphicsTools::~GraphicsTools() {
@@ -26,7 +28,17 @@ void GraphicsTools::Shutdown() {
 
 HRESULT GraphicsTools::CreateDeviceIndependentResources() {
 	HRESULT hr = S_OK;
-	hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pDirect2DFactory_);
+	if (SUCCEEDED(hr)) {
+		hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pDirect2DFactory_);
+	}
+
+	if (SUCCEEDED(hr)) {
+		hr = DWriteCreateFactory(
+			DWRITE_FACTORY_TYPE_SHARED,
+			__uuidof(IDWriteFactory),
+			reinterpret_cast<IUnknown**>(&m_pDWriteFactory_));
+	}
+
 	return hr;
 }
 
@@ -63,6 +75,19 @@ HRESULT GraphicsTools::CreateDeviceResources() {
 				&m_pLightSlateGrayBrush_
 			);
 		}
+
+		if (SUCCEEDED(hr)) {
+			hr = m_pDWriteFactory_->CreateTextFormat(
+				L"Arial",
+				nullptr,
+				DWRITE_FONT_WEIGHT_NORMAL,
+				DWRITE_FONT_STYLE_NORMAL,
+				DWRITE_FONT_STRETCH_NORMAL,
+				10.0f * 96.0f / 72.0f,
+				L"en-US",
+				&m_pITextFormat_
+			);
+		}
 	}
 	return hr;
 }
@@ -78,8 +103,8 @@ void GraphicsTools::GetDpi(FLOAT& dpiX, FLOAT& dpiY) const {
 	m_pDirect2DFactory_->GetDesktopDpi(&dpiX, &dpiY);
 }
 
-HRESULT GraphicsTools::DrawRect() {
-	HRESULT hr = S_OK;
+HRESULT GraphicsTools::DrawDemo(WCHAR* fpsStr, FLOAT posX, FLOAT posY) {
+	HRESULT hr;
 
 	hr = CreateDeviceResources();
 	if (SUCCEEDED(hr)) {
@@ -110,10 +135,10 @@ HRESULT GraphicsTools::DrawRect() {
 		}
 
 		D2D1_RECT_F rectangle1 = D2D1::RectF(
-			rtSize.width / 2 - 50.0f,
-			rtSize.height / 2 - 50.0f,
-			rtSize.width / 2 + 50.0f,
-			rtSize.height / 2 + 50.0f
+			posX - 50.0f,
+			posY - 50.0f,
+			posX + 50.0f,
+			posY + 50.0f
 		);
 
 		D2D1_RECT_F rectangle2 = D2D1::RectF(
@@ -126,6 +151,18 @@ HRESULT GraphicsTools::DrawRect() {
 		m_pRenderTarget_->FillRectangle(&rectangle1, m_pLightSlateGrayBrush_);
 		m_pRenderTarget_->DrawRectangle(&rectangle2, m_pCornflowerBlueBrush_);
 
+		D2D1_RECT_F layoutRect = D2D1::RectF(0.f, 0.f, 100.f, 100.f);
+
+		if (SUCCEEDED(hr)) {
+			m_pRenderTarget_->DrawText(
+				fpsStr,
+				wcslen(fpsStr),
+				m_pITextFormat_,
+				layoutRect,
+				m_pCornflowerBlueBrush_
+			);
+		}
+
 		hr = m_pRenderTarget_->EndDraw();
 
 		if (hr == D2DERR_RECREATE_TARGET) {
@@ -136,7 +173,7 @@ HRESULT GraphicsTools::DrawRect() {
 	return hr;
 }
 
-void GraphicsTools::OnResize(UINT width, UINT height) {
+void GraphicsTools::OnResize(UINT width, UINT height) const {
 	if (m_pRenderTarget_) {
 		// Note: This method can fail, but it's okay to ignore the
 		// error here, because the error will be returned again

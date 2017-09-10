@@ -1,14 +1,11 @@
 #include "stdafx.h"
 #include "engine/InputTools.h"
 
-// TODO: 使用DirectInput完成输入的封装
-// 有关DirectInput的具体内容可以参考下面这个链接
-// http://blog.csdn.net/poem_qianmo/article/details/8547531
+InputTools::InputTools(HWND& hwnd) : m_hwnd_(hwnd),
+m_pDirectInput_(nullptr),
+m_pMouseDevice_(nullptr),
+m_pKeyboardDevice_(nullptr) {
 
-InputTools::InputTools(HWND& hwnd): m_hwnd_(hwnd),
-                                    m_pDirectInput_(nullptr),
-                                    m_pMouseDevice_(nullptr),
-                                    m_pKeyboardDevice_(nullptr) {
 }
 
 HRESULT InputTools::Initialize() {
@@ -20,10 +17,9 @@ HRESULT InputTools::Initialize() {
 		reinterpret_cast<void**>(&m_pDirectInput_),
 		nullptr
 	);
-
-	if(SUCCEEDED(hr)) {
+	if (SUCCEEDED(hr)) {
 		hr = MouseInitialize();
-		if(!SUCCEEDED(hr)) {
+		if (!SUCCEEDED(hr)) {
 			return hr;
 		}
 
@@ -32,7 +28,6 @@ HRESULT InputTools::Initialize() {
 			return hr;
 		}
 	}
-
 	return hr;
 }
 
@@ -40,21 +35,25 @@ void InputTools::Shutdown() {
 	SafeUnacquire(&m_pMouseDevice_);
 	SafeUnacquire(&m_pKeyboardDevice_);
 
+	SafeRelease(&m_pDirectInput_);
 	SafeRelease(&m_pMouseDevice_);
 	SafeRelease(&m_pKeyboardDevice_);
-	SafeRelease(&m_pDirectInput_);
 }
 
-bool InputTools::GetKeyboardMessage(char* keyStateBuffer) const {
-	::ZeroMemory(keyStateBuffer, sizeof(keyStateBuffer));
-	const bool result = DeviceRead(m_pKeyboardDevice_, static_cast<LPVOID>(keyStateBuffer), sizeof(keyStateBuffer));
-	return result;
+bool InputTools::GetKeyboardMessage(UINT keyCode) const {
+	return m_keyStateBuffer_[keyCode] & 0x80;
 }
 
-bool InputTools::GetMouseMessage(DIMOUSESTATE mouseState) const {
-	::ZeroMemory(&mouseState, sizeof(mouseState));
-	const bool result = DeviceRead(m_pMouseDevice_, static_cast<LPVOID>(&mouseState), sizeof(mouseState));
-	return result;
+DIMOUSESTATE InputTools::GetMouseMessage() const {
+	return m_mouseState_;
+}
+
+void InputTools::Update() {
+	::ZeroMemory(m_keyStateBuffer_, sizeof(m_keyStateBuffer_));
+	DeviceRead(m_pKeyboardDevice_, static_cast<LPVOID>(m_keyStateBuffer_), sizeof(m_keyStateBuffer_));
+
+	::ZeroMemory(&m_mouseState_, sizeof(m_mouseState_));
+	DeviceRead(m_pMouseDevice_, static_cast<LPVOID>(&m_mouseState_), sizeof(m_mouseState_));
 }
 
 HRESULT InputTools::KeyboardInitialize() {
@@ -62,9 +61,8 @@ HRESULT InputTools::KeyboardInitialize() {
 	hr = m_pDirectInput_->CreateDevice(GUID_SysKeyboard, &m_pKeyboardDevice_, nullptr);
 
 	if (SUCCEEDED(hr)) {
-		m_pMouseDevice_->SetDataFormat(&c_dfDIKeyboard);
+		m_pKeyboardDevice_->SetDataFormat(&c_dfDIKeyboard);
 		m_pKeyboardDevice_->SetCooperativeLevel(m_hwnd_, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
-		// TODO: 讨论一下需不需要将Acquire结果返回，下面的那个函数也是
 		m_pKeyboardDevice_->Acquire();
 	}
 
@@ -78,23 +76,22 @@ HRESULT InputTools::MouseInitialize() {
 	if (SUCCEEDED(hr)) {
 		m_pMouseDevice_->SetDataFormat(&c_dfDIMouse);
 		m_pMouseDevice_->SetCooperativeLevel(m_hwnd_, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
-
 		m_pMouseDevice_->Acquire();
 	}
 
 	return hr;
 }
 
-HRESULT InputTools::DeviceRead(IDirectInputDevice8* pDIDevice, void* pBuffer, long lSize) {
+HRESULT InputTools::DeviceRead(IDirectInputDevice8* pDiDevice, void* pBuffer, long lSize) {
 	HRESULT hr;
 	while (true) {
-		pDIDevice->Poll(); // 轮询设备  
-		pDIDevice->Acquire(); // 获取设备的控制权  
-		if (SUCCEEDED(hr = pDIDevice->GetDeviceState(lSize, pBuffer)))
+		pDiDevice->Poll(); // 轮询设备  
+		pDiDevice->Acquire(); // 获取设备的控制权  
+		if (SUCCEEDED(hr = pDiDevice->GetDeviceState(lSize, pBuffer)))
 			break;
 		if (hr != DIERR_INPUTLOST || hr != DIERR_NOTACQUIRED)
 			return E_FAIL;
-		if (FAILED(pDIDevice->Acquire()))
+		if (FAILED(pDiDevice->Acquire()))
 			return E_FAIL;
 	}
 	return S_OK;

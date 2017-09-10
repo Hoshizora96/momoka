@@ -150,6 +150,7 @@
     <Text Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\engine\DebugInfo.h" />
     <ClInclude Include="include\engine\GraphicsTools.h" />
     <ClInclude Include="include\engine\InputTools.h" />
     <ClInclude Include="include\stdafx.h" />

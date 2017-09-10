@@ -15,16 +15,21 @@ public:
 	HRESULT CreateDeviceResources();
 	void DiscardDeviceResources();
 	void GetDpi(FLOAT &dpiX, FLOAT &dpiY) const;
-	HRESULT DrawRect();
+	HRESULT DrawDemo(WCHAR* fpsStr, FLOAT posX, FLOAT posY);
 
-	void OnResize(UINT width, UINT height);
+	void OnResize(UINT width, UINT height) const;
 
 private:
 	const HWND& m_hwnd_;  // 通过引用绑定engine中的m_hwnd_
 	ID2D1Factory* m_pDirect2DFactory_;
+	IDWriteFactory* m_pDWriteFactory_;
+
 	ID2D1HwndRenderTarget* m_pRenderTarget_;
+
 	ID2D1SolidColorBrush* m_pLightSlateGrayBrush_;
 	ID2D1SolidColorBrush* m_pCornflowerBlueBrush_;
+
+	IDWriteTextFormat* m_pITextFormat_;
 };
 
 

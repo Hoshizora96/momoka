@@ -36,6 +36,9 @@
     <ClInclude Include="include\engine\GraphicsTools.h">
       <Filter>头文件\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="include\engine\DebugInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

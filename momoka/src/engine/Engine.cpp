@@ -1,15 +1,23 @@
 #include "stdafx.h"
 #include "engine/Engine.h"
+#include <cstdio>
 
-Engine* Engine::m_pApplicationHandle_ = nullptr;
+Engine* Engine::m_pUniEngineHandle_ = nullptr;
 
 Engine::Engine(): m_applicationName_(nullptr),
                   m_hwnd_(nullptr),
                   m_pInputTools_(nullptr),
-                  m_pGraphicsTools_(nullptr) {
+                  m_pGraphicsTools_(nullptr),
+                  m_tickForDrawFrame_(0), m_tickForCountFrame_(0),
+                  m_freq_(0), m_currentFps_(0),
+                  m_frame_(0), m_posX_(0), m_posY_(0) {
 }
 
 bool Engine::Initialize() {
+
+	m_pUniEngineHandle_ = this;
+
+	m_freq_ = GetCurrentFrequency();
 
 	UINT screenWidth = 800, screenHeight = 600;
 
@@ -59,31 +67,54 @@ void Engine::Shutdown() {
 }
 
 void Engine::Run() {
-	MSG msg;
-	bool done;
 
+	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
 
-	done = false;
-	while (!done) {
+	bool gameover = false;
+	while (!gameover) {
 
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
 
 		if (msg.message == WM_QUIT) {
-			done = true;
+			gameover = true;
 		}
 		else {
-			if (!Frame()) {
-				done = true;
+			const LONGLONG currentTick = GetCurrentTick();
+			if (currentTick == 0) {
+				gameover = true;
+			}
+			else if ((currentTick - m_tickForDrawFrame_) * 1000000 / m_freq_ > (1000000 / m_expectFps_)) {
+				if (!Frame()) {
+					gameover = true;
+				}
+				Update();
+
+				m_frame_++;
+				if ((m_freq_ != 0) && (currentTick - m_tickForCountFrame_) * 1000 / m_freq_ > 1000 * 1) {
+					m_currentFps_ = m_frame_;
+					m_frame_ = 0;
+					m_tickForCountFrame_ = currentTick;
+				}
+				m_tickForDrawFrame_ = currentTick;
 			}
 		}
 	}
 }
 
-LRESULT Engine::MessageHandler(HWND hwnd, UINT umsg, WPARAM wParam, LPARAM lParam) const {
+int Engine::GetCurrentFps() const {
+	return m_currentFps_;
+}
+
+int Engine::GetExpectFps() const {
+	return m_expectFps_;
+}
+
+LRESULT Engine::MessageHandler(HWND hwnd, UINT umsg, WPARAM wParam, LPARAM lParam) {
+
 	switch (umsg) {
 		// TODO: add message-handle action
 	case WM_SIZE: {
@@ -92,33 +123,34 @@ LRESULT Engine::MessageHandler(HWND hwnd, UINT umsg, WPARAM wParam, LPARAM lPara
 		m_pGraphicsTools_->OnResize(width, height);
 	}
 		return 0;
-	case WM_DISPLAYCHANGE:
-		{
-			InvalidateRect(m_hwnd_, nullptr, FALSE);
-		}
+	case WM_DISPLAYCHANGE: {
+		InvalidateRect(m_hwnd_, nullptr, FALSE);
+	}
 		return 0;
-	case WM_PAINT:
-		{
+	case WM_PAINT: {
 		// TODO: 改成通用的渲染函数
-			m_pGraphicsTools_->DrawRect();
-			ValidateRect(m_hwnd_, nullptr);
-		}
+		Frame();
+		ValidateRect(m_hwnd_, nullptr);
+	}
 	default:
 		return DefWindowProc(hwnd, umsg, wParam, lParam);
 	}
 }
 
 bool Engine::Frame() {
-	bool result;
+
 	// TODO: 这里添加帧的具体内容
-	m_pGraphicsTools_->DrawRect();
+
+	bool result = SUCCEEDED(m_pGraphicsTools_->DrawDemo(m_fpsStr_, m_posX_, m_posY_));
+	return result;
+}
+
+bool Engine::Update() {
 	return true;
 }
 
 HRESULT Engine::InitializeWindow(UINT& windowWidth, UINT& windowHeight) {
 	HRESULT hr;
-
-	m_pApplicationHandle_ = this;
 
 	m_applicationName_ = L"Engine";
 
@@ -130,7 +162,7 @@ HRESULT Engine::InitializeWindow(UINT& windowWidth, UINT& windowHeight) {
 	wcex.hbrBackground = nullptr;
 	wcex.lpszMenuName = nullptr;
 	wcex.hCursor = LoadCursor(nullptr, IDI_APPLICATION);
-	wcex.lpszClassName = L"D2DDemoApp";
+	wcex.lpszClassName = m_applicationName_;
 
 	RegisterClassEx(&wcex);
 
@@ -139,8 +171,9 @@ HRESULT Engine::InitializeWindow(UINT& windowWidth, UINT& windowHeight) {
 
 	windowWidth = static_cast<UINT>(ceil(windowWidth * dpiX / 96.f));
 	windowHeight = static_cast<UINT>(ceil(windowHeight * dpiY / 96.f));
+
 	m_hwnd_ = CreateWindow(
-		L"D2DDemoApp",
+		m_applicationName_,
 		L"Direct2D Demo App",
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, // posX
@@ -173,13 +206,14 @@ void Engine::ShutdownWindow() {
 	UnregisterClass(m_applicationName_, HINST_THISCOMPONENT);
 
 	// Release the pointer to this class.
-	m_pApplicationHandle_ = nullptr;
+	m_pUniEngineHandle_ = nullptr;
 }
 
 LRESULT Engine::WndProc(HWND hwnd, UINT umsg, WPARAM wParam, LPARAM lParam) {
 	// 这个函数只处理一些通用消息
 	// 具体涉及绘图与输入操作的消息由m_pApplicationHandle_转入Engine内部处理
 	// 没办法WndProc必须是静态函数，大概吧
+
 	switch (umsg) {
 	case WM_DESTROY:
 		PostQuitMessage(0);
@@ -188,6 +222,6 @@ LRESULT Engine::WndProc(HWND hwnd, UINT umsg, WPARAM wParam, LPARAM lParam) {
 		PostQuitMessage(0);
 		return 0;
 	default:
-		return m_pApplicationHandle_->MessageHandler(hwnd, umsg, wParam, lParam);
+		return m_pUniEngineHandle_->MessageHandler(hwnd, umsg, wParam, lParam);
 	}
 }

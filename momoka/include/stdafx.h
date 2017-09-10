@@ -27,10 +27,12 @@
 #include <dwrite.h>
 #include <wincodec.h>
 
-#pragma comment(lib, "dinput8.lib") 
+#pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib,"dxguid.lib")
-  
+#pragma comment(lib,"dxgi.lib")
+#pragma comment(lib,"dwrite.lib")
+
 
 template <class Interface>
 inline void SafeRelease(
@@ -54,7 +56,17 @@ inline void SafeUnacquire(
 	}
 }
 
+inline LONGLONG GetCurrentTick() {
+	LARGE_INTEGER num;
+	QueryPerformanceCounter(&num);
+	return num.QuadPart;
+}
 
+inline LONGLONG GetCurrentFrequency() {
+	LARGE_INTEGER num;
+	QueryPerformanceFrequency(&num);
+	return num.QuadPart;
+}
 
 #ifndef Assert
 #if defined( DEBUG ) || defined( _DEBUG )
