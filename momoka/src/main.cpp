@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "engine/Engine.h"
+#include "Engine.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow) {
 	Engine* pEngine;
@@ -17,10 +17,5 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 		pEngine->Run();
 	}
 
-	// 关闭并释放Engine对象。
-	pEngine->Shutdown();
-
-	delete pEngine;
-	pEngine = nullptr;
 	return 0;
 }

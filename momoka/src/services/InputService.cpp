@@ -1,14 +1,8 @@
 #include "stdafx.h"
-#include "engine/InputTools.h"
+#include "services/InputService.h"
 
-InputTools::InputTools(HWND& hwnd) : m_hwnd_(hwnd),
-m_pDirectInput_(nullptr),
-m_pMouseDevice_(nullptr),
-m_pKeyboardDevice_(nullptr) {
 
-}
-
-HRESULT InputTools::Initialize() {
+InputService::InputService(HWND& hwnd) : m_hwnd_(hwnd) {
 	HRESULT hr = S_OK;
 	hr = DirectInput8Create(
 		HINST_THISCOMPONENT,
@@ -19,19 +13,13 @@ HRESULT InputTools::Initialize() {
 	);
 	if (SUCCEEDED(hr)) {
 		hr = MouseInitialize();
-		if (!SUCCEEDED(hr)) {
-			return hr;
-		}
-
-		hr = KeyboardInitialize();
-		if (!SUCCEEDED(hr)) {
-			return hr;
-		}
 	}
-	return hr;
+	if (SUCCEEDED(hr)) {
+		hr = KeyboardInitialize();
+	}
 }
 
-void InputTools::Shutdown() {
+InputService::~InputService() {
 	SafeUnacquire(&m_pMouseDevice_);
 	SafeUnacquire(&m_pKeyboardDevice_);
 
@@ -40,15 +28,15 @@ void InputTools::Shutdown() {
 	SafeRelease(&m_pKeyboardDevice_);
 }
 
-bool InputTools::GetKeyboardMessage(UINT keyCode) const {
+bool InputService::GetKeyboardMessage(UINT keyCode) const {
 	return m_keyStateBuffer_[keyCode] & 0x80;
 }
 
-DIMOUSESTATE InputTools::GetMouseMessage() const {
+DIMOUSESTATE InputService::GetMouseMessage() const {
 	return m_mouseState_;
 }
 
-void InputTools::Update() {
+void InputService::RefreshBuffer() {
 	::ZeroMemory(m_keyStateBuffer_, sizeof(m_keyStateBuffer_));
 	DeviceRead(m_pKeyboardDevice_, static_cast<LPVOID>(m_keyStateBuffer_), sizeof(m_keyStateBuffer_));
 
@@ -56,7 +44,7 @@ void InputTools::Update() {
 	DeviceRead(m_pMouseDevice_, static_cast<LPVOID>(&m_mouseState_), sizeof(m_mouseState_));
 }
 
-HRESULT InputTools::KeyboardInitialize() {
+bool InputService::KeyboardInitialize() {
 	HRESULT hr = m_pDirectInput_->CreateDevice(GUID_SysKeyboard, &m_pKeyboardDevice_, nullptr);
 
 	if (SUCCEEDED(hr)) {
@@ -65,10 +53,10 @@ HRESULT InputTools::KeyboardInitialize() {
 		m_pKeyboardDevice_->Acquire();
 	}
 
-	return hr;
+	return SUCCEEDED(hr);
 }
 
-HRESULT InputTools::MouseInitialize() {
+bool InputService::MouseInitialize() {
 	HRESULT hr = m_pDirectInput_->CreateDevice(GUID_SysMouse, &m_pMouseDevice_, nullptr);
 
 	if (SUCCEEDED(hr)) {
@@ -77,10 +65,10 @@ HRESULT InputTools::MouseInitialize() {
 		m_pMouseDevice_->Acquire();
 	}
 
-	return hr;
+	return SUCCEEDED(hr);
 }
 
-HRESULT InputTools::DeviceRead(IDirectInputDevice8* pDiDevice, void* pBuffer, long lSize) {
+bool InputService::DeviceRead(IDirectInputDevice8 * pDiDevice, void * pBuffer, long lSize) {
 	HRESULT hr;
 	while (true) {
 		pDiDevice->Poll(); // ÂÖÑ¯Éè±¸  
@@ -88,9 +76,11 @@ HRESULT InputTools::DeviceRead(IDirectInputDevice8* pDiDevice, void* pBuffer, lo
 		if (SUCCEEDED(hr = pDiDevice->GetDeviceState(lSize, pBuffer)))
 			break;
 		if (hr != DIERR_INPUTLOST || hr != DIERR_NOTACQUIRED)
-			return E_FAIL;
+			return false;
 		if (FAILED(pDiDevice->Acquire()))
-			return E_FAIL;
+			return false;
 	}
-	return S_OK;
+	return true;
 }
+
+

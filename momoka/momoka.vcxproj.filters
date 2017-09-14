@@ -27,16 +27,49 @@
     <ClInclude Include="include\targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\engine\InputTools.h">
-      <Filter>头文件\Engine</Filter>
+    <ClInclude Include="include\services\WindowService.h">
+      <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\engine\Engine.h">
-      <Filter>头文件\Engine</Filter>
+    <ClInclude Include="include\services\GraphicService.h">
+      <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\engine\GraphicsTools.h">
-      <Filter>头文件\Engine</Filter>
+    <ClInclude Include="include\services\InputService.h">
+      <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\engine\DebugTools.h">
+    <ClInclude Include="include\Engine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\ServiceLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\exception\MomokaException.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\exception\ServiceException.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\services\Service.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\GameState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\GameTestState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\objects\Entity.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\objects\Actor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\objects\PlayerCharacher.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\GameController.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\PlayerCharacter.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,16 +80,16 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\Engine.cpp">
-      <Filter>源文件\Engine</Filter>
+    <ClCompile Include="src\services\WindowService.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\GraphicsTools.cpp">
-      <Filter>源文件\Engine</Filter>
+    <ClCompile Include="src\services\GraphicService.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\InputTools.cpp">
-      <Filter>源文件\Engine</Filter>
+    <ClCompile Include="src\services\InputService.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\DebugInfo.cpp">
+    <ClCompile Include="src\Engine.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

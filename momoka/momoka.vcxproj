@@ -150,25 +150,36 @@
     <Text Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\engine\DebugTools.h" />
-    <ClInclude Include="include\engine\GraphicsTools.h" />
-    <ClInclude Include="include\engine\InputTools.h" />
+    <ClInclude Include="include\Engine.h" />
+    <ClInclude Include="include\exception\MomokaException.h" />
+    <ClInclude Include="include\exception\ServiceException.h" />
+    <ClInclude Include="include\game\GameController.h" />
+    <ClInclude Include="include\game\GameState.h" />
+    <ClInclude Include="include\game\GameTestState.h" />
+    <ClInclude Include="include\objects\Entity.h" />
+    <ClInclude Include="include\objects\PlayerCharacher.h" />
+    <ClInclude Include="include\objects\Actor.h" />
+    <ClInclude Include="include\services\Service.h" />
+    <ClInclude Include="include\services\GraphicService.h" />
+    <ClInclude Include="include\services\InputService.h" />
+    <ClInclude Include="include\services\WindowService.h" />
     <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\targetver.h" />
-    <ClInclude Include="include\engine\Engine.h" />
+    <ClInclude Include="include\util\ServiceLoader.h" />
+    <ClInclude Include="src\objects\PlayerCharacter.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\engine\DebugInfo.cpp" />
-    <ClCompile Include="src\engine\GraphicsTools.cpp" />
-    <ClCompile Include="src\engine\InputTools.cpp" />
+    <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\services\GraphicService.cpp" />
+    <ClCompile Include="src\services\InputService.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\engine\Engine.cpp" />
+    <ClCompile Include="src\services\WindowService.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
