@@ -34,6 +34,12 @@
 #pragma comment(lib,"dwrite.lib")
 
 
+#ifndef HINST_THISCOMPONENT
+EXTERN_C IMAGE_DOS_HEADER __ImageBase;
+#define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
+#endif
+
+
 template <class Interface>
 inline void SafeRelease(
 	Interface** ppInterfaceToRelease
@@ -87,7 +93,4 @@ inline LONGLONG GetCurrentFrequency() {
 #endif //DEBUG || _DEBUG
 #endif
 
-#ifndef HINST_THISCOMPONENT
-EXTERN_C IMAGE_DOS_HEADER __ImageBase;
-#define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
-#endif
+#include "global.h"

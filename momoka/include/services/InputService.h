@@ -6,7 +6,7 @@ class InputService : public Service {
 public:
 	explicit InputService(HWND& hwnd);
 	~InputService();
-	bool GetKeyboardMessage(UINT keyCode) const;
+	bool IsKeyPressed(UINT keyCode) const;
 	DIMOUSESTATE GetMouseMessage() const;
 	void RefreshBuffer();
 

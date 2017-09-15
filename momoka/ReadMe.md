@@ -17,9 +17,41 @@ Visual Studio 2015
 
 头文件放在include目录下，源文件放在src目录下
 
+## 文件目录（以include为例）
+
+- commands 
+
+  包含Command类及其子类，具体参考设计模式中的命令模式
+
+- exception
+
+  包含所有异常类
+
+- game
+
+  游戏主体框架
+
+- objects
+
+  包含所有在地图中能够展现的对象
+
+- physics
+
+  物理引擎
+
+- services
+
+  所有底层服务
+
+- util
+
+  杂项
+
 ### 变量命名规则
 函数名大写首字母驼峰命名法
 
 变量名小写驼峰命名法
+
+指针前缀加p
 
 成员变量加前缀m

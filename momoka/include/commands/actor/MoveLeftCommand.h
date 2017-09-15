@@ -6,8 +6,8 @@ class MoveLeftCommand : public Command {
 public:
 	MoveLeftCommand(Actor* actor);
 	~MoveLeftCommand() override;
-private:
 	void Execute() override;
+private:
 	Actor* m_pActor_;
 };
 

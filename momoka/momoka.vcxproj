@@ -161,6 +161,7 @@
     <ClInclude Include="include\game\GameController.h" />
     <ClInclude Include="include\game\GameState.h" />
     <ClInclude Include="include\game\GameTestState.h" />
+    <ClInclude Include="include\global.h" />
     <ClInclude Include="include\objects\Entity.h" />
     <ClInclude Include="include\objects\Hero.h" />
     <ClInclude Include="include\objects\Actor.h" />

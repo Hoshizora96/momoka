@@ -6,8 +6,6 @@
 #include <map>
 #include <memory>
 
-enum SERVICE_TYPE { inputService, graphicService, windowService };
-
 class ServiceLoader {
 	typedef std::shared_ptr<Service> ServicePtr;
 	typedef std::map<SERVICE_TYPE, ServicePtr> ServicePtrMap;

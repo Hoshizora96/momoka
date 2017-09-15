@@ -6,8 +6,8 @@ class MoveDownCommand : public Command {
 public:
 	MoveDownCommand(Actor* actor);
 	~MoveDownCommand() override;
-private:
 	void Execute() override;
+private:
 	Actor* m_pActor_;
 };
 

@@ -1,6 +1,13 @@
 #pragma once
 
-struct TileInfo {
+class TileInfo {
+public:
+	TileInfo(int width, int height, int friction)
+		: m_width(width),
+		  m_height(height),
+		  m_friction(friction) {
+	}
+
 	int m_width;
 	int m_height;
 	int m_friction;
@@ -14,7 +21,6 @@ public:
 		  m_posY_(posY) {
 	}
 
-private:
 	int m_type_;
 	int m_posX_;
 	int m_posY_;

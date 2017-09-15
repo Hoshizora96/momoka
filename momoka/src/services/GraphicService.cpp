@@ -4,7 +4,7 @@
 GraphicService::GraphicService(HWND& hwnd) : m_hwnd_(hwnd),
                                              m_pDirect2DFactory_(nullptr),
                                              m_pDWriteFactory_(nullptr),
-                                             m_pRenderTarget_(nullptr) {
+                                             m_pRenderTarget_(nullptr), m_bufferLock_(true) {
 
 }
 
@@ -44,6 +44,13 @@ bool GraphicService::CreateDeviceResources() {
 			&m_pRenderTarget_
 		);
 	}
+
+	if (SUCCEEDED(hr)) {
+		hr = m_pRenderTarget_->CreateSolidColorBrush(
+			D2D1::ColorF(D2D1::ColorF::CornflowerBlue),
+			&m_pCornflowerBlueBrush_
+		);
+	}
 	return SUCCEEDED(hr);
 }
 
@@ -51,6 +58,7 @@ void GraphicService::DiscardDeviceResources() {
 	SafeRelease(&m_pDirect2DFactory_);
 	SafeRelease(&m_pRenderTarget_);
 	SafeRelease(&m_pDWriteFactory_);
+	SafeRelease(&m_pCornflowerBlueBrush_);
 }
 
 void GraphicService::GetDpi(FLOAT& dpiX, FLOAT& dpiY) const {
@@ -58,21 +66,39 @@ void GraphicService::GetDpi(FLOAT& dpiX, FLOAT& dpiY) const {
 }
 
 bool GraphicService::BeginDraw() {
-	HRESULT hr;
-	hr = CreateDeviceResources();
-	if (SUCCEEDED(hr)) {
-		m_pRenderTarget_->BeginDraw();
+	// 防止连续调用两次BeginDraw
+	if (m_bufferLock_) {
+		m_bufferLock_ = false;
+		HRESULT hr;
+		hr = CreateDeviceResources();
+		if (SUCCEEDED(hr)) {
+			m_pRenderTarget_->BeginDraw();
+		}
+		return SUCCEEDED(hr);
 	}
-
-	return SUCCEEDED(hr);
+	else {
+		// TODO: 添加调试信息
+		return false;
+	}
 }
 
 bool GraphicService::EndDraw() {
-	HRESULT hr = m_pRenderTarget_->EndDraw();
-	if (hr == D2DERR_RECREATE_TARGET) {
-		hr = S_OK;
-		DiscardDeviceResources();
+	// 防止连续调用两次EndDraw
+	if (!m_bufferLock_) {
+		m_bufferLock_ = true;
+		HRESULT hr = m_pRenderTarget_->EndDraw();
+		if (hr == D2DERR_RECREATE_TARGET) {
+			hr = S_OK;
+			DiscardDeviceResources();
+		}
+		return SUCCEEDED(hr);
 	}
-	return SUCCEEDED(hr);
+	else {
+		// TODO: 添加调试信息
+		return false;
+	}
 }
 
+void GraphicService::DrawRect(float x, float y, float width, float height) const {
+	m_pRenderTarget_->DrawRectangle(D2D1::RectF(x, y, x + width, y + height), m_pCornflowerBlueBrush_);
+}

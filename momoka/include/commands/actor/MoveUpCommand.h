@@ -6,8 +6,8 @@ class MoveUpCommand : public Command {
 public:
 	MoveUpCommand(Actor* actor);
 	~MoveUpCommand() override;
-private:
 	void Execute() override;
+private:
 	Actor* m_pActor_;
 };
 

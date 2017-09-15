@@ -28,7 +28,7 @@ InputService::~InputService() {
 	SafeRelease(&m_pKeyboardDevice_);
 }
 
-bool InputService::GetKeyboardMessage(UINT keyCode) const {
+bool InputService::IsKeyPressed(UINT keyCode) const {
 	return m_keyStateBuffer_[keyCode] & 0x80;
 }
 
