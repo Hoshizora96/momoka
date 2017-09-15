@@ -63,13 +63,40 @@
     <ClInclude Include="include\objects\Actor.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\objects\PlayerCharacher.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\game\GameController.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\objects\PlayerCharacter.h">
+    <ClInclude Include="include\util\HandleTable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\commands\Command.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\commands\actor\MoveLeftCommand.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\objects\Hero.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\commands\actor\MoveRightCommand.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\commands\actor\MoveUpCommand.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\commands\actor\MoveDownCommand.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\GameTestState.cpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\objects\Tile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\Hero.cpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\Entity.cpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

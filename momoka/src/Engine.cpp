@@ -5,7 +5,9 @@
 #include "services/GraphicService.h"
 #include "services/WindowService.h"
 
-LONGLONG Engine::m_freq = 0;
+LONGLONG Engine::m_freq = GetCurrentFrequency();
+float Engine::m_refreshRate = 60.f;
+ServiceLoader Engine::m_serviceLoader;
 
 Engine::Engine() {
 
@@ -15,15 +17,14 @@ Engine::~Engine() {
 }
 
 bool Engine::Initialize() {
-	m_freq = GetCurrentFrequency();
 
 	auto pWindowService = std::make_shared<WindowService>(L"momoka");
 	auto pGraphicService = std::make_shared<GraphicService>(pWindowService->GetHwnd());
 	auto pInputService = std::make_shared<InputService>(pWindowService->GetHwnd());
 
-	m_serviceLoader_.RegisteService(SERVICE_TYPE::windowService, pWindowService);
-	m_serviceLoader_.RegisteService(SERVICE_TYPE::inputService, pInputService);
-	m_serviceLoader_.RegisteService(SERVICE_TYPE::graphicService, pGraphicService);
+	m_serviceLoader.RegisterService(SERVICE_TYPE::windowService, pWindowService);
+	m_serviceLoader.RegisterService(SERVICE_TYPE::inputService, pInputService);
+	m_serviceLoader.RegisterService(SERVICE_TYPE::graphicService, pGraphicService);
 
 
 	return true;
@@ -55,7 +56,7 @@ void Engine::Run() {
 		/************************** Engine **************************/
 		/************************************************************/
 
-		auto inputService = m_serviceLoader_.LocateService<InputService>(SERVICE_TYPE::inputService);
+		auto inputService = m_serviceLoader.LocateService<InputService>(SERVICE_TYPE::inputService);
 		inputService.lock()->RefreshBuffer();
 
 		auto curTick = GetCurrentTick();

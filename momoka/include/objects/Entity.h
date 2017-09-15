@@ -2,28 +2,26 @@
 
 class Entity {
 public:
-	virtual ~Entity() = default;
-	virtual float GetX();
-	virtual float GetY();
+	virtual ~Entity();
+	float GetX();
+	float GetY();
 
-	virtual bool OnEvent();
+	float GetCollisionWidth();
+	float GetCollisionHeight();
 
-	virtual float GetVelocityX();
-	virtual float GetVelocityY();
+	bool IsObstructive();
+	bool HasGravity();
 
-	virtual float GetCollisionWidth();
-	virtual float GetCollisionHeight();
+	virtual bool Update();
+	virtual bool Render(float dt);
 
-	virtual bool IsObstructive();
-
-	virtual bool PlayerControlHandle();
-
-	virtual bool Update(float dt);
-	virtual bool Render();
+	void SetX(float x);
+	void SetY(float y);
 
 protected:
 	// 碰撞标志，false代表不会发生碰撞，这里的碰撞指的是与障碍物碰撞
 	bool m_isObstructive_;
+	bool m_hasGravity_;
 
 	bool m_leftObstructFlag_;
 	bool m_rightObstructFlag_;
@@ -32,9 +30,6 @@ protected:
 
 	float m_posX_;
 	float m_posY_;
-
-	float m_velocityX_;
-	float m_velocityY_;
 
 	float m_collisionWidth_;
 	float m_collisionHeight_;

@@ -56,6 +56,17 @@ inline void SafeUnacquire(
 	}
 }
 
+template <class Interface>
+inline void SafeDelete(
+	Interface** ppInterfaceToRelease
+) {
+	if (*ppInterfaceToRelease != NULL) {
+		delete (*ppInterfaceToRelease);
+
+		(*ppInterfaceToRelease) = NULL;
+	}
+}
+
 inline LONGLONG GetCurrentTick() {
 	LARGE_INTEGER num;
 	QueryPerformanceCounter(&num);

@@ -150,6 +150,11 @@
     <Text Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\commands\actor\MoveDownCommand.h" />
+    <ClInclude Include="include\commands\actor\MoveRightCommand.h" />
+    <ClInclude Include="include\commands\actor\MoveUpCommand.h" />
+    <ClInclude Include="include\commands\Command.h" />
+    <ClInclude Include="include\commands\actor\MoveLeftCommand.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\exception\MomokaException.h" />
     <ClInclude Include="include\exception\ServiceException.h" />
@@ -157,16 +162,20 @@
     <ClInclude Include="include\game\GameState.h" />
     <ClInclude Include="include\game\GameTestState.h" />
     <ClInclude Include="include\objects\Entity.h" />
-    <ClInclude Include="include\objects\PlayerCharacher.h" />
+    <ClInclude Include="include\objects\Hero.h" />
     <ClInclude Include="include\objects\Actor.h" />
+    <ClInclude Include="include\objects\Tile.h" />
     <ClInclude Include="include\services\Service.h" />
     <ClInclude Include="include\services\GraphicService.h" />
     <ClInclude Include="include\services\InputService.h" />
     <ClInclude Include="include\services\WindowService.h" />
     <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\targetver.h" />
+    <ClInclude Include="include\util\HandleTable.h" />
     <ClInclude Include="include\util\ServiceLoader.h" />
-    <ClInclude Include="src\objects\PlayerCharacter.h" />
+    <ClInclude Include="src\game\GameTestState.cpp" />
+    <ClInclude Include="src\objects\Entity.cpp" />
+    <ClInclude Include="src\objects\Hero.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine.cpp" />

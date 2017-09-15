@@ -57,7 +57,6 @@ void GraphicService::GetDpi(FLOAT& dpiX, FLOAT& dpiY) const {
 	m_pDirect2DFactory_->GetDesktopDpi(&dpiX, &dpiY);
 }
 
-
 bool GraphicService::BeginDraw() {
 	HRESULT hr;
 	hr = CreateDeviceResources();

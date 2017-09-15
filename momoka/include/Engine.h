@@ -12,8 +12,7 @@ public:
 	void Run();
 
 	static LONGLONG m_freq;
-
-private:
-	ServiceLoader m_serviceLoader_;
+	static float m_refreshRate;
+	static ServiceLoader m_serviceLoader;
 
 };
