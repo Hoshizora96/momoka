@@ -12,8 +12,8 @@ public:
 	bool IsObstructive();
 	bool HasGravity();
 
-	virtual bool Update();
-	virtual bool Render(float dt);
+	virtual void Update();
+	virtual void Render(float dt);
 
 	void SetX(float x);
 	void SetY(float y);

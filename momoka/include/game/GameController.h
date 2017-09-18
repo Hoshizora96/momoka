@@ -1,11 +1,20 @@
 #pragma once
-#include "util/ServiceLoader.h"
-#include "objects/Entity.h"
-#include <map>
+#include "game/GameState.h"
 
 class GameController {
 public:
-	GameController(ServiceLoader serviceLoader);
+	GameController();
 	~GameController();
 	
+	void Update();
+	void Render(float dt);
+
+	void Initialize();
+	void Shutdown();
+
+	void SwitchGameState(int state);
+
+private:
+	GameState* m_pGameState_;
+
 };

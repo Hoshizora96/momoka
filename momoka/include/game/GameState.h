@@ -1,5 +1,4 @@
 #pragma once
-#include "util/HandleTable.h"
 
 class GameState {
 public:

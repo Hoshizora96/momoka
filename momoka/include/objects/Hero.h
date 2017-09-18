@@ -7,14 +7,14 @@ public:
 	explicit Hero();
 
 	~Hero();
-	bool Update() override;
-	bool Render(float dt) override;
+	void Update() override;
+	void Render(float dt) override;
 
 
-	bool MoveLeft() override;
-	bool MoveRight() override;
-	bool MoveUp() override;
-	bool MoveDown() override;
+	void MoveLeft() override;
+	void MoveRight() override;
+	void MoveUp() override;
+	void MoveDown() override;
 
 private:
 	float m_movingVelocity_;

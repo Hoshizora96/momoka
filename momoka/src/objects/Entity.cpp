@@ -29,10 +29,10 @@ bool Entity::HasGravity() {
 	return m_hasGravity_;
 }
 
-bool Entity::Update() {
+void Entity::Update() {
 }
 
-bool Entity::Render(float dt) {
+void Entity::Render(float dt) {
 }
 
 void Entity::SetX(float x) {

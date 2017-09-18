@@ -3,7 +3,6 @@
 #include "util/ServiceLoader.h"
 #include "services/InputService.h"
 #include "services/GraphicService.h"
-#include "services/WindowService.h"
 
 LONGLONG Engine::m_freq = GetCurrentFrequency();
 float Engine::m_refreshRate = 60.f;
@@ -18,14 +17,13 @@ Engine::~Engine() {
 
 bool Engine::Initialize() {
 
-	auto pWindowService = std::make_shared<WindowService>(L"momoka");
-	auto pGraphicService = std::make_shared<GraphicService>(pWindowService->GetHwnd());
-	auto pInputService = std::make_shared<InputService>(pWindowService->GetHwnd());
+	auto pGraphicService = std::make_shared<GraphicService>();
+	auto pInputService = std::make_shared<InputService>(pGraphicService->GetHwnd());
 
-	m_serviceLoader.RegisterService(SERVICE_TYPE::windowService, pWindowService);
 	m_serviceLoader.RegisterService(SERVICE_TYPE::inputService, pInputService);
 	m_serviceLoader.RegisterService(SERVICE_TYPE::graphicService, pGraphicService);
 
+	m_gameController_.Initialize();
 
 	return true;
 }
@@ -34,14 +32,24 @@ void Engine::Shutdown() {
 
 }
 
+
 void Engine::Run() {
-	auto preTick = GetCurrentTick();
 	bool gameover = false;
 
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
 
+	m_gameController_.SwitchGameState(0);
 
+	float dt = 0;
+
+	auto inputService = m_serviceLoader.LocateService<InputService>(SERVICE_TYPE::inputService);
+
+	auto graphicService = m_serviceLoader.LocateService<GraphicService>(SERVICE_TYPE::graphicService);
+
+	auto preTick = GetCurrentTick();
+
+	int flag = 0;
 	while (!gameover) {
 		// Windows Message Loop
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
@@ -56,13 +64,20 @@ void Engine::Run() {
 		/************************** Engine **************************/
 		/************************************************************/
 
-		auto inputService = m_serviceLoader.LocateService<InputService>(SERVICE_TYPE::inputService);
-		inputService.lock()->RefreshBuffer();
-
 		auto curTick = GetCurrentTick();
-		if((curTick - preTick)*1000/m_freq > 1.f/60.f * 1000) {
-			
+
+		dt += (curTick - preTick) * 1000 / m_freq;
+		preTick = curTick;
+
+		while(dt >= 1000.f/ m_refreshRate) {
+			inputService.lock()->RefreshBuffer();
+			m_gameController_.Update();
+			dt -= 1000.f / m_refreshRate;
 		}
+		graphicService.lock()->BeginDraw();
+		m_gameController_.Render(dt);
+		graphicService.lock()->EndDraw();
+		
 	}
 
 }

@@ -1,14 +1,20 @@
 #include "stdafx.h"
 #include "services/GraphicService.h"
 
-GraphicService::GraphicService(HWND& hwnd) : m_hwnd_(hwnd),
-                                             m_pDirect2DFactory_(nullptr),
-                                             m_pDWriteFactory_(nullptr),
-                                             m_pRenderTarget_(nullptr), m_bufferLock_(true) {
+GraphicService* GraphicService::m_handle_ = nullptr;
 
+GraphicService::GraphicService() : m_pDirect2DFactory_(nullptr),
+                                   m_pDWriteFactory_(nullptr),
+                                   m_pRenderTarget_(nullptr),
+                                   m_bufferLock_(true) {
+	m_handle_ = this;
+	CreateDeviceIndependentResources();
+	InitializeWindow();
 }
 
 GraphicService::~GraphicService() {
+	DiscardDeviceResources();
+	KillWindow();
 }
 
 bool GraphicService::CreateDeviceIndependentResources() {
@@ -22,6 +28,53 @@ bool GraphicService::CreateDeviceIndependentResources() {
 			DWRITE_FACTORY_TYPE_SHARED,
 			__uuidof(IDWriteFactory),
 			reinterpret_cast<IUnknown**>(&m_pDWriteFactory_));
+	}
+
+	return SUCCEEDED(hr);
+}
+
+bool GraphicService::InitializeWindow() {
+	m_appName_ = L"momoka";
+	m_windowWidth_ = 640;
+	m_windowHeight_ = 480;
+
+	WNDCLASSEX wcex = {sizeof(WNDCLASSEX)};
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc = WndProc;
+	wcex.cbClsExtra = 0;
+	wcex.hInstance = HINST_THISCOMPONENT;
+	wcex.hbrBackground = nullptr;
+	wcex.lpszMenuName = nullptr;
+	wcex.hCursor = LoadCursor(nullptr, IDI_APPLICATION);
+	wcex.lpszClassName = L"momoka";
+
+	RegisterClassEx(&wcex);
+
+	m_pDirect2DFactory_->GetDesktopDpi(&m_dpiX_, &m_dpiY_);
+
+	m_windowWidth_ = static_cast<UINT>(ceil(m_windowWidth_ * m_dpiX_ / 96.f));
+	m_windowHeight_ = static_cast<UINT>(ceil(m_windowHeight_ * m_dpiY_ / 96.f));
+
+	m_hwnd_ = CreateWindow(
+		L"momoka",
+		m_appName_,
+		WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT, // posX
+		CW_USEDEFAULT, // posY
+		m_windowWidth_,
+		m_windowHeight_,
+		NULL,
+		NULL,
+		HINST_THISCOMPONENT,
+		this
+	);
+
+	HRESULT hr = m_hwnd_ ? S_OK : E_FAIL;
+	if (SUCCEEDED(hr)) {
+		ShowWindow(m_hwnd_, SW_SHOWNORMAL);
+		UpdateWindow(m_hwnd_);
+		SetFocus(m_hwnd_);
+		ShowCursor(true);
 	}
 
 	return SUCCEEDED(hr);
@@ -99,6 +152,58 @@ bool GraphicService::EndDraw() {
 	}
 }
 
+void GraphicService::KillWindow() {
+	ShowCursor(true);
+
+	DestroyWindow(m_hwnd_);
+	m_hwnd_ = nullptr;
+
+	UnregisterClass(L"momoka", HINST_THISCOMPONENT);
+}
+
 void GraphicService::DrawRect(float x, float y, float width, float height) const {
-	m_pRenderTarget_->DrawRectangle(D2D1::RectF(x, y, x + width, y + height), m_pCornflowerBlueBrush_);
+	m_pRenderTarget_->SetTransform(D2D1::Matrix3x2F::Identity());
+	m_pRenderTarget_->Clear(D2D1::ColorF(D2D1::ColorF::White));
+	auto rect = D2D1::RectF(x, y, x + width, y + height);
+	m_pRenderTarget_->FillRectangle(&rect, m_pCornflowerBlueBrush_);
+}
+
+HWND& GraphicService::GetHwnd() {
+	return m_hwnd_;
+}
+
+
+void GraphicService::OnResize(UINT width, UINT height) {
+	m_windowHeight_ = height;
+	m_windowWidth_ = width;
+	if (m_pRenderTarget_) {
+		// Note: This method can fail, but it's okay to ignore the
+		// error here, because the error will be returned again
+		// the next time EndDraw is called.
+		m_pRenderTarget_->Resize(D2D1::SizeU(width, height));
+	}
+}
+
+LRESULT GraphicService::WndProc(HWND hwnd, UINT umsg, WPARAM wParam, LPARAM lParam) {
+	switch (umsg) {
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		return 1;
+	case WM_SIZE: {
+		UINT width = LOWORD(lParam);
+		UINT height = HIWORD(lParam);
+		m_handle_->OnResize(width, height);
+	}
+		return 0;
+	case WM_DISPLAYCHANGE: {
+		InvalidateRect(hwnd, nullptr, FALSE);
+	}
+		return 0;
+	case WM_PAINT: {
+		ValidateRect(hwnd, nullptr);
+	}
+		return 0;
+	default:
+		return DefWindowProc(hwnd, umsg, wParam, lParam);
+	}
 }

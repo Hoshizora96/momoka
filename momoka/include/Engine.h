@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "util/ServiceLoader.h"
+#include "game/GameController.h"
 
 class Engine {
 public:
@@ -15,4 +16,6 @@ public:
 	static float m_refreshRate;
 	static ServiceLoader m_serviceLoader;
 
+private:
+	GameController m_gameController_;
 };
