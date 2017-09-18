@@ -165,7 +165,8 @@
     <ClInclude Include="include\objects\Entity.h" />
     <ClInclude Include="include\objects\Hero.h" />
     <ClInclude Include="include\objects\Actor.h" />
-    <ClInclude Include="include\objects\Tile.h" />
+    <ClInclude Include="include\util\TileInfo.h" />
+    <ClInclude Include="include\physics\Physics.h" />
     <ClInclude Include="include\services\Service.h" />
     <ClInclude Include="include\services\GraphicService.h" />
     <ClInclude Include="include\services\InputService.h" />

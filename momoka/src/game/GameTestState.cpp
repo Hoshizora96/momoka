@@ -34,9 +34,13 @@ void GameTestState::OnExit() {
 
 void GameTestState::Render(float dt) {
 	auto pGraphicService = Engine::m_serviceLoader.LocateService<GraphicService>(SERVICE_TYPE::graphicService).lock();
+	pGraphicService->DrawTestWhiteBackGround();
 	for (auto tile : m_tiles_) {
-		const auto tileInfo = m_tileInfoMap_.find(tile.m_type_)->second;
-		pGraphicService->DrawRect(tile.m_posX_, tile.m_posY_, tileInfo.m_width, tileInfo.m_height);
+		int y = tile.first % 1000000;
+		int x = (tile.first - y) / 1000000;
+		auto type = tile.second;
+		auto tileInfo = m_tileInfoMap_[type];
+		pGraphicService->DrawRect(x, y, tileInfo.width, tileInfo.height);
 	}
 	m_pPlayerCharacter_->Render(dt);
 }
@@ -67,13 +71,19 @@ void GameTestState::Update() {
 }
 
 void GameTestState::WorldLoader() {
-	TileInfo normalTile(50, 0, 50);
+	TileInfo normalTile;
+	normalTile.width = 50;
+	normalTile.height = 50;
+	normalTile.friction = 1;
 
 	m_tileInfoMap_.insert(std::make_pair(0, normalTile));
 
 	m_pPlayerCharacter_->SetX(50);
 	m_pPlayerCharacter_->SetY(50);
 
-	const Tile tile(0, 100, 100);
-	m_tiles_.push_back(tile);
+	int x = 300;
+	int y = 300;
+	__int64 xy = x * 1000000;
+	xy += y;
+	m_tiles_[xy] = 0;
 }

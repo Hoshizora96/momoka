@@ -29,7 +29,7 @@ bool Engine::Initialize() {
 }
 
 void Engine::Shutdown() {
-
+	// TODO: 实现资源的释放
 }
 
 
@@ -49,7 +49,6 @@ void Engine::Run() {
 
 	auto preTick = GetCurrentTick();
 
-	int flag = 0;
 	while (!gameover) {
 		// Windows Message Loop
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
@@ -77,7 +76,5 @@ void Engine::Run() {
 		graphicService.lock()->BeginDraw();
 		m_gameController_.Render(dt);
 		graphicService.lock()->EndDraw();
-		
 	}
-
 }

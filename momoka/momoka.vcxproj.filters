@@ -81,13 +81,16 @@
     <ClInclude Include="include\commands\actor\MoveDownCommand.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\objects\Tile.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\global.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\game\GameTestState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\physics\Physics.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\TileInfo.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

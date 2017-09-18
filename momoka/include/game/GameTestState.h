@@ -2,13 +2,12 @@
 #include "util/HandleTable.h"
 #include "game/GameState.h"
 #include "objects/Entity.h"
-#include "objects/Tile.h"
+#include "util/TileInfo.h"
 #include "objects/Hero.h"
 #include "commands/Command.h"
 
 #include <list>
-#include <map>
-#include <vector>
+#include <unordered_map>
 
 
 
@@ -25,8 +24,8 @@ public:
 private:
 //	momoka::HandleTable<Entity*> m_handleTable_;
 	std::list<int> m_actorList_;
-	std::map<int, TileInfo> m_tileInfoMap_;
-	std::vector<Tile> m_tiles_;
+	std::unordered_map<int, TileInfo> m_tileInfoMap_;
+	std::unordered_map<__int64, int> m_tiles_;
 
 	Hero* m_pPlayerCharacter_;
 	void WorldLoader();

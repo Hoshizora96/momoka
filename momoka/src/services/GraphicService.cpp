@@ -162,10 +162,13 @@ void GraphicService::KillWindow() {
 }
 
 void GraphicService::DrawRect(float x, float y, float width, float height) const {
-	m_pRenderTarget_->SetTransform(D2D1::Matrix3x2F::Identity());
-	m_pRenderTarget_->Clear(D2D1::ColorF(D2D1::ColorF::White));
 	auto rect = D2D1::RectF(x, y, x + width, y + height);
 	m_pRenderTarget_->FillRectangle(&rect, m_pCornflowerBlueBrush_);
+}
+
+void GraphicService::DrawTestWhiteBackGround() {
+	m_pRenderTarget_->SetTransform(D2D1::Matrix3x2F::Identity());
+	m_pRenderTarget_->Clear(D2D1::ColorF(D2D1::ColorF::White));
 }
 
 HWND& GraphicService::GetHwnd() {

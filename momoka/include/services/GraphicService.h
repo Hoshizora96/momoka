@@ -23,6 +23,8 @@ public:
 
 	void DrawRect(float x, float y, float width, float height) const;
 
+	void DrawTestWhiteBackGround();
+
 private:
 	// pointer
 	ID2D1Factory* m_pDirect2DFactory_;
