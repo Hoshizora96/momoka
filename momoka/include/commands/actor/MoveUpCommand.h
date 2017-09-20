@@ -1,22 +1,22 @@
 #pragma once
 #include "commands/Command.h"
-#include "objects/Actor.h"
+#include "objects/Entity.h"
 
 class MoveUpCommand : public Command {
 public:
-	MoveUpCommand(Actor* actor);
+	MoveUpCommand(Entity* actor);
 	~MoveUpCommand() override;
 	void Execute() override;
 private:
-	Actor* m_pActor_;
+	Entity* m_pEntity_;
 };
 
-inline MoveUpCommand::MoveUpCommand(Actor* actor) : m_pActor_(actor) {
+inline MoveUpCommand::MoveUpCommand(Entity* entity) : m_pEntity_(entity) {
 }
 
 inline MoveUpCommand::~MoveUpCommand() {
 }
 
 inline void MoveUpCommand::Execute() {
-	m_pActor_->MoveUp();
+	m_pEntity_->MoveUp();
 }

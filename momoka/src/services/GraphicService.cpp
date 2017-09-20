@@ -35,8 +35,8 @@ bool GraphicService::CreateDeviceIndependentResources() {
 
 bool GraphicService::InitializeWindow() {
 	m_appName_ = L"momoka";
-	m_windowWidth_ = 640;
-	m_windowHeight_ = 480;
+	m_windowWidth_ = 1280;
+	m_windowHeight_ = 720;
 
 	WNDCLASSEX wcex = {sizeof(WNDCLASSEX)};
 	wcex.style = CS_HREDRAW | CS_VREDRAW;
@@ -122,12 +122,12 @@ bool GraphicService::BeginDraw() {
 	// 防止连续调用两次BeginDraw
 	if (m_bufferLock_) {
 		m_bufferLock_ = false;
-		HRESULT hr;
-		hr = CreateDeviceResources();
-		if (SUCCEEDED(hr)) {
+		bool result;
+		result = CreateDeviceResources();
+		if (result) {
 			m_pRenderTarget_->BeginDraw();
 		}
-		return SUCCEEDED(hr);
+		return result;
 	}
 	else {
 		// TODO: 添加调试信息

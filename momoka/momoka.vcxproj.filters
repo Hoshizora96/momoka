@@ -54,9 +54,6 @@
     <ClInclude Include="include\objects\Entity.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\objects\Actor.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\game\GameController.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -85,9 +82,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\game\GameTestState.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\physics\Physics.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\util\TileInfo.h">

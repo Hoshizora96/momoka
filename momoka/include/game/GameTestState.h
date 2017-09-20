@@ -29,6 +29,9 @@ private:
 
 	Hero* m_pPlayerCharacter_;
 	void WorldLoader();
+	void GlobalPhysicsSimulation(Entity* entity);
+
+	static __int64 TileMapKeyConvert(__int64 xTile, __int64 yTile);
 
 	Command* m_commandW_;
 	Command* m_commandA_;

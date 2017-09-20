@@ -1,7 +1,7 @@
 #pragma once
-#include "objects/Actor.h"
+#include "objects/Entity.h"
 
-class Hero : public Actor {
+class Hero : public Entity {
 
 public:
 	explicit Hero();
