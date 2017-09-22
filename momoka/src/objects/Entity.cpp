@@ -55,26 +55,29 @@ void Entity::MoveUp() {
 void Entity::MoveDown() {
 }
 
+void Entity::Jump() {
+}
+
 bool Entity::TakeTileCollision(COLLISION_FLAG flag, TileInfo tileInfo) {
-	if(flag == COLLISION_FLAG::left) {
+	if(flag == COLLISION_FLAG::Collision_left) {
 		m_leftObstructFlag_ = true;
 		if(m_velocityX_<=0) {
 			m_velocityX_ = 0;
 		}
 	}
-	if (flag == COLLISION_FLAG::right) {
+	if (flag == COLLISION_FLAG::Collision_right) {
 		m_rightObstructFlag_ = true;
 		if (m_velocityX_ >= 0) {
 			m_velocityX_ = 0;
 		}
 	}
-	if (flag == COLLISION_FLAG::up) {
+	if (flag == COLLISION_FLAG::Collision_up) {
 		m_upObstructFlag_ = true;
 		if (m_velocityY_ <= 0) {
 			m_velocityY_ = 0;
 		}
 	}
-	if (flag == COLLISION_FLAG::down) {
+	if (flag == COLLISION_FLAG::Collision_down) {
 		m_downObstructFlag_ = true;
 		if (m_velocityY_ >= 0) {
 			m_velocityY_ = 0;
@@ -105,4 +108,8 @@ void Entity::SetVelocityX(float velocityX) {
 
 void Entity::SetVelocityY(float velocityY) {
 	m_velocityY_ = velocityY;
+}
+
+void Entity::SetOnLandFlag(bool flag) {
+	m_isOnLand_ = flag;
 }

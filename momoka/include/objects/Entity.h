@@ -23,6 +23,7 @@ public:
 	virtual void MoveRight();
 	virtual void MoveUp();
 	virtual void MoveDown();
+	virtual void Jump();
 
 	virtual bool TakeTileCollision(COLLISION_FLAG flag, TileInfo tileInfo);
 	
@@ -34,6 +35,8 @@ public:
 	void SetVelocityX(float velocityX);
 	void SetVelocityY(float velocityY);
 
+	void SetOnLandFlag(bool flag);
+
 protected:
 	// 碰撞标志，false代表不会发生碰撞，这里的碰撞指的是与障碍物碰撞
 	bool m_isObstructive_;
@@ -43,6 +46,8 @@ protected:
 	bool m_rightObstructFlag_;
 	bool m_upObstructFlag_;
 	bool m_downObstructFlag_;
+
+	bool m_isOnLand_;
 
 	float m_posX_;
 	float m_posY_;

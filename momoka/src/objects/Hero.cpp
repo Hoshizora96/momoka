@@ -15,7 +15,7 @@ Hero::~Hero() {
 }
 
 void Hero::Render(float dt) {
-	auto pGraphicService = Engine::m_serviceLoader.LocateService<GraphicService>(SERVICE_TYPE::graphicService).lock();
+	auto pGraphicService = Engine::m_serviceLoader.LocateService<GraphicService>(SERVICE_TYPE::Service_graphic).lock();
 	float x = m_posX_ + m_velocityX_ * (dt / 1000);
 	float y = m_posY_ + m_velocityY_ * (dt / 1000);
 	pGraphicService->DrawRect(x, y, TILE_SIZE, TILE_SIZE*2);
@@ -36,6 +36,24 @@ void Hero::MoveUp() {
 
 void Hero::MoveDown() {
 	m_velocityY_ = m_movingVelocity_;
+}
+
+void Hero::Jump() {
+	if(m_isOnLand_) {
+		m_velocityY_ = -m_movingVelocity_ * 3;
+	}
+}
+
+void Hero::HandleInput(KEY_HERO keyHero) {
+}
+
+bool Hero::SwitchState(HeroState* state) {
+	if(state != nullptr) {
+		SafeDelete(&m_state_);
+		m_state_ = state;
+		return true;
+	}
+	return false;
 }
 
 void Hero::Update() {

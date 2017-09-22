@@ -9,8 +9,6 @@
 #include <list>
 #include <unordered_map>
 
-
-
 class GameTestState : public GameState {
 public:
 	GameTestState();
@@ -30,6 +28,7 @@ private:
 	Hero* m_pPlayerCharacter_;
 	void WorldLoader();
 	void GlobalPhysicsSimulation(Entity* entity);
+	void EntityInit(Entity* entity);
 
 	static __int64 TileMapKeyConvert(__int64 xTile, __int64 yTile);
 

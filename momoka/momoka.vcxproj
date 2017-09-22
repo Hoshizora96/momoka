@@ -155,9 +155,14 @@
     <ClInclude Include="include\commands\actor\MoveUpCommand.h" />
     <ClInclude Include="include\commands\Command.h" />
     <ClInclude Include="include\commands\actor\MoveLeftCommand.h" />
+    <ClInclude Include="include\commands\CommandTable.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\exception\MomokaException.h" />
     <ClInclude Include="include\exception\ServiceException.h" />
+    <ClInclude Include="include\fsm\HeroState.h" />
+    <ClInclude Include="include\fsm\hero\FallingState.h" />
+    <ClInclude Include="include\fsm\hero\JumpState.h" />
+    <ClInclude Include="include\fsm\hero\StandState.h" />
     <ClInclude Include="include\game\GameController.h" />
     <ClInclude Include="include\game\GameState.h" />
     <ClInclude Include="include\game\GameTestState.h" />
@@ -172,6 +177,9 @@
     <ClInclude Include="include\targetver.h" />
     <ClInclude Include="include\util\HandleTable.h" />
     <ClInclude Include="include\util\ServiceLoader.h" />
+    <ClCompile Include="src\fsm\HeroState.cpp" />
+    <ClCompile Include="src\fsm\hero\JumpState.cpp" />
+    <ClCompile Include="src\fsm\hero\StandState.cpp" />
     <ClCompile Include="src\game\GameTestState.cpp" />
     <ClCompile Include="src\objects\Entity.cpp" />
     <ClCompile Include="src\objects\Hero.cpp" />

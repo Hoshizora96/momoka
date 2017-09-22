@@ -33,7 +33,7 @@ void GameTestState::OnExit() {
 }
 
 void GameTestState::Render(float dt) {
-	auto pGraphicService = Engine::m_serviceLoader.LocateService<GraphicService>(SERVICE_TYPE::graphicService).lock();
+	auto pGraphicService = Engine::m_serviceLoader.LocateService<GraphicService>(SERVICE_TYPE::Service_graphic).lock();
 	pGraphicService->DrawTestWhiteBackGround();
 	for (auto tile : m_tiles_) {
 		int y = tile.first % 1000000;
@@ -47,8 +47,10 @@ void GameTestState::Render(float dt) {
 
 void GameTestState::Update() {
 
+	EntityInit(m_pPlayerCharacter_);
+
 	// 在这里我尝试了一下命令模式
-	auto pInputService = Engine::m_serviceLoader.LocateService<InputService>(SERVICE_TYPE::inputService).lock();
+	auto pInputService = Engine::m_serviceLoader.LocateService<InputService>(SERVICE_TYPE::Service_input).lock();
 
 
 	if (pInputService->IsKeyPressed(DIK_W)) {
@@ -67,6 +69,10 @@ void GameTestState::Update() {
 		m_commandD_->Execute();
 	}
 
+	if(pInputService->IsKeyPressed(DIK_K)) {
+		m_pPlayerCharacter_->Jump();
+	}
+
 	GlobalPhysicsSimulation(m_pPlayerCharacter_);
 	m_pPlayerCharacter_->Update();
 }
@@ -83,21 +89,26 @@ void GameTestState::WorldLoader() {
 	m_pPlayerCharacter_->SetY(TILE_SIZE);
 
 	// Tile坐标存在一个__int64数里面，因为unordered_map的key不支持结构体
-	int x = 5;
-	int y = 3;
-	m_tiles_[TileMapKeyConvert(x, y)] = 0;
+
+	int y = 10;
+	for(int x = 0; x < 21; x++) {
+		m_tiles_[TileMapKeyConvert(x, y)] = 0;
+	}
+	
 }
 
 void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 	// 这里用来做全局物理模拟，主要是重力模拟与Tile碰撞检测
+	// TODO: 这里面重复的东西太多了，尽量整合一下，把重复的部分抽出来新建函数
+
 	const auto defaultTileInfo = GetDefaultTileInfo();
 	entity->ClearObstructFlags();
 
 	auto x = entity->GetX();
 	auto y = entity->GetY();
 
-	auto vx = m_pPlayerCharacter_->GetVelocityX();
-	auto vy = m_pPlayerCharacter_->GetVelocityY();
+	auto vx = entity->GetVelocityX();
+	auto vy = entity->GetVelocityY();
 
 	if (vx < 0) x -= 0.1;
 	//	else x += 0.1;
@@ -105,12 +116,12 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 	//	else y += 0.1;
 
 	if (x <= 0 && entity->GetVelocityX() < 0) {
-		m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::left, defaultTileInfo);
+		m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::Collision_left, defaultTileInfo);
 		entity->SetX(0);
 	}
 
 	if (y <= 0 && entity->GetVelocityY() < 0) {
-		m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::up, defaultTileInfo);
+		m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::Collision_up, defaultTileInfo);
 		entity->SetY(0);
 	}
 
@@ -139,23 +150,23 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 			float dx = x - (xStartTile + 1) * TILE_SIZE;
 			float dy = y - (yStartTile + 1) * TILE_SIZE;
 			if (abs(vy / vx) <= abs(dy / dx)) {
-				if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::left, defaultTileInfo)) {
+				if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::Collision_left, defaultTileInfo)) {
 					m_pPlayerCharacter_->SetX((xStartTile + 1) * TILE_SIZE);
 				}
 			}
 			else {
-				if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::up, defaultTileInfo)) {
+				if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::Collision_up, defaultTileInfo)) {
 					m_pPlayerCharacter_->SetY((yStartTile + 1) * TILE_SIZE);
 				}
 			}
 		}
 		else if (vx < 0) {
-			if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::left, defaultTileInfo)) {
+			if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::Collision_left, defaultTileInfo)) {
 				m_pPlayerCharacter_->SetX((xStartTile + 1) * TILE_SIZE);
 			}
 		}
 		else if (vy < 0) {
-			if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::up, defaultTileInfo)) {
+			if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::Collision_up, defaultTileInfo)) {
 				m_pPlayerCharacter_->SetY((yStartTile + 1) * TILE_SIZE);
 			}
 		}
@@ -166,27 +177,27 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 			float dx = x - (xStartTile + 1) * TILE_SIZE;
 			float dy = (y + entityHeight) - yEndTile * TILE_SIZE;
 			if (abs(vy / vx) <= abs(dy / dx)) {
-				if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::left, defaultTileInfo)) {
-					m_pPlayerCharacter_->SetX((xStartTile + 1) * TILE_SIZE);
+				if (entity->TakeTileCollision(COLLISION_FLAG::Collision_left, defaultTileInfo)) {
+					entity->SetX((xStartTile + 1) * TILE_SIZE);
 				}
 			}
 			else {
-				if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::down, defaultTileInfo)) {
-					m_pPlayerCharacter_->SetY((yEndTile) * TILE_SIZE - entityHeight);
+				if (entity->TakeTileCollision(COLLISION_FLAG::Collision_down, defaultTileInfo)) {
+					entity->SetY((yEndTile) * TILE_SIZE - entityHeight);
 				}
 			}
 		}
 		else if (vx < 0) {
 			if ((y + entityHeight) - int(y + entityHeight) != 0) {
-				if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::left, defaultTileInfo)) {
-					m_pPlayerCharacter_->SetX((xStartTile + 1) * TILE_SIZE);
+				if (entity->TakeTileCollision(COLLISION_FLAG::Collision_left, defaultTileInfo)) {
+					entity->SetX((xStartTile + 1) * TILE_SIZE);
 				}
 			}
 		}
 		else if (vy > 0) {
 
-			if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::down, defaultTileInfo)) {
-				m_pPlayerCharacter_->SetY((yEndTile) * TILE_SIZE - entityHeight);
+			if (entity->TakeTileCollision(COLLISION_FLAG::Collision_down, defaultTileInfo)) {
+				entity->SetY((yEndTile) * TILE_SIZE - entityHeight);
 			}
 
 		}
@@ -197,25 +208,25 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 			float dx = x + entityWidth - xEndTile * TILE_SIZE;
 			float dy = y - (yStartTile + 1) * TILE_SIZE;
 			if (abs(vy / vx) <= abs(dy / dx)) {
-				if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::right, defaultTileInfo)) {
-					m_pPlayerCharacter_->SetX(xEndTile * TILE_SIZE - entityWidth);
+				if (entity->TakeTileCollision(COLLISION_FLAG::Collision_right, defaultTileInfo)) {
+					entity->SetX(xEndTile * TILE_SIZE - entityWidth);
 				}
 			}
 			else {
-				if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::up, defaultTileInfo)) {
-					m_pPlayerCharacter_->SetY((yStartTile + 1) * TILE_SIZE);
+				if (entity->TakeTileCollision(COLLISION_FLAG::Collision_up, defaultTileInfo)) {
+					entity->SetY((yStartTile + 1) * TILE_SIZE);
 				}
 			}
 		}
 		else if (vx > 0) {
-			if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::right, defaultTileInfo)) {
-				m_pPlayerCharacter_->SetX(xEndTile * TILE_SIZE - entityWidth);
+			if (entity->TakeTileCollision(COLLISION_FLAG::Collision_right, defaultTileInfo)) {
+				entity->SetX(xEndTile * TILE_SIZE - entityWidth);
 			}
 		}
 		else if (vy < 0) {
 			if ((x + entityWidth) - int(x + entityWidth) != 0) {
-				if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::up, defaultTileInfo)) {
-					m_pPlayerCharacter_->SetY((yStartTile + 1) * TILE_SIZE);
+				if (entity->TakeTileCollision(COLLISION_FLAG::Collision_up, defaultTileInfo)) {
+					entity->SetY((yStartTile + 1) * TILE_SIZE);
 				}
 			}
 		}
@@ -226,27 +237,27 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 			float dx = x + entityWidth - xEndTile * TILE_SIZE;
 			float dy = y + entityHeight - yEndTile * TILE_SIZE;
 			if (abs(vy / vx) <= abs(dy / dx)) {
-				if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::right, defaultTileInfo)) {
-					m_pPlayerCharacter_->SetX(xEndTile * TILE_SIZE - entityWidth);
+				if (entity->TakeTileCollision(COLLISION_FLAG::Collision_right, defaultTileInfo)) {
+					entity->SetX(xEndTile * TILE_SIZE - entityWidth);
 				}
 			}
 			else {
-				if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::down, defaultTileInfo)) {
-					m_pPlayerCharacter_->SetY(yEndTile * TILE_SIZE - entityHeight);
+				if (entity->TakeTileCollision(COLLISION_FLAG::Collision_down, defaultTileInfo)) {
+					entity->SetY(yEndTile * TILE_SIZE - entityHeight);
 				}
 			}
 		}
 		else if (vx > 0) {
 			if ((y + entityHeight) - int(y + entityHeight) != 0) {
-				if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::right, defaultTileInfo)) {
-					m_pPlayerCharacter_->SetX(xEndTile * TILE_SIZE - entityWidth);
+				if (entity->TakeTileCollision(COLLISION_FLAG::Collision_right, defaultTileInfo)) {
+					entity->SetX(xEndTile * TILE_SIZE - entityWidth);
 				}
 			}
 		}
 		else if (vy > 0) {
 			if ((x + entityWidth) - int(x + entityWidth) != 0) {
-				if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::down, defaultTileInfo)) {
-					m_pPlayerCharacter_->SetY(yEndTile * TILE_SIZE - entityHeight);
+				if (entity->TakeTileCollision(COLLISION_FLAG::Collision_down, defaultTileInfo)) {
+					entity->SetY(yEndTile * TILE_SIZE - entityHeight);
 				}
 			}
 		}
@@ -256,8 +267,8 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 		auto key = TileMapKeyConvert(i, yStartTile);
 		auto item = m_tiles_.find(key);
 		if (item != nullItem) {
-			if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::up, defaultTileInfo)) {
-				m_pPlayerCharacter_->SetY((yStartTile + 1) * TILE_SIZE);
+			if (entity->TakeTileCollision(COLLISION_FLAG::Collision_up, defaultTileInfo)) {
+				entity->SetY((yStartTile + 1) * TILE_SIZE);
 			}
 			break;
 		}
@@ -265,8 +276,8 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 		key = TileMapKeyConvert(i, yEndTile);
 		item = m_tiles_.find(key);
 		if (item != nullItem) {
-			if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::down, defaultTileInfo)) {
-				m_pPlayerCharacter_->SetY(yEndTile* TILE_SIZE - entityHeight);
+			if (entity->TakeTileCollision(COLLISION_FLAG::Collision_down, defaultTileInfo)) {
+				entity->SetY(yEndTile* TILE_SIZE - entityHeight);
 			}
 			break;
 		}
@@ -276,8 +287,8 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 		auto key = TileMapKeyConvert(xStartTile, i);
 		auto item = m_tiles_.find(key);
 		if (item != nullItem) {
-			if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::left, defaultTileInfo)) {
-				m_pPlayerCharacter_->SetX((xStartTile + 1) * TILE_SIZE);
+			if (entity->TakeTileCollision(COLLISION_FLAG::Collision_left, defaultTileInfo)) {
+				entity->SetX((xStartTile + 1) * TILE_SIZE);
 			}
 			break;
 		}
@@ -285,13 +296,43 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 		key = TileMapKeyConvert(xEndTile, i);
 		item = m_tiles_.find(key);
 		if (item != nullItem) {
-			if (m_pPlayerCharacter_->TakeTileCollision(COLLISION_FLAG::right, defaultTileInfo)) {
-				m_pPlayerCharacter_->SetX(xEndTile * TILE_SIZE - entityWidth);
+			if (entity->TakeTileCollision(COLLISION_FLAG::Collision_right, defaultTileInfo)) {
+				entity->SetX(xEndTile * TILE_SIZE - entityWidth);
 			}
 			break;
 		}
 	}
 
+}
+
+void GameTestState::EntityInit(Entity* entity) {
+	// TODO: 这里面除了将entity速度设为0，还做了着陆判断，把这两个功能分开
+
+	entity->SetVelocityX(0);
+	entity->SetVelocityY(0);
+	entity->SetOnLandFlag(false);
+
+	auto x = entity->GetX();
+	auto y = entity->GetY();
+
+	float entityWidth = entity->GetCollisionWidth();
+	float entityHeight = entity->GetCollisionHeight();
+	// 规定矩形左上角为起始点（start），右下角为终止点（end）
+	__int64 xStartTile = int(x / TILE_SIZE);
+	__int64 yStartTile = int(y / TILE_SIZE);
+	__int64 xEndTile = int((x + entityWidth) / TILE_SIZE);
+	__int64 yEndTile = int((y + entityHeight) / TILE_SIZE);
+
+	auto nullItem = m_tiles_.end();
+
+	for (int i = xStartTile; i <= xEndTile; i++) {
+		auto key = TileMapKeyConvert(i, yEndTile);
+		auto item = m_tiles_.find(key);
+		if (item != nullItem) {
+			entity->SetOnLandFlag(true);
+			break;
+		}
+	}
 }
 
 long long GameTestState::TileMapKeyConvert(long long xTile, long long yTile) {

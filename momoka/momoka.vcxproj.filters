@@ -87,6 +87,21 @@
     <ClInclude Include="include\util\TileInfo.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\commands\CommandTable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fsm\hero\StandState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fsm\HeroState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fsm\hero\JumpState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fsm\hero\FallingState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -110,11 +125,20 @@
     <ClCompile Include="src\game\GameTestState.cpp">
       <Filter>头文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\objects\Entity.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
     <ClCompile Include="src\objects\Hero.cpp">
       <Filter>头文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\objects\Entity.cpp">
-      <Filter>头文件</Filter>
+    <ClCompile Include="src\fsm\HeroState.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fsm\hero\StandState.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fsm\hero\JumpState.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

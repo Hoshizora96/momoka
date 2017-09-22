@@ -20,8 +20,8 @@ bool Engine::Initialize() {
 	auto pGraphicService = std::make_shared<GraphicService>();
 	auto pInputService = std::make_shared<InputService>(pGraphicService->GetHwnd());
 
-	m_serviceLoader.RegisterService(SERVICE_TYPE::inputService, pInputService);
-	m_serviceLoader.RegisterService(SERVICE_TYPE::graphicService, pGraphicService);
+	m_serviceLoader.RegisterService(SERVICE_TYPE::Service_input, pInputService);
+	m_serviceLoader.RegisterService(SERVICE_TYPE::Service_graphic, pGraphicService);
 
 	m_gameController_.Initialize();
 
@@ -43,9 +43,9 @@ void Engine::Run() {
 
 	float dt = 0;
 
-	auto inputService = m_serviceLoader.LocateService<InputService>(SERVICE_TYPE::inputService);
+	auto inputService = m_serviceLoader.LocateService<InputService>(SERVICE_TYPE::Service_input);
 
-	auto graphicService = m_serviceLoader.LocateService<GraphicService>(SERVICE_TYPE::graphicService);
+	auto graphicService = m_serviceLoader.LocateService<GraphicService>(SERVICE_TYPE::Service_graphic);
 
 	auto preTick = GetCurrentTick();
 
@@ -74,7 +74,7 @@ void Engine::Run() {
 			dt -= 1000.f / m_refreshRate;
 		}
 		graphicService.lock()->BeginDraw();
-		m_gameController_.Render(1);
+		m_gameController_.Render(dt);
 		graphicService.lock()->EndDraw();
 	}
 }
