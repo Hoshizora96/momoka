@@ -90,10 +90,10 @@
     <ClInclude Include="include\commands\CommandTable.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\fsm\hero\StandState.h">
+    <ClInclude Include="include\fsm\HeroState.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\fsm\HeroState.h">
+    <ClInclude Include="include\fsm\hero\StandState.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\fsm\hero\JumpState.h">
@@ -138,6 +138,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\fsm\hero\JumpState.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fsm\hero\FallingState.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

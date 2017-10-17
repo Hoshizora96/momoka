@@ -25,7 +25,9 @@ public:
 	virtual void MoveDown();
 	virtual void Jump();
 
-	virtual bool TakeTileCollision(COLLISION_FLAG flag, TileInfo tileInfo);
+	virtual void Onland();
+
+	virtual bool TakeTileCollision(momoka_global::COLLISION_FLAG flag, TileInfo tileInfo);
 	
 	void ClearObstructFlags();
 

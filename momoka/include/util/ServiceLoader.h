@@ -8,12 +8,12 @@
 
 class ServiceLoader {
 	typedef std::shared_ptr<Service> ServicePtr;
-	typedef std::map<SERVICE_TYPE, ServicePtr> ServicePtrMap;
+	typedef std::map<momoka_global::SERVICE_TYPE, ServicePtr> ServicePtrMap;
 
 	ServicePtrMap m_services_;
 
 public:
-	void RegisterService(SERVICE_TYPE type, ServicePtr service) {
+	void RegisterService(momoka_global::SERVICE_TYPE type, ServicePtr service) {
 		const auto found = m_services_.find(type);
 
 		if (found != m_services_.end()) {
@@ -23,7 +23,7 @@ public:
 		m_services_.insert(std::make_pair(type, service));
 	}
 
-	void UnRegisterService(SERVICE_TYPE type) {
+	void UnRegisterService(momoka_global::SERVICE_TYPE type) {
 		const auto found = m_services_.find(type);
 
 		if (found != m_services_.end()) {
@@ -32,7 +32,7 @@ public:
 	}
 
 	template<class T>
-	std::weak_ptr<T> LocateService(SERVICE_TYPE type) const {
+	std::weak_ptr<T> LocateService(momoka_global::SERVICE_TYPE type) const {
 		auto found = m_services_.find(type);
 
 		if (found != m_services_.end()) {

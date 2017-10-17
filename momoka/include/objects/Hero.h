@@ -1,7 +1,7 @@
 #pragma once
 #include "objects/Entity.h"
 #include "fsm/HeroState.h"
-
+class HeroState;
 class Hero : public Entity {
 
 public:
@@ -19,8 +19,8 @@ public:
 
 	void Jump() override;
 
-	void HandleInput(KEY_HERO keyHero);
 	bool SwitchState(HeroState* state);
+	void Onland() override;
 private:
 	float m_movingVelocity_;
 	HeroState* m_state_;

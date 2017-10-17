@@ -2,23 +2,24 @@
 #include "Engine.h"
 #include "objects/Hero.h"
 #include "services/GraphicService.h"
+#include "fsm/hero/StandState.h"
 
 
-Hero::Hero(): m_movingVelocity_(250.f) {
+Hero::Hero(): m_movingVelocity_(250.f), m_state_(new StandState(*this)) {
 	m_velocityX_ = 0;
 	m_velocityY_ = 0;
-	m_collisionWidth_ = 1 * TILE_SIZE;
-	m_collisionHeight_ = 2 * TILE_SIZE;
+	m_collisionWidth_ = 1 * momoka_global::TILE_SIZE;
+	m_collisionHeight_ = 2 * momoka_global::TILE_SIZE;
 }
 
 Hero::~Hero() {
 }
 
 void Hero::Render(float dt) {
-	auto pGraphicService = Engine::m_serviceLoader.LocateService<GraphicService>(SERVICE_TYPE::Service_graphic).lock();
+	auto pGraphicService = Engine::m_serviceLoader.LocateService<GraphicService>(momoka_global::SERVICE_TYPE::Service_graphic).lock();
 	float x = m_posX_ + m_velocityX_ * (dt / 1000);
 	float y = m_posY_ + m_velocityY_ * (dt / 1000);
-	pGraphicService->DrawRect(x, y, TILE_SIZE, TILE_SIZE*2);
+	pGraphicService->DrawRect(x, y, momoka_global::TILE_SIZE, momoka_global::TILE_SIZE*2);
 
 }
 
@@ -39,13 +40,9 @@ void Hero::MoveDown() {
 }
 
 void Hero::Jump() {
-	if(m_isOnLand_) {
-		m_velocityY_ = -m_movingVelocity_ * 3;
-	}
+	SwitchState(m_state_->JumpKeyDown());
 }
 
-void Hero::HandleInput(KEY_HERO keyHero) {
-}
 
 bool Hero::SwitchState(HeroState* state) {
 	if(state != nullptr) {
@@ -56,7 +53,12 @@ bool Hero::SwitchState(HeroState* state) {
 	return false;
 }
 
+void Hero::Onland() {
+	SwitchState(m_state_->Onland());
+}
+
 void Hero::Update() {
+	SwitchState(m_state_->Update());
 	m_posX_ += m_velocityX_ * (1 / Engine::m_refreshRate);
 	m_posY_ += m_velocityY_ * (1 / Engine::m_refreshRate);
 }

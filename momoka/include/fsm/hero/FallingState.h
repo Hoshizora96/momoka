@@ -1,8 +1,14 @@
 #pragma once
 #include "fsm/HeroState.h"
 
-class FallingState: public HeroState {
+class FallingState : public HeroState {
 
 public:
-	HeroState* IsOnland(bool flag) override;
+	explicit FallingState(Hero& hero)
+		: HeroState(hero) {
+	}
+
+	~FallingState() override;
+	HeroState* Onland() override;
+	HeroState* Update() override;
 };

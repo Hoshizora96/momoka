@@ -1,16 +1,19 @@
 #pragma once
 #include "objects/Hero.h" 
-#include "global.h"
-
+class Hero;
 class HeroState {
 public:
 	explicit HeroState(Hero& hero);
 	virtual ~HeroState() = default;
-	virtual HeroState* LeftKey(bool flag);
-	virtual HeroState* RightKey(bool flag);
-	virtual HeroState* JumpKey(bool flag);
+	virtual HeroState* LeftKeyDown();
+	virtual HeroState* RightKeyDown();
+	virtual HeroState* JumpKeyDown();
 
-	virtual HeroState* IsOnland(bool flag);
-
+	virtual HeroState* Onland();
+	virtual HeroState* Update();
+protected:
 	Hero& m_hero_;
 };
+
+
+

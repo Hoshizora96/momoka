@@ -178,6 +178,7 @@
     <ClInclude Include="include\util\HandleTable.h" />
     <ClInclude Include="include\util\ServiceLoader.h" />
     <ClCompile Include="src\fsm\HeroState.cpp" />
+    <ClCompile Include="src\fsm\hero\FallingState.cpp" />
     <ClCompile Include="src\fsm\hero\JumpState.cpp" />
     <ClCompile Include="src\fsm\hero\StandState.cpp" />
     <ClCompile Include="src\game\GameTestState.cpp" />

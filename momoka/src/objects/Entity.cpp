@@ -58,26 +58,29 @@ void Entity::MoveDown() {
 void Entity::Jump() {
 }
 
-bool Entity::TakeTileCollision(COLLISION_FLAG flag, TileInfo tileInfo) {
-	if(flag == COLLISION_FLAG::Collision_left) {
+void Entity::Onland() {
+}
+
+bool Entity::TakeTileCollision(momoka_global::COLLISION_FLAG flag, TileInfo tileInfo) {
+	if(flag == momoka_global::COLLISION_FLAG::Collision_left) {
 		m_leftObstructFlag_ = true;
 		if(m_velocityX_<=0) {
 			m_velocityX_ = 0;
 		}
 	}
-	if (flag == COLLISION_FLAG::Collision_right) {
+	if (flag == momoka_global::COLLISION_FLAG::Collision_right) {
 		m_rightObstructFlag_ = true;
 		if (m_velocityX_ >= 0) {
 			m_velocityX_ = 0;
 		}
 	}
-	if (flag == COLLISION_FLAG::Collision_up) {
+	if (flag == momoka_global::COLLISION_FLAG::Collision_up) {
 		m_upObstructFlag_ = true;
 		if (m_velocityY_ <= 0) {
 			m_velocityY_ = 0;
 		}
 	}
-	if (flag == COLLISION_FLAG::Collision_down) {
+	if (flag == momoka_global::COLLISION_FLAG::Collision_down) {
 		m_downObstructFlag_ = true;
 		if (m_velocityY_ >= 0) {
 			m_velocityY_ = 0;

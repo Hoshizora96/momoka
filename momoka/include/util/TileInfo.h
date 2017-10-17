@@ -9,7 +9,7 @@ struct TileInfo {
 inline TileInfo GetDefaultTileInfo() {
 	TileInfo result;
 	result.friction = 0;
-	result.height = TILE_SIZE;
-	result.width = TILE_SIZE;
+	result.height = momoka_global::TILE_SIZE;
+	result.width = momoka_global::TILE_SIZE;
 	return result;
 }
