@@ -162,6 +162,7 @@
     <ClInclude Include="include\fsm\HeroState.h" />
     <ClInclude Include="include\fsm\hero\FallingState.h" />
     <ClInclude Include="include\fsm\hero\JumpState.h" />
+    <ClInclude Include="include\fsm\hero\RunningState.h" />
     <ClInclude Include="include\fsm\hero\StandState.h" />
     <ClInclude Include="include\game\GameController.h" />
     <ClInclude Include="include\game\GameState.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="src\fsm\HeroState.cpp" />
     <ClCompile Include="src\fsm\hero\FallingState.cpp" />
     <ClCompile Include="src\fsm\hero\JumpState.cpp" />
+    <ClCompile Include="src\fsm\hero\RunningState.cpp" />
     <ClCompile Include="src\fsm\hero\StandState.cpp" />
     <ClCompile Include="src\game\GameTestState.cpp" />
     <ClCompile Include="src\objects\Entity.cpp" />

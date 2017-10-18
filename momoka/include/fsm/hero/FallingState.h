@@ -4,9 +4,7 @@
 class FallingState : public HeroState {
 
 public:
-	explicit FallingState(Hero& hero)
-		: HeroState(hero) {
-	}
+	explicit FallingState(Hero& hero);
 
 	~FallingState() override;
 	HeroState* Onland() override;

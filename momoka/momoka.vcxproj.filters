@@ -102,6 +102,9 @@
     <ClInclude Include="include\fsm\hero\FallingState.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\fsm\hero\RunningState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -141,6 +144,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\fsm\hero\FallingState.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fsm\hero\RunningState.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

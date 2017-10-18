@@ -18,7 +18,7 @@ HeroState* JumpState::JumpKeyDown() {
 HeroState* JumpState::Update() {
 	if(m_isJumpKeyDown_) {
 		m_jumpingDate_ += 1 / momoka_global::REFRESH_RATE;
-		if(m_jumpingDate_ > 0.8) {
+		if(m_jumpingDate_ > 0.15) {
 			return new FallingState(m_hero_);
 		}
 		m_isJumpKeyDown_ = false;

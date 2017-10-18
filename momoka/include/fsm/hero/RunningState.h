@@ -1,12 +1,12 @@
 #pragma once
 #include "fsm/HeroState.h"
 
-class StandState : public HeroState {
+class RunningState : public HeroState {
 
 public:
-	explicit StandState(Hero& hero);
+	explicit RunningState(Hero& hero, bool isMoveLeft);
 
-	~StandState() override;
+	~RunningState() override;
 	HeroState* LeftKeyDown() override;
 	HeroState* RightKeyDown() override;
 	HeroState* JumpKeyDown() override;
@@ -14,5 +14,8 @@ public:
 	HeroState* Update() override;
 
 private:
+	bool m_isLeftKeyDown_;
+	bool m_isRightKeyDown_;
+	bool m_isJumpKeyDown_;
 	bool m_isOnland_;
 };

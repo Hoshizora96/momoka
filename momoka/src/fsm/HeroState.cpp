@@ -5,11 +5,12 @@ HeroState::HeroState(Hero& hero) : m_hero_(hero){
 }
 
 HeroState* HeroState::LeftKeyDown() {
-
+	m_hero_.SetVelocityX(-m_hero_.GetDefaultHorizontalVelocity());
 	return nullptr;
 }
 
 HeroState* HeroState::RightKeyDown() {
+	m_hero_.SetVelocityX(m_hero_.GetDefaultHorizontalVelocity());
 	return nullptr;
 }
 

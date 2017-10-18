@@ -2,6 +2,10 @@
 #include "fsm/hero/FallingState.h"
 #include "fsm/hero/StandState.h"
 
+FallingState::FallingState(Hero& hero)
+	: HeroState(hero) {
+}
+
 FallingState::~FallingState() {
 }
 

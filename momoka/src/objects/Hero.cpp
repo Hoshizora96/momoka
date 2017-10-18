@@ -5,7 +5,7 @@
 #include "fsm/hero/StandState.h"
 
 
-Hero::Hero(): m_movingVelocity_(250.f), m_state_(new StandState(*this)) {
+Hero::Hero(): m_defaultHorizontalVelocity_(250.f), m_state_(new StandState(*this)) {
 	m_velocityX_ = 0;
 	m_velocityY_ = 0;
 	m_collisionWidth_ = 1 * momoka_global::TILE_SIZE;
@@ -24,19 +24,19 @@ void Hero::Render(float dt) {
 }
 
 void Hero::MoveLeft() {
-	m_velocityX_ = -m_movingVelocity_;
+	SwitchState(m_state_->LeftKeyDown());
 }
 
 void Hero::MoveRight() {
-	m_velocityX_ = m_movingVelocity_;
+	SwitchState(m_state_->RightKeyDown());
 }
 
 void Hero::MoveUp() {
-	m_velocityY_ = -m_movingVelocity_;
+//	m_velocityY_ = -m_defaultHorizontalVelocity_;
 }
 
 void Hero::MoveDown() {
-	m_velocityY_ = m_movingVelocity_;
+//	m_velocityY_ = m_defaultHorizontalVelocity_;
 }
 
 void Hero::Jump() {
@@ -55,6 +55,36 @@ bool Hero::SwitchState(HeroState* state) {
 
 void Hero::Onland() {
 	SwitchState(m_state_->Onland());
+}
+
+float Hero::GetDefaultHorizontalVelocity() const {
+	return m_defaultHorizontalVelocity_;
+}
+
+bool Hero::TakeTileCollision(momoka_global::COLLISION_FLAG flag, TileInfo tileInfo) {
+	if (flag == momoka_global::COLLISION_FLAG::Collision_left) {
+		m_leftObstructFlag_ = true;
+		if (m_velocityX_ <= 0) {
+			m_velocityX_ = 0;
+		}
+	}
+	if (flag == momoka_global::COLLISION_FLAG::Collision_right) {
+		m_rightObstructFlag_ = true;
+		if (m_velocityX_ >= 0) {
+			m_velocityX_ = 0;
+		}
+	}
+	if (flag == momoka_global::COLLISION_FLAG::Collision_up) {
+		m_upObstructFlag_ = true;
+		if (m_velocityY_ <= 0) {
+			m_velocityY_ = 0;
+		}
+	}
+	if (flag == momoka_global::COLLISION_FLAG::Collision_down) {
+		SwitchState(m_state_->Onland());
+	}
+
+	return true;
 }
 
 void Hero::Update() {

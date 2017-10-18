@@ -21,7 +21,10 @@ public:
 
 	bool SwitchState(HeroState* state);
 	void Onland() override;
+
+	float GetDefaultHorizontalVelocity() const;
+	bool TakeTileCollision(momoka_global::COLLISION_FLAG flag, TileInfo tileInfo) override;
 private:
-	float m_movingVelocity_;
+	float m_defaultHorizontalVelocity_;
 	HeroState* m_state_;
 };
