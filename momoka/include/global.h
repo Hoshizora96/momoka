@@ -3,7 +3,7 @@
 namespace momoka_global {
 	enum SERVICE_TYPE { Service_input, Service_graphic };
 
-	enum COLLISION_FLAG { Collision_left, Collision_right, Collision_up, Collision_down };
+	enum COLLISION_FLAGS { Collision_left, Collision_right, Collision_up, Collision_down };
 
 	enum KEY_HERO { Key_left, Key_right, Key_up, Key_down, Key_jump, Key_nothing };
 

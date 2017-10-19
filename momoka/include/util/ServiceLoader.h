@@ -18,7 +18,7 @@ public:
 
 		if (found != m_services_.end()) {
 			// 有重名的
-			throw ServiceRegistedTwiceException("Registe Service Twice");
+			throw ServiceRegistedTwiceException("Register Service Twice");
 		}
 		m_services_.insert(std::make_pair(type, service));
 	}

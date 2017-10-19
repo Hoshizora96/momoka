@@ -36,7 +36,7 @@ void GameTestState::Render(float dt) {
 	auto pGraphicService = Engine::m_serviceLoader.LocateService<GraphicService>(
 		momoka_global::SERVICE_TYPE::Service_graphic).lock();
 	pGraphicService->DrawTestWhiteBackGround();
-	for (auto tile : m_tiles_) {
+	for (auto tile : m_tilesContainer_) {
 		int y = tile.first % 1000000;
 		int x = (tile.first - y) / 1000000;
 		auto type = tile.second;
@@ -81,7 +81,7 @@ void GameTestState::Update() {
 }
 
 void GameTestState::WorldLoader() {
-	TileInfo normalTile;
+	TileType normalTile;
 	normalTile.width = momoka_global::TILE_SIZE;
 	normalTile.height = momoka_global::TILE_SIZE;
 	normalTile.friction = 1;
@@ -95,11 +95,11 @@ void GameTestState::WorldLoader() {
 
 	int y = 10;
 	for (int x = 0; x < 21; x++) {
-		m_tiles_[TileMapKeyConvert(x, y)] = 0;
+		m_tilesContainer_[TileMapKeyConvert(x, y)] = 0;
 	}
 
-	m_tiles_[TileMapKeyConvert(6, 8)] = 0;
-	m_tiles_[TileMapKeyConvert(8, 7)] = 0;
+	m_tilesContainer_[TileMapKeyConvert(6, 8)] = 0;
+	m_tilesContainer_[TileMapKeyConvert(8, 7)] = 0;
 
 }
 
@@ -129,13 +129,13 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 
 	// 触碰到地图左边界
 	if (x <= 0 && entity->GetVelocityX() < 0) {
-		m_pPlayerCharacter_->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_left, defaultTileInfo);
+		m_pPlayerCharacter_->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_left, defaultTileInfo);
 		entity->SetX(0);
 	}
 
 	// 触碰到地图上边界
 	if (y <= 0 && entity->GetVelocityY() < 0) {
-		m_pPlayerCharacter_->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_up, defaultTileInfo);
+		m_pPlayerCharacter_->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_up, defaultTileInfo);
 		entity->SetY(0);
 	}
 
@@ -152,12 +152,12 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 	__int64 rightUpTileKey = TileMapKeyConvert(xEndTile, yStartTile);
 	__int64 rightDownTileKey = TileMapKeyConvert(xEndTile, yEndTile);
 
-	auto leftUpItem = m_tiles_.find(leftUpTileKey);
-	auto leftDownItem = m_tiles_.find(leftDownTileKey);
-	auto rightUpItem = m_tiles_.find(rightUpTileKey);
-	auto rightDownItem = m_tiles_.find(rightDownTileKey);
+	auto leftUpItem = m_tilesContainer_.find(leftUpTileKey);
+	auto leftDownItem = m_tilesContainer_.find(leftDownTileKey);
+	auto rightUpItem = m_tilesContainer_.find(rightUpTileKey);
+	auto rightDownItem = m_tilesContainer_.find(rightDownTileKey);
 
-	auto nullItem = m_tiles_.end();
+	auto nullItem = m_tilesContainer_.end();
 
 	/* 下面四个if语句块是整个碰撞检测最复杂的一部分代码，这段代码进行四个角的碰撞检测。
 	 * 这里我通过检测合成速度斜率来计算碰撞的方向，从而决定将x或y方向速度分量设为0
@@ -168,23 +168,23 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 			float dx = x - (xStartTile + 1) * momoka_global::TILE_SIZE;
 			float dy = y - (yStartTile + 1) * momoka_global::TILE_SIZE;
 			if (abs(vy / vx) <= abs(dy / dx)) {
-				if (m_pPlayerCharacter_->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_left, defaultTileInfo)) {
+				if (m_pPlayerCharacter_->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_left, defaultTileInfo)) {
 					m_pPlayerCharacter_->SetX((xStartTile + 1) * momoka_global::TILE_SIZE);
 				}
 			}
 			else {
-				if (m_pPlayerCharacter_->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_up, defaultTileInfo)) {
+				if (m_pPlayerCharacter_->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_up, defaultTileInfo)) {
 					m_pPlayerCharacter_->SetY((yStartTile + 1) * momoka_global::TILE_SIZE);
 				}
 			}
 		}
 		else if (vx < 0) {
-			if (m_pPlayerCharacter_->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_left, defaultTileInfo)) {
+			if (m_pPlayerCharacter_->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_left, defaultTileInfo)) {
 				m_pPlayerCharacter_->SetX((xStartTile + 1) * momoka_global::TILE_SIZE);
 			}
 		}
 		else if (vy < 0) {
-			if (m_pPlayerCharacter_->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_up, defaultTileInfo)) {
+			if (m_pPlayerCharacter_->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_up, defaultTileInfo)) {
 				m_pPlayerCharacter_->SetY((yStartTile + 1) * momoka_global::TILE_SIZE);
 			}
 		}
@@ -195,24 +195,24 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 			float dx = x - (xStartTile + 1) * momoka_global::TILE_SIZE;
 			float dy = (y + entityHeight) - yEndTile * momoka_global::TILE_SIZE;
 			if (abs(vy / vx) <= abs(dy / dx)) {
-				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_left, defaultTileInfo)) {
+				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_left, defaultTileInfo)) {
 					entity->SetX((xStartTile + 1) * momoka_global::TILE_SIZE);
 				}
 			}
 			else {
-				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_down, defaultTileInfo)) {
+				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_down, defaultTileInfo)) {
 					entity->SetY((yEndTile) * momoka_global::TILE_SIZE - entityHeight);
 				}
 			}
 		}
 		else if (vy >= 0) {
-			if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_down, defaultTileInfo)) {
+			if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_down, defaultTileInfo)) {
 				entity->SetY((yEndTile) * momoka_global::TILE_SIZE - entityHeight);
 			}
 		}
 		else if (vx < 0) {
 			if ((y + entityHeight) - int(y + entityHeight) != 0) {
-				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_left, defaultTileInfo)) {
+				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_left, defaultTileInfo)) {
 					entity->SetX((xStartTile + 1) * momoka_global::TILE_SIZE);
 				}
 			}
@@ -224,24 +224,24 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 			float dx = x + entityWidth - xEndTile * momoka_global::TILE_SIZE;
 			float dy = y - (yStartTile + 1) * momoka_global::TILE_SIZE;
 			if (abs(vy / vx) <= abs(dy / dx)) {
-				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_right, defaultTileInfo)) {
+				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_right, defaultTileInfo)) {
 					entity->SetX(xEndTile * momoka_global::TILE_SIZE - entityWidth);
 				}
 			}
 			else {
-				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_up, defaultTileInfo)) {
+				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_up, defaultTileInfo)) {
 					entity->SetY((yStartTile + 1) * momoka_global::TILE_SIZE);
 				}
 			}
 		}
 		else if (vx > 0) {
-			if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_right, defaultTileInfo)) {
+			if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_right, defaultTileInfo)) {
 				entity->SetX(xEndTile * momoka_global::TILE_SIZE - entityWidth);
 			}
 		}
 		else if (vy < 0) {
 			if ((x + entityWidth) - int(x + entityWidth) != 0) {
-				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_up, defaultTileInfo)) {
+				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_up, defaultTileInfo)) {
 					entity->SetY((yStartTile + 1) * momoka_global::TILE_SIZE);
 				}
 			}
@@ -253,12 +253,12 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 			float dx = x + entityWidth - xEndTile * momoka_global::TILE_SIZE;
 			float dy = y + entityHeight - yEndTile * momoka_global::TILE_SIZE;
 			if (abs(vy / vx) <= abs(dy / dx)) {
-				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_right, defaultTileInfo)) {
+				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_right, defaultTileInfo)) {
 					entity->SetX(xEndTile * momoka_global::TILE_SIZE - entityWidth);
 				}
 			}
 			else {
-				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_down, defaultTileInfo)) {
+				if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_down, defaultTileInfo)) {
 					entity->SetY(yEndTile * momoka_global::TILE_SIZE - entityHeight);
 				}
 			}
@@ -266,21 +266,21 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 		else {
 			if (vy == 0) {
 				if ((x + entityWidth) - int(x + entityWidth) != 0) {
-					if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_down, defaultTileInfo)) {
+					if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_down, defaultTileInfo)) {
 						entity->SetY(yEndTile * momoka_global::TILE_SIZE - entityHeight);
 					}
 				}
 			}
 			else if (vx > 0) {
 				if ((y + entityHeight) - int(y + entityHeight) != 0) {
-					if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_right, defaultTileInfo)) {
+					if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_right, defaultTileInfo)) {
 						entity->SetX(xEndTile * momoka_global::TILE_SIZE - entityWidth);
 					}
 				}
 			}
 			else if (vy > 0) {
 				if ((x + entityWidth) - int(x + entityWidth) != 0) {
-					if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_down, defaultTileInfo)) {
+					if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_down, defaultTileInfo)) {
 						entity->SetY(yEndTile * momoka_global::TILE_SIZE - entityHeight);
 					}
 				}
@@ -291,18 +291,18 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 	// 四条边的碰撞检测
 	for (int i = xStartTile + 1; i < xEndTile; i++) {
 		auto key = TileMapKeyConvert(i, yStartTile);
-		auto item = m_tiles_.find(key);
+		auto item = m_tilesContainer_.find(key);
 		if (item != nullItem) {
-			if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_up, defaultTileInfo)) {
+			if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_up, defaultTileInfo)) {
 				entity->SetY((yStartTile + 1) * momoka_global::TILE_SIZE);
 			}
 			break;
 		}
 
 		key = TileMapKeyConvert(i, yEndTile);
-		item = m_tiles_.find(key);
+		item = m_tilesContainer_.find(key);
 		if (item != nullItem) {
-			if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_down, defaultTileInfo)) {
+			if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_down, defaultTileInfo)) {
 				entity->SetY(yEndTile * momoka_global::TILE_SIZE - entityHeight);
 
 			}
@@ -312,18 +312,18 @@ void GameTestState::GlobalPhysicsSimulation(Entity* entity) {
 
 	for (int i = yStartTile + 1; i < yEndTile; i++) {
 		auto key = TileMapKeyConvert(xStartTile, i);
-		auto item = m_tiles_.find(key);
+		auto item = m_tilesContainer_.find(key);
 		if (item != nullItem) {
-			if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_left, defaultTileInfo)) {
+			if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_left, defaultTileInfo)) {
 				entity->SetX((xStartTile + 1) * momoka_global::TILE_SIZE);
 			}
 			break;
 		}
 
 		key = TileMapKeyConvert(xEndTile, i);
-		item = m_tiles_.find(key);
+		item = m_tilesContainer_.find(key);
 		if (item != nullItem) {
-			if (entity->TakeTileCollision(momoka_global::COLLISION_FLAG::Collision_right, defaultTileInfo)) {
+			if (entity->TakeTileCollision(momoka_global::COLLISION_FLAGS::Collision_right, defaultTileInfo)) {
 				entity->SetX(xEndTile * momoka_global::TILE_SIZE - entityWidth);
 			}
 			break;
@@ -349,11 +349,11 @@ void GameTestState::EntityInit(Entity* entity) {
 	//	__int64 xEndTile = int((x + entityWidth) / momoka_global::TILE_SIZE);
 	//	__int64 yEndTile = int((y + entityHeight) / momoka_global::TILE_SIZE);
 	//
-	//	auto nullItem = m_tiles_.end();
+	//	auto nullItem = m_tilesContainer_.end();
 	//
 	//	for (int i = xStartTile; i <= xEndTile; i++) {
 	//		auto key = TileMapKeyConvert(i, yEndTile);
-	//		auto item = m_tiles_.find(key);
+	//		auto item = m_tilesContainer_.find(key);
 	//		if (item != nullItem) {
 	//			
 	//			break;

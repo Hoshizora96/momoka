@@ -156,6 +156,8 @@
     <ClInclude Include="include\commands\Command.h" />
     <ClInclude Include="include\commands\actor\MoveLeftCommand.h" />
     <ClInclude Include="include\commands\CommandTable.h" />
+    <ClInclude Include="include\components\CollisionDetector.h" />
+    <ClInclude Include="include\elements\tile.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\exception\MomokaException.h" />
     <ClInclude Include="include\exception\ServiceException.h" />
@@ -170,14 +172,14 @@
     <ClInclude Include="include\global.h" />
     <ClInclude Include="include\objects\Entity.h" />
     <ClInclude Include="include\objects\Hero.h" />
-    <ClInclude Include="include\util\TileInfo.h" />
+    <ClInclude Include="include\components\PhysicalBody.h" />
     <ClInclude Include="include\services\Service.h" />
     <ClInclude Include="include\services\GraphicService.h" />
     <ClInclude Include="include\services\InputService.h" />
     <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\targetver.h" />
-    <ClInclude Include="include\util\HandleTable.h" />
     <ClInclude Include="include\util\ServiceLoader.h" />
+    <ClCompile Include="src\components\CollisionDetector.cpp" />
     <ClCompile Include="src\fsm\HeroState.cpp" />
     <ClCompile Include="src\fsm\hero\FallingState.cpp" />
     <ClCompile Include="src\fsm\hero\JumpState.cpp" />

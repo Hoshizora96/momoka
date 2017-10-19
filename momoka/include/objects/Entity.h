@@ -1,5 +1,7 @@
 #pragma once
-#include "util/TileInfo.h"
+#include "global.h"
+#include "components/PhysicalBody.h"
+#include "elements/tile.h"
 
 class Entity {
 public:
@@ -27,7 +29,7 @@ public:
 
 	virtual void Onland();
 
-	virtual bool TakeTileCollision(momoka_global::COLLISION_FLAG flag, TileInfo tileInfo);
+	virtual bool TakeTileCollision(momoka_global::COLLISION_FLAGS flag, TileType tileInfo);
 	
 	void ClearObstructFlags();
 
@@ -41,6 +43,8 @@ public:
 
 protected:
 	// 碰撞标志，false代表不会发生碰撞，这里的碰撞指的是与障碍物碰撞
+	PhysicalBody m_physicalBody_;
+
 	bool m_isObstructive_;
 	bool m_hasGravity_;
 
