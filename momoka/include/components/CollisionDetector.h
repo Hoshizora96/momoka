@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "elements/tile.h"
 #include "components/PhysicalBody.h"
 
@@ -8,14 +9,22 @@ enum COLLISION_FLAG { Collision_left, Collision_right, Collision_up, Collision_d
 struct TileCollisionInfo {
 	COLLISION_FLAG flag;
 	TileMapKey tileMapKey;
+	TileType tileType;
 };
+
+typedef std::vector<TileCollisionInfo> TileCollisionVector;
 
 class CollisionDetector {
 public:
-	CollisionDetector();
+	explicit CollisionDetector(TileMap& tileMap, TileTpyeMap& tileTpyeMap);
 	~CollisionDetector();
 
-	const TileKeyVector& EntityToTile(PhysicalBody& physicalBody);
+	TileCollisionVector TileCollisionChecker(const PhysicalBody& physicalBody) const;
+	PhysicalBody TileCollisionDefaultSolver(const TileCollisionInfo& tileCollisionInfo, PhysicalBody physicalBody);
+
 private:
-	TileKeyVector m_tileKeyVector_;
+	const TileMap& m_tileMap_;
+	const TileTpyeMap& m_tileTypeMap_;
+
+	inline TileCollisionInfo GenerateTileCollisionInfo(COLLISION_FLAG flag, TileMapKey key) const;
 };

@@ -4,18 +4,22 @@
 #include "services/InputService.h"
 #include "services/GraphicService.h"
 
+#pragma warning(disable:4996)
+
 LONGLONG Engine::m_freq = GetCurrentFrequency();
 float Engine::m_refreshRate = 60.f;
 ServiceLoader Engine::m_serviceLoader;
 
 Engine::Engine() {
-
 }
 
 Engine::~Engine() {
+	Shutdown();
 }
 
 bool Engine::Initialize() {
+	AllocConsole();
+	freopen("CONOUT$", "w+t", stdout);
 
 	auto pGraphicService = std::make_shared<GraphicService>();
 	auto pInputService = std::make_shared<InputService>(pGraphicService->GetHwnd());
@@ -30,6 +34,7 @@ bool Engine::Initialize() {
 
 void Engine::Shutdown() {
 	// TODO: 实现资源的释放
+	FreeConsole();
 }
 
 

@@ -2,7 +2,8 @@
 
 #include "global.h"
 #include <map>
-#include <vector>
+
+const __int64 MULX = 1000000;
 
 struct TileType {
 	int width;
@@ -13,7 +14,6 @@ struct TileType {
 typedef __int64 TileMapKey;
 typedef std::map<short, TileType> TileTpyeMap;
 typedef std::map<TileMapKey, short> TileMap;
-typedef std::vector<TileMapKey> TileKeyVector;
 
 inline TileMapKey TileMapKeyConvert(long long xTile, long long yTile) {
 	return xTile * momoka_global::MULX + yTile;

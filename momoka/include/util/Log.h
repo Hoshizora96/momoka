@@ -1,0 +1,32 @@
+#pragma once
+#include <sstream>
+
+#define MOMOKA_LOG_MAX_LEVEL 5
+
+namespace momoka {
+#define MOMOKA_LOG(level) \
+	if(level > MOMOKA_LOG_MAX_LEVEL) {} \
+	else if (level > ::momoka::Log::GetReportingLevel()) {} \
+	else ::momoka::Log::StartLog(level)
+
+	enum LogLevel {
+		fatal,
+		error,
+		warning,
+		debug,
+		info,
+		verbose
+	};
+
+	class Log {
+		static LogLevel m_reportingLevel_;
+		static std::ostream & m_outputStream_;
+
+		static std::string GetNowTime();
+		static std::string ToString(const LogLevel& level);
+	public:
+		static std::ostream& StartLog(LogLevel level = verbose);
+		static LogLevel& GetReportingLevel();
+		static void SetReportingLevel(const LogLevel& level);
+	};
+}

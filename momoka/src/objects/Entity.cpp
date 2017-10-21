@@ -5,41 +5,21 @@ Entity::~Entity() {
 }
 
 float Entity::GetX() const {
-	return m_posX_;
+	return m_physicalBody_.posX;
 }
 
 float Entity::GetY() const {
-	return m_posY_;
+	return m_physicalBody_.posY;
 }
 
-float Entity::GetCollisionWidth() const {
-	return m_collisionWidth_;
-}
-
-float Entity::GetCollisionHeight() const {
-	return m_collisionHeight_;
-}
-
-bool Entity::IsObstructive() const {
-	return m_isObstructive_;
-}
-
-bool Entity::HasGravity() const {
-	return m_hasGravity_;
+void Entity::SetCollisionDetector(CollisionDetector* pCollisionDetector) {
+	m_pCollisionDetector_ = pCollisionDetector;
 }
 
 void Entity::Update() {
 }
 
 void Entity::Render(float dt) {
-}
-
-void Entity::SetX(float x) {
-	m_posX_ = x;
-}
-
-void Entity::SetY(float y) {
-	m_posY_ = y;
 }
 
 void Entity::MoveLeft() {
@@ -60,56 +40,28 @@ void Entity::Jump() {
 void Entity::Onland() {
 }
 
-bool Entity::TakeTileCollision(momoka_global::COLLISION_FLAGS flag, TileType tileInfo) {
-	if(flag == momoka_global::COLLISION_FLAGS::Collision_left) {
-		m_leftObstructFlag_ = true;
-		if(m_velocityX_<=0) {
-			m_velocityX_ = 0;
-		}
-	}
-	if (flag == momoka_global::COLLISION_FLAGS::Collision_right) {
-		m_rightObstructFlag_ = true;
-		if (m_velocityX_ >= 0) {
-			m_velocityX_ = 0;
-		}
-	}
-	if (flag == momoka_global::COLLISION_FLAGS::Collision_up) {
-		m_upObstructFlag_ = true;
-		if (m_velocityY_ <= 0) {
-			m_velocityY_ = 0;
-		}
-	}
-	if (flag == momoka_global::COLLISION_FLAGS::Collision_down) {
-		m_downObstructFlag_ = true;
-		if (m_velocityY_ >= 0) {
-			m_velocityY_ = 0;
-		}
-	}
-
-	return true;
+void Entity::SetX(float velocityX) {
+	m_physicalBody_.velocityX = velocityX;
 }
 
-void Entity::ClearObstructFlags() {
-	m_downObstructFlag_ = false;
-	m_upObstructFlag_ = false;
-	m_leftObstructFlag_ = false;
-	m_rightObstructFlag_ = false;
+void Entity::SetY(float velocityY) {
+	m_physicalBody_.velocityX = velocityY;
 }
 
 float Entity::GetVelocityX() const {
-	return m_velocityX_;
+	return m_physicalBody_.velocityX;
 }
 
 float Entity::GetVelocityY() const {
-	return m_velocityY_;
+	return m_physicalBody_.velocityY;
 }
 
 void Entity::SetVelocityX(float velocityX) {
-	m_velocityX_ = velocityX;
+	m_physicalBody_.velocityX = velocityX;
 }
 
 void Entity::SetVelocityY(float velocityY) {
-	m_velocityY_ = velocityY;
+	m_physicalBody_.velocityY = velocityY;
 }
 
 void Entity::SetOnLandFlag(bool flag) {

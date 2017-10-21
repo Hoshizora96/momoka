@@ -3,6 +3,7 @@
 #include "objects/Entity.h"
 #include "objects/Hero.h"
 #include "commands/Command.h"
+#include "components/CollisionDetector.h"
 
 #include <list>
 
@@ -19,15 +20,14 @@ public:
 private:
 //	momoka::HandleTable<Entity*> m_handleTable_;
 	std::list<int> m_actorList_;
-	TileTpyeMap m_tileInfoMap_;
-	TileMap m_tilesContainer_;
+	TileTpyeMap m_tileTypeMap_;
+	TileMap m_tilesMap_;
+	CollisionDetector m_collisionDetector_;
 
 	Hero* m_pPlayerCharacter_;
 	void WorldLoader();
 	void GlobalPhysicsSimulation(Entity* entity);
 	void EntityInit(Entity* entity);
-
-	static __int64 TileMapKeyConvert(__int64 xTile, __int64 yTile);
 
 	Command* m_commandW_;
 	Command* m_commandA_;

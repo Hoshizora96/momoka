@@ -11,7 +11,6 @@ public:
 	void Update() override;
 	void Render(float dt) override;
 
-
 	void MoveLeft() override;
 	void MoveRight() override;
 	void MoveUp() override;
@@ -23,7 +22,7 @@ public:
 	void Onland() override;
 
 	float GetDefaultHorizontalVelocity() const;
-	bool TakeTileCollision(momoka_global::COLLISION_FLAGS flag, TileType tileInfo) override;
+
 private:
 	float m_defaultHorizontalVelocity_;
 	HeroState* m_state_;

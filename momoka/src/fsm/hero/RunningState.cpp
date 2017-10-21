@@ -3,6 +3,7 @@
 #include "fsm/hero/FallingState.h"
 #include "fsm/hero/JumpState.h"
 #include "fsm/hero/StandState.h"
+#include "util/Log.h"
 
 RunningState::RunningState(Hero& hero, bool isMoveLeft)
 	: HeroState(hero), m_isLeftKeyDown_(false), m_isRightKeyDown_(false), m_isJumpKeyDown_(false), m_isOnland_(true) {
@@ -14,6 +15,8 @@ RunningState::RunningState(Hero& hero, bool isMoveLeft)
 		m_isRightKeyDown_ = true;
 		m_hero_.SetVelocityX(m_hero_.GetDefaultHorizontalVelocity());
 	}
+
+	MOMOKA_LOG(momoka::debug) << "Switch to Running State";
 }
 
 RunningState::~RunningState() {

@@ -2,24 +2,19 @@
 #include "global.h"
 #include "components/PhysicalBody.h"
 #include "elements/tile.h"
+#include "components/CollisionDetector.h"
 
 class Entity {
 public:
+	
 	virtual ~Entity();
 	float GetX() const;
 	float GetY() const;
 
-	float GetCollisionWidth() const;
-	float GetCollisionHeight() const;
-
-	bool IsObstructive() const;
-	bool HasGravity() const;
+	void SetCollisionDetector(CollisionDetector* pCollisionDetector);
 
 	virtual void Update();
 	virtual void Render(float dt);
-
-	void SetX(float x);
-	void SetY(float y);
 
 	virtual void MoveLeft();
 	virtual void MoveRight();
@@ -29,9 +24,9 @@ public:
 
 	virtual void Onland();
 
-	virtual bool TakeTileCollision(momoka_global::COLLISION_FLAGS flag, TileType tileInfo);
+	void SetX(float velocityX);
+	void SetY(float velocityY);
 	
-	void ClearObstructFlags();
 
 	float GetVelocityX() const;
 	float GetVelocityY() const;
@@ -42,26 +37,11 @@ public:
 	void SetOnLandFlag(bool flag);
 
 protected:
-	// 碰撞标志，false代表不会发生碰撞，这里的碰撞指的是与障碍物碰撞
 	PhysicalBody m_physicalBody_;
-
-	bool m_isObstructive_;
-	bool m_hasGravity_;
-
-	bool m_leftObstructFlag_;
-	bool m_rightObstructFlag_;
-	bool m_upObstructFlag_;
-	bool m_downObstructFlag_;
+	PhysicalBody m_nextFramePhysicalBody_;
 
 	bool m_isOnLand_;
 
-	float m_posX_;
-	float m_posY_;
-
-	float m_collisionWidth_;
-	float m_collisionHeight_;
-
-	float m_velocityX_;
-	float m_velocityY_;
+	CollisionDetector* m_pCollisionDetector_;
 
 };

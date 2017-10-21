@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "fsm/hero/FallingState.h"
 #include "fsm/hero/StandState.h"
+#include "util/Log.h"
 
 FallingState::FallingState(Hero& hero)
 	: HeroState(hero) {
+	MOMOKA_LOG(momoka::debug) << "Switch to Falling State";
 }
 
 FallingState::~FallingState() {

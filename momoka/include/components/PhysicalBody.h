@@ -9,5 +9,5 @@ struct PhysicalBody {
 	float collisionWidth;
 	float collisionHeight;
 
-	bool isObstructive_;
+	bool isObstructive;
 };

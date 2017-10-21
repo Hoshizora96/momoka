@@ -3,11 +3,13 @@
 #include "fsm/hero/JumpState.h"
 #include "fsm/hero/RunningState.h"
 #include "fsm/hero/FallingState.h"
+#include "util/Log.h"
 
 StandState::StandState(Hero& hero)
 	: HeroState(hero), m_isOnland_(true) {
 	m_hero_.SetVelocityX(0);
 	m_hero_.SetVelocityY(0);
+	MOMOKA_LOG(momoka::debug) << "Switch to Stand State";
 }
 
 StandState::~StandState() {

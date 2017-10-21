@@ -108,6 +108,9 @@
     <ClInclude Include="include\components\PhysicalBody.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\util\Log.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -153,6 +156,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\components\CollisionDetector.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\Log.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

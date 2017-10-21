@@ -16,5 +16,4 @@ public:
 
 private:
 	GameState* m_pGameState_;
-
 };
