@@ -25,13 +25,13 @@ void Hero::Render(float dt) {
 		float next_x = m_nextFramePhysicalBody_.posX;
 		float next_y = m_nextFramePhysicalBody_.posY;
 
-		if (x > next_x && m_physicalBody_.velocityX > 0 || x < next_x && m_physicalBody_.velocityX < 0) {
-			x = next_x;
-		}
-	
-		if (y > next_y && m_physicalBody_.velocityY > 0 || y < next_y && m_physicalBody_.velocityY < 0) {
-			y = next_y;
-		}
+//		if (x > next_x && m_physicalBody_.velocityX > 0 || x < next_x && m_physicalBody_.velocityX < 0) {
+//			x = next_x;
+//		}
+//	
+//		if (y > next_y && m_physicalBody_.velocityY > 0 || y < next_y && m_physicalBody_.velocityY < 0) {
+//			y = next_y;
+//		}
 
 	pGraphicService->DrawRect(x, y, momoka_global::TILE_SIZE, momoka_global::TILE_SIZE * 2);
 
@@ -102,7 +102,13 @@ float Hero::GetDefaultHorizontalVelocity() const {
 //}
 
 void Hero::Update() {
+	auto dt = 1 / Engine::m_refreshRate;
+	m_physicalBody_.posX += m_physicalBody_.velocityX * dt;
+	m_physicalBody_.posY += m_physicalBody_.velocityY * dt;
 	//	m_physicalBody_=m_nextFramePhysicalBody_;
+	
+
+	SwitchState(m_state_->Update());
 	if (m_pCollisionDetector_ != nullptr) {
 		auto tileCollisionVector = m_pCollisionDetector_->TileCollisionChecker(m_physicalBody_);
 		// 如果你想针对不同的tile做出不同的行为，就在这个for循环中添加吧
@@ -119,19 +125,13 @@ void Hero::Update() {
 		}
 	}
 
-	SwitchState(m_state_->Update());
-
-	auto dt = 1 / Engine::m_refreshRate;
-	m_physicalBody_.posX += m_physicalBody_.velocityX * dt;
-	m_physicalBody_.posY += m_physicalBody_.velocityY * dt;
-
-		if (m_pCollisionDetector_ != nullptr) {
-			m_nextFramePhysicalBody_ = m_physicalBody_;
-			m_nextFramePhysicalBody_.posX += m_physicalBody_.velocityX * dt;
-			m_nextFramePhysicalBody_.posY += m_physicalBody_.velocityY * dt;
-			auto tileCollisionVector = m_pCollisionDetector_->TileCollisionChecker(m_nextFramePhysicalBody_);
-			for (auto tileCollision : tileCollisionVector) {
-				m_nextFramePhysicalBody_ = m_pCollisionDetector_->TileCollisionDefaultSolver(tileCollision, m_nextFramePhysicalBody_);
-			}
-		}
+//		if (m_pCollisionDetector_ != nullptr) {
+//			m_nextFramePhysicalBody_ = m_physicalBody_;
+//			m_nextFramePhysicalBody_.posX += m_physicalBody_.velocityX * dt;
+//			m_nextFramePhysicalBody_.posY += m_physicalBody_.velocityY * dt;
+//			auto tileCollisionVector = m_pCollisionDetector_->TileCollisionChecker(m_nextFramePhysicalBody_);
+//			for (auto tileCollision : tileCollisionVector) {
+//				m_nextFramePhysicalBody_ = m_pCollisionDetector_->TileCollisionDefaultSolver(tileCollision, m_nextFramePhysicalBody_);
+//			}
+//		}
 }
