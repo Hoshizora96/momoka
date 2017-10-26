@@ -2,7 +2,6 @@
 #include "game/GameState.h"
 #include "objects/Entity.h"
 #include "objects/Hero.h"
-#include "commands/Command.h"
 #include "components/CollisionDetector.h"
 
 #include <list>
@@ -26,13 +25,7 @@ private:
 
 	Hero* m_pPlayerCharacter_;
 	void WorldLoader();
-	void GlobalPhysicsSimulation(Entity* entity);
-	void EntityInit(Entity* entity);
 
-	Command* m_commandW_;
-	Command* m_commandA_;
-	Command* m_commandS_;
-	Command* m_commandD_;
 };
 
 

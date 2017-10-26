@@ -37,6 +37,9 @@ void Entity::MoveDown() {
 void Entity::Jump() {
 }
 
+void Entity::HandleInput() {
+}
+
 void Entity::Onland() {
 }
 

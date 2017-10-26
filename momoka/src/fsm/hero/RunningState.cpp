@@ -6,13 +6,11 @@
 #include "util/Log.h"
 
 RunningState::RunningState(Hero& hero, bool isMoveLeft)
-	: HeroState(hero), m_isLeftKeyDown_(false), m_isRightKeyDown_(false), m_isJumpKeyDown_(false), m_isOnland_(true) {
+	: HeroState(hero) {
 	if(isMoveLeft) {
-		m_isLeftKeyDown_ = true;
 		m_hero_.SetVelocityX(-m_hero_.GetDefaultHorizontalVelocity());
 	}
 	else {
-		m_isRightKeyDown_ = true;
 		m_hero_.SetVelocityX(m_hero_.GetDefaultHorizontalVelocity());
 	}
 
@@ -22,20 +20,25 @@ RunningState::RunningState(Hero& hero, bool isMoveLeft)
 RunningState::~RunningState() {
 }
 
-HeroState* RunningState::LeftKeyDown() {
-	m_isLeftKeyDown_ = true;
-	m_hero_.SetVelocityX(-m_hero_.GetDefaultHorizontalVelocity());
-	return nullptr;
+HeroState* RunningState::LeftKeyState(INPUT_KEY_EVENT keyEvent) {
+	if(keyEvent == Key_release) {
+		return new StandState(m_hero_);
+	}
+	return HeroState::LeftKeyState(keyEvent);
 }
 
-HeroState* RunningState::RightKeyDown() {
-	m_isRightKeyDown_ = true;
-	m_hero_.SetVelocityX(m_hero_.GetDefaultHorizontalVelocity());
-	return nullptr;
+HeroState* RunningState::RightKeyState(INPUT_KEY_EVENT keyEvent) {
+	if (keyEvent == Key_release) {
+		return new StandState(m_hero_);
+	}
+	return HeroState::RightKeyState(keyEvent);
 }
 
-HeroState* RunningState::JumpKeyDown() {
-	return new JumpState(m_hero_);
+HeroState* RunningState::JumpKeyState(INPUT_KEY_EVENT keyEvent) {
+	if(keyEvent == Key_press) {
+		return new JumpState(m_hero_);
+	}
+	return HeroState::JumpKeyState(keyEvent);
 }
 
 HeroState* RunningState::Onland() {
@@ -44,11 +47,7 @@ HeroState* RunningState::Onland() {
 }
 
 HeroState* RunningState::Update() {
-	if (!m_isOnland_) return new FallingState(m_hero_);
-	if (!m_isRightKeyDown_ && !m_isLeftKeyDown_) return new StandState(m_hero_);
-
-	m_isOnland_ = false;
-	m_isRightKeyDown_ = false;
-	m_isLeftKeyDown_ = false;
-	return nullptr;
+	if (!m_isOnland_) 
+		return new FallingState(m_hero_);
+	return HeroState::Update();
 }

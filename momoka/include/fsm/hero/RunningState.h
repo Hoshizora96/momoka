@@ -7,15 +7,10 @@ public:
 	explicit RunningState(Hero& hero, bool isMoveLeft);
 
 	~RunningState() override;
-	HeroState* LeftKeyDown() override;
-	HeroState* RightKeyDown() override;
-	HeroState* JumpKeyDown() override;
+
+	HeroState* LeftKeyState(INPUT_KEY_EVENT keyEvent) override;
+	HeroState* RightKeyState(INPUT_KEY_EVENT keyEvent) override;
+	HeroState* JumpKeyState(INPUT_KEY_EVENT keyEvent) override;
 	HeroState* Onland() override;
 	HeroState* Update() override;
-
-private:
-	bool m_isLeftKeyDown_;
-	bool m_isRightKeyDown_;
-	bool m_isJumpKeyDown_;
-	bool m_isOnland_;
 };

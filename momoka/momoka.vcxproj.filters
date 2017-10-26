@@ -57,31 +57,13 @@
     <ClInclude Include="include\game\GameController.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\commands\Command.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\commands\actor\MoveLeftCommand.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\objects\Hero.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\commands\actor\MoveRightCommand.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\commands\actor\MoveUpCommand.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\commands\actor\MoveDownCommand.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\global.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\game\GameTestState.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\commands\CommandTable.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\fsm\HeroState.h">

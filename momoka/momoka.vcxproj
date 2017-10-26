@@ -151,12 +151,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\util\Log.cpp" />
-    <ClInclude Include="include\commands\actor\MoveDownCommand.h" />
-    <ClInclude Include="include\commands\actor\MoveRightCommand.h" />
-    <ClInclude Include="include\commands\actor\MoveUpCommand.h" />
-    <ClInclude Include="include\commands\Command.h" />
-    <ClInclude Include="include\commands\actor\MoveLeftCommand.h" />
-    <ClInclude Include="include\commands\CommandTable.h" />
     <ClInclude Include="include\components\CollisionDetector.h" />
     <ClInclude Include="include\elements\tile.h" />
     <ClInclude Include="include\Engine.h" />

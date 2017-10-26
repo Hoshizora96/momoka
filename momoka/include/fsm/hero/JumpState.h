@@ -7,10 +7,9 @@ public:
 	explicit JumpState(Hero& hero);
 
 	~JumpState() override;
-	HeroState* JumpKeyDown() override;
+	HeroState* JumpKeyState(INPUT_KEY_EVENT keyEvent) override;
 	HeroState* Update() override;
 
 private:
 	float m_jumpingDate_;
-	bool m_isJumpKeyDown_;
 };

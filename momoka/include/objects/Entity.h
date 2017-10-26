@@ -22,6 +22,8 @@ public:
 	virtual void MoveDown();
 	virtual void Jump();
 
+	virtual void HandleInput();
+
 	virtual void Onland();
 
 	void SetX(float velocityX);

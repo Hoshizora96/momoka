@@ -3,9 +3,9 @@
 #include "objects/Hero.h"
 #include "services/GraphicService.h"
 #include "fsm/hero/StandState.h"
+#include "services/InputService.h"
 
-
-Hero::Hero(): m_defaultHorizontalVelocity_(250.f), m_state_(new StandState(*this)) {
+Hero::Hero(): m_defaultHorizontalVelocity_(400.f), m_state_(new StandState(*this)) {
 	SecureZeroMemory(&m_physicalBody_, sizeof(PhysicalBody));
 	SecureZeroMemory(&m_nextFramePhysicalBody_, sizeof(PhysicalBody));
 
@@ -18,7 +18,7 @@ Hero::~Hero() {
 
 void Hero::Render(float dt) {
 	auto pGraphicService = Engine::m_serviceLoader.LocateService<GraphicService>(
-		momoka_global::SERVICE_TYPE::Service_graphic).lock();
+		SERVICE_TYPE::Service_graphic).lock();
 	float x = m_physicalBody_.posX + m_physicalBody_.velocityX * (dt / 1000);
 	float y = m_physicalBody_.posY + m_physicalBody_.velocityY * (dt / 1000);
 
@@ -38,11 +38,11 @@ void Hero::Render(float dt) {
 }
 
 void Hero::MoveLeft() {
-	SwitchState(m_state_->LeftKeyDown());
+	
 }
 
 void Hero::MoveRight() {
-	SwitchState(m_state_->RightKeyDown());
+	
 }
 
 void Hero::MoveUp() {
@@ -54,7 +54,7 @@ void Hero::MoveDown() {
 }
 
 void Hero::Jump() {
-	SwitchState(m_state_->JumpKeyDown());
+	
 }
 
 
@@ -75,33 +75,34 @@ float Hero::GetDefaultHorizontalVelocity() const {
 	return m_defaultHorizontalVelocity_;
 }
 
-//bool Hero::TakeTileCollision(momoka_global::COLLISION_FLAGS flag, TileType tileInfo) {
-//	if (flag == momoka_global::COLLISION_FLAGS::Collision_left) {
-//		m_leftObstructFlag_ = true;
-//		if (m_velocityX_ <= 0) {
-//			m_velocityX_ = 0;
-//		}
-//	}
-//	if (flag == momoka_global::COLLISION_FLAGS::Collision_right) {
-//		m_rightObstructFlag_ = true;
-//		if (m_velocityX_ >= 0) {
-//			m_velocityX_ = 0;
-//		}
-//	}
-//	if (flag == momoka_global::COLLISION_FLAGS::Collision_up) {
-//		m_upObstructFlag_ = true;
-//		if (m_velocityY_ <= 0) {
-//			m_velocityY_ = 0;
-//		}
-//	}
-//	if (flag == momoka_global::COLLISION_FLAGS::Collision_down) {
-//		SwitchState(m_state_->Onland());
-//	}
-//
-//	return true;
-//}
+void Hero::HandleInput() {
+	const auto pInputService = Engine::m_serviceLoader.LocateService<InputService>(SERVICE_TYPE::Service_input).
+		lock();
+
+	if(pInputService->IsKeyEventHappened(DIK_A, Key_down)) {
+		SwitchState(m_state_->LeftKeyState(Key_down));
+	}
+	if(pInputService->IsKeyEventHappened(DIK_A, Key_release)) {
+		SwitchState(m_state_->LeftKeyState(Key_release));
+	}
+
+	if(pInputService->IsKeyEventHappened(DIK_D, Key_down)) {
+		SwitchState(m_state_->RightKeyState(Key_down));
+	}
+	if (pInputService->IsKeyEventHappened(DIK_D, Key_release)) {
+		SwitchState(m_state_->RightKeyState(Key_release));
+	}
+
+	if (pInputService->IsKeyEventHappened(DIK_K, Key_press)) {
+		SwitchState(m_state_->JumpKeyState(Key_press));
+	}
+	if (pInputService->IsKeyEventHappened(DIK_K, Key_release)) {
+		SwitchState(m_state_->JumpKeyState(Key_release));
+	}
+}
 
 void Hero::Update() {
+	HandleInput();
 	auto dt = 1 / Engine::m_refreshRate;
 	m_physicalBody_.posX += m_physicalBody_.velocityX * dt;
 	m_physicalBody_.posY += m_physicalBody_.velocityY * dt;

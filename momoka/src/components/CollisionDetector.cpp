@@ -10,8 +10,8 @@ CollisionDetector::CollisionDetector(TileMap& tileMap, TileTpyeMap& tileTpyeMap)
 CollisionDetector::~CollisionDetector() {
 }
 
-TileCollisionVector CollisionDetector::TileCollisionChecker(const PhysicalBody& physicalBody) const {
-	TileCollisionVector tileKeyVector;
+TileCollisionInfoVector CollisionDetector::TileCollisionChecker(const PhysicalBody& physicalBody) const {
+	TileCollisionInfoVector tileKeyVector;
 	tileKeyVector.clear();
 
 	/* 当一个entity在左边或上边与tile相邻但未重合时，由于查找坐标所在位置对应tile时是用的整除法
@@ -64,17 +64,6 @@ TileCollisionVector CollisionDetector::TileCollisionChecker(const PhysicalBody& 
 		float dx = x - (xStartTile + 1) * momoka_global::TILE_SIZE;
 		float dy = y - (yStartTile + 1) * momoka_global::TILE_SIZE;
 
-		//		if (vx < 0 && abs(dx / vx) >= maxCollidedTime) {
-		//			if (dx / vx != maxCollidedTime)tileKeyVector.clear();
-		//			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_left, leftUpTileKey));
-		//			maxCollidedTime = dx / vx;
-		//		}
-		//
-		//		if (vy < 0 && abs(dy / vy) >= maxCollidedTime) {
-		//			if (dy / vy != maxCollidedTime)tileKeyVector.clear();
-		//			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_up, leftUpTileKey));
-		//			maxCollidedTime = dy / vy;
-		//		}
 		if (vx < 0 && vy < 0) {
 			float dx = x - (xStartTile + 1) * momoka_global::TILE_SIZE;
 			float dy = y - (yStartTile + 1) * momoka_global::TILE_SIZE;
@@ -89,28 +78,8 @@ TileCollisionVector CollisionDetector::TileCollisionChecker(const PhysicalBody& 
 		else if (vy < 0) { tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_up, leftUpTileKey)); }
 	}
 
-
 	if (leftDownItem != nullItem) {
-		//		float dx = x - (xStartTile + 1) * momoka_global::TILE_SIZE;
-		//		float dy = (y + bodHeight) - yEndTile * momoka_global::TILE_SIZE;
-		//
-		//		if (vx < 0 && abs(dx / vx) >= maxCollidedTime) {
-		//			if (dx / vx != maxCollidedTime)tileKeyVector.clear();
-		//			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_left, leftUpTileKey));
-		//			maxCollidedTime = dx / vx;
-		//		}
-		//
-		//		if (vy > 0 && abs(dy / vy) >= maxCollidedTime) {
-		//			if (dy / vy != maxCollidedTime)tileKeyVector.clear();
-		//			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_down, leftUpTileKey));
-		//			maxCollidedTime = dy / vy;
-		//		}
-		//
-		//		if (vy == 0) {
-		//			if (0 != maxCollidedTime)tileKeyVector.clear();
-		//			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_down, leftUpTileKey));
-		//			maxCollidedTime = 0;
-		//		}
+
 		if (vx < 0 && vy > 0) {
 			float dx = x - (xStartTile + 1) * momoka_global::TILE_SIZE;
 			float dy = (y + bodHeight) - yEndTile * momoka_global::TILE_SIZE;
@@ -125,28 +94,7 @@ TileCollisionVector CollisionDetector::TileCollisionChecker(const PhysicalBody& 
 		else if (vx < 0) { tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_left, leftDownTileKey)); }
 	}
 
-
 	if (rightUpItem != nullItem) {
-		//		float dx = x + bodyWidth - xEndTile * momoka_global::TILE_SIZE;
-		//		float dy = y - (yStartTile + 1) * momoka_global::TILE_SIZE;
-		//
-		//		if (vy < 0 && abs(dy / vy) >= maxCollidedTime) {
-		//			if (dy / vy != maxCollidedTime)tileKeyVector.clear();
-		//			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_up, leftUpTileKey));
-		//			maxCollidedTime = dy / vy;
-		//		}
-		//
-		//		if (vx > 0 && abs(dx / vx) >= maxCollidedTime) {
-		//			if (dx / vx != maxCollidedTime)tileKeyVector.clear();
-		//			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_right, leftUpTileKey));
-		//			maxCollidedTime = dx / vx;
-		//		}
-		//
-		////		if (vx == 0) {
-		////			if (0 != minCollidedTime)tileKeyVector.clear();
-		////			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_right, leftUpTileKey));
-		////			minCollidedTime = 0;
-		////		}
 
 		if (vx > 0 && vy < 0) {
 			float dx = x + bodyWidth - xEndTile * momoka_global::TILE_SIZE;
@@ -169,32 +117,6 @@ TileCollisionVector CollisionDetector::TileCollisionChecker(const PhysicalBody& 
 	}
 
 	if (rightDownItem != nullItem) {
-		//		float dx = x + bodyWidth - xEndTile * momoka_global::TILE_SIZE;
-		//		float dy = y + bodHeight - yEndTile * momoka_global::TILE_SIZE;
-		//
-		//		if (vx > 0 && abs(dx / vx) >= maxCollidedTime) {
-		//			if (dx / vx != maxCollidedTime)tileKeyVector.clear();
-		//			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_right, leftUpTileKey));
-		//			maxCollidedTime = dx / vx;
-		//		}
-		//
-		////		if (vx == 0) {
-		////			if (0 != minCollidedTime)tileKeyVector.clear();
-		////			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_right, leftUpTileKey));
-		////			minCollidedTime = 0;
-		////		}
-		//
-		//		if (vy > 0 && abs(dy / vy) >= maxCollidedTime) {
-		//			if (dy / vy != maxCollidedTime)tileKeyVector.clear();
-		//			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_down, leftUpTileKey));
-		//			maxCollidedTime = dy / vy;
-		//		}
-		//
-		////		if (vy == 0) {
-		////			if (0 != minCollidedTime)tileKeyVector.clear();
-		////			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_down, leftUpTileKey));
-		////			minCollidedTime = 0;
-		////		}
 
 		if (vx > 0 && vy > 0) {
 			float dx = x + bodyWidth - xEndTile * momoka_global::TILE_SIZE;

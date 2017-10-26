@@ -12,14 +12,14 @@ struct TileCollisionInfo {
 	TileType tileType;
 };
 
-typedef std::vector<TileCollisionInfo> TileCollisionVector;
+typedef std::vector<TileCollisionInfo> TileCollisionInfoVector;
 
 class CollisionDetector {
 public:
 	explicit CollisionDetector(TileMap& tileMap, TileTpyeMap& tileTpyeMap);
 	~CollisionDetector();
 
-	TileCollisionVector TileCollisionChecker(const PhysicalBody& physicalBody) const;
+	TileCollisionInfoVector TileCollisionChecker(const PhysicalBody& physicalBody) const;
 	PhysicalBody TileCollisionDefaultSolver(const TileCollisionInfo& tileCollisionInfo, PhysicalBody physicalBody);
 
 private:

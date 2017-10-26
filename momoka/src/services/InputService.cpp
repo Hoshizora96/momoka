@@ -3,6 +3,8 @@
 
 
 InputService::InputService(HWND& hwnd) : m_hwnd_(hwnd) {
+	::ZeroMemory(m_preKeyStateBuffer_, sizeof(m_preKeyStateBuffer_));
+	::ZeroMemory(m_currentKeyStateBuffer_, sizeof(m_currentKeyStateBuffer_));
 	HRESULT hr = S_OK;
 	hr = DirectInput8Create(
 		HINST_THISCOMPONENT,
@@ -28,8 +30,18 @@ InputService::~InputService() {
 	SafeRelease(&m_pKeyboardDevice_);
 }
 
-bool InputService::IsKeyPressed(UINT keyCode) const {
-	return m_keyStateBuffer_[keyCode] & 0x80;
+bool InputService::IsKeyEventHappened(UINT keyCode, INPUT_KEY_EVENT keyEvent) const {
+	switch (keyEvent) {
+	case Key_down:
+		return (m_currentKeyStateBuffer_[keyCode] & 0x80);
+	case Key_press:
+		return (m_currentKeyStateBuffer_[keyCode] & 0x80) && !(m_preKeyStateBuffer_[keyCode] & 0x80);
+	case Key_release:
+		return !(m_currentKeyStateBuffer_[keyCode] & 0x80) && (m_preKeyStateBuffer_[keyCode] & 0x80);
+	default:
+		return false;
+	}
+	
 }
 
 DIMOUSESTATE InputService::GetMouseMessage() const {
@@ -37,8 +49,11 @@ DIMOUSESTATE InputService::GetMouseMessage() const {
 }
 
 void InputService::RefreshBuffer() {
-	::ZeroMemory(m_keyStateBuffer_, sizeof(m_keyStateBuffer_));
-	DeviceRead(m_pKeyboardDevice_, static_cast<LPVOID>(m_keyStateBuffer_), sizeof(m_keyStateBuffer_));
+	for(int i = 0; i < 256; i++) {
+		m_preKeyStateBuffer_[i] = m_currentKeyStateBuffer_[i];
+	}
+	::ZeroMemory(m_currentKeyStateBuffer_, sizeof(m_currentKeyStateBuffer_));
+	DeviceRead(m_pKeyboardDevice_, static_cast<LPVOID>(m_currentKeyStateBuffer_), sizeof(m_currentKeyStateBuffer_));
 
 	::ZeroMemory(&m_mouseState_, sizeof(m_mouseState_));
 	DeviceRead(m_pMouseDevice_, static_cast<LPVOID>(&m_mouseState_), sizeof(m_mouseState_));

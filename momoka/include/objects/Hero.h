@@ -18,12 +18,14 @@ public:
 
 	void Jump() override;
 
-	bool SwitchState(HeroState* state);
 	void Onland() override;
 
 	float GetDefaultHorizontalVelocity() const;
 
 private:
+	void HandleInput() override;
+	bool SwitchState(HeroState* state);
+
 	float m_defaultHorizontalVelocity_;
 	HeroState* m_state_;
 };
