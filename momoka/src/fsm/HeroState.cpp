@@ -13,12 +13,18 @@ HeroState* HeroState::LeftKeyState(INPUT_KEY_EVENT keyEvent) {
 	if(keyEvent == Key_press || keyEvent == Key_down) {
 		m_hero_.SetVelocityX(-m_hero_.GetDefaultHorizontalVelocity());
 	}
+	else if(keyEvent == Key_release) {
+		m_hero_.SetVelocityX(0);
+	}
 	return nullptr;
 }
 
 HeroState* HeroState::RightKeyState(INPUT_KEY_EVENT keyEvent) {
 	if (keyEvent == Key_press || keyEvent == Key_down) {
 		m_hero_.SetVelocityX(m_hero_.GetDefaultHorizontalVelocity());
+	}
+	else if (keyEvent == Key_release) {
+		m_hero_.SetVelocityX(0);
 	}
 	return nullptr;
 }
