@@ -5,7 +5,7 @@
 #include "fsm/hero/StandState.h"
 #include "services/InputService.h"
 
-Hero::Hero(): m_defaultHorizontalVelocity_(400.f), m_state_(new StandState(*this)) {
+Hero::Hero() : m_defaultHorizontalVelocity_(400.f), m_state_(new StandState(*this)) {
 	SecureZeroMemory(&m_physicalBody_, sizeof(PhysicalBody));
 	SecureZeroMemory(&m_nextFramePhysicalBody_, sizeof(PhysicalBody));
 
@@ -99,6 +99,14 @@ void Hero::HandleInput() {
 	if (pInputService->IsKeyEventHappened(DIK_K, Key_release)) {
 		SwitchState(m_state_->JumpKeyState(Key_release));
 	}
+}
+
+int Hero::GetJumpNum() const {
+	return this->m_jumpnumber_;
+}
+
+void Hero::SetJumpNum(int num) {
+	m_jumpnumber_ = num;
 }
 
 void Hero::Update() {

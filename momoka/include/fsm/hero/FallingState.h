@@ -9,4 +9,5 @@ public:
 	~FallingState() override;
 	HeroState* Onland() override;
 	HeroState* Update() override;
+	HeroState* JumpKeyState(INPUT_KEY_EVENT keyEvent) override;
 };

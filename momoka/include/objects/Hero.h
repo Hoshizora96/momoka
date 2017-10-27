@@ -20,6 +20,9 @@ public:
 
 	void Onland() override;
 
+	int GetJumpNum() const;
+	void SetJumpNum(int);
+
 	float GetDefaultHorizontalVelocity() const;
 
 private:
@@ -28,4 +31,5 @@ private:
 
 	float m_defaultHorizontalVelocity_;
 	HeroState* m_state_;
+	int m_jumpnumber_;
 };

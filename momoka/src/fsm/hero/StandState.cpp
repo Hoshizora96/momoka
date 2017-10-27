@@ -16,7 +16,7 @@ StandState::~StandState() {
 }
 
 HeroState* StandState::LeftKeyState(INPUT_KEY_EVENT keyEvent) {
-	if(keyEvent==Key_press || keyEvent == Key_down) {
+	if (keyEvent == Key_press || keyEvent == Key_down) {
 		return new RunningState(m_hero_, true);
 	}
 	return HeroState::LeftKeyState(keyEvent);
@@ -44,5 +44,6 @@ HeroState* StandState::Onland() {
 HeroState* StandState::Update() {
 	if (!m_isOnland_) return new FallingState(m_hero_);
 	m_isOnland_ = false;
+	m_hero_.SetJumpNum(1);
 	return nullptr;
 }
