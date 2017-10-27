@@ -25,8 +25,8 @@ TileCollisionInfoVector CollisionDetector::TileCollisionChecker(const PhysicalBo
 	auto vx = physicalBody.velocityX;
 	auto vy = physicalBody.velocityY;
 
-	if (vx < 0) x -= 0.1;
-	if (vy < 0) y -= 0.1;
+	if (vx < 0) x -= 0.1f;
+	if (vy < 0) y -= 0.1f;
 
 	// ´¥Åöµ½µØÍ¼×ó±ß½ç
 	if (x <= 0 && vx < 0) {
@@ -148,7 +148,7 @@ TileCollisionInfoVector CollisionDetector::TileCollisionChecker(const PhysicalBo
 	}
 
 	// ËÄÌõ±ßµÄÅö×²¼ì²â
-	for (int i = xStartTile + 1; i < xEndTile; i++) {
+	for (__int64 i = xStartTile + 1; i < xEndTile; i++) {
 		auto key = TileMapKeyConvert(i, yStartTile);
 		auto item = m_tileMap_.find(key);
 		if (item != nullItem) {
@@ -165,7 +165,7 @@ TileCollisionInfoVector CollisionDetector::TileCollisionChecker(const PhysicalBo
 		}
 	}
 
-	for (int i = yStartTile + 1; i < yEndTile; i++) {
+	for (__int64 i = yStartTile + 1; i < yEndTile; i++) {
 		auto key = TileMapKeyConvert(xStartTile, i);
 		auto item = m_tileMap_.find(key);
 		if (item != nullItem) {
@@ -190,8 +190,8 @@ PhysicalBody CollisionDetector::TileCollisionDefaultSolver(const TileCollisionIn
 	auto y = physicalBody.posY;
 	auto vx = physicalBody.velocityX;
 	auto vy = physicalBody.velocityY;
-	if (vx < 0) x -= 0.1;
-	if (vy < 0) y -= 0.1;
+	if (vx < 0) x -= 0.1f;
+	if (vy < 0) y -= 0.1f;
 
 	if(tileCollisionInfo.tileMapKey==-1 && tileCollisionInfo.flag == Collision_up) {
 		physicalBody.posY = 0;

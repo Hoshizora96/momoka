@@ -35,6 +35,7 @@ bool InputService::IsKeyEventHappened(UINT keyCode, INPUT_KEY_EVENT keyEvent) co
 	case Key_down:
 		return (m_currentKeyStateBuffer_[keyCode] & 0x80);
 	case Key_press:
+		// 注意下面不能直接将位与的值与true或false比较
 		return (m_currentKeyStateBuffer_[keyCode] & 0x80) && !(m_preKeyStateBuffer_[keyCode] & 0x80);
 	case Key_release:
 		return !(m_currentKeyStateBuffer_[keyCode] & 0x80) && (m_preKeyStateBuffer_[keyCode] & 0x80);
