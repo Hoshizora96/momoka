@@ -8,8 +8,8 @@
 #include "util/Log.h"
 
 
-GameTestState::GameTestState() : m_pPlayerCharacter_(nullptr),
-                                 m_collisionDetector_(m_tilesMap_, m_tileTypeMap_) {
+GameTestState::GameTestState() : m_collisionDetector_(m_tilesMap_, m_tileTypeMap_),
+                                 m_pPlayerCharacter_(nullptr) {
 	MOMOKA_LOG(momoka::info) << "GameTestState Initialized";
 }
 
