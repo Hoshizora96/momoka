@@ -4,8 +4,9 @@
 #include "Engine.h"
 #include "objects/Entity.h"
 #include "objects/Hero.h"
-#include "services/InputService.h"
 #include "util/Log.h"
+
+#include "util/JsonTools.h"
 
 
 GameTestState::GameTestState() : m_collisionDetector_(m_tilesMap_, m_tileTypeMap_),
@@ -41,32 +42,6 @@ void GameTestState::Render(float dt) {
 }
 
 void GameTestState::Update() {
-
-	//	// 在这里我尝试了一下命令模式
-	//	auto pInputService = Engine::m_serviceLoader.LocateService<InputService>(momoka_global::SERVICE_TYPE::Service_input).
-	//	                                             lock();
-	//
-	//
-	//	if (pInputService->IsKeyEventHappened(DIK_W)) {
-	//		m_commandW_->Execute();
-	//	}
-	//
-	//	if (pInputService->IsKeyEventHappened(DIK_S)) {
-	//		m_commandS_->Execute();
-	//	}
-	//
-	//	if (pInputService->IsKeyEventHappened(DIK_A)) {
-	//		m_commandA_->Execute();
-	//	}
-	//
-	//	if (pInputService->IsKeyEventHappened(DIK_D)) {
-	//		m_commandD_->Execute();
-	//	}
-	//
-	//	if (pInputService->IsKeyEventHappened(DIK_K, Key_press)) {
-	//		m_pPlayerCharacter_->Jump();
-	//	}
-
 	//GlobalPhysicsSimulation(m_pPlayerCharacter_);
 	m_pPlayerCharacter_->Update();
 }

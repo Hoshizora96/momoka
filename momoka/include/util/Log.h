@@ -13,9 +13,9 @@ namespace momoka {
 		fatal,
 		error,
 		warning,
-		debug,
 		info,
-		verbose
+		verbose,
+		debug
 	};
 
 	class Log {
@@ -25,8 +25,9 @@ namespace momoka {
 		static std::string GetNowTime();
 		static std::string ToString(const LogLevel& level);
 	public:
-		static std::ostream& StartLog(LogLevel level = verbose);
+		static std::ostream& StartLog(LogLevel level = debug);
 		static LogLevel& GetReportingLevel();
 		static void SetReportingLevel(const LogLevel& level);
+		static void SetReportingLevel(const char* level);
 	};
 }

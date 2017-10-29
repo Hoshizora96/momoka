@@ -18,4 +18,8 @@ public:
 
 private:
 	GameController m_gameController_;
+
+	bool m_debugConsole_;
+
+	void LoadConfig();
 };

@@ -5,15 +5,24 @@
 #include <cstdio>
 
 namespace momoka {
-	LogLevel Log::m_reportingLevel_ = info;
+	LogLevel Log::m_reportingLevel_ = debug;
 	std::ostream & Log::m_outputStream_ = std::cout;
 
 	LogLevel& Log::GetReportingLevel() {
 		return m_reportingLevel_;
 	}
-
 	void Log::SetReportingLevel(const LogLevel& level) {
 		m_reportingLevel_ = level;
+	}
+
+	void Log::SetReportingLevel(const char* level) {
+		if (!strcmp(level, "debug")) m_reportingLevel_ = debug;
+		else if (!strcmp(level, "fatal")) m_reportingLevel_ = fatal;
+		else if (!strcmp(level, "error")) m_reportingLevel_ = error;
+		else if (!strcmp(level, "warning")) m_reportingLevel_ = warning;
+		else if (!strcmp(level, "info")) m_reportingLevel_ = info;
+		else if (!strcmp(level, "verbose")) m_reportingLevel_ = verbose;
+		else m_reportingLevel_ = info;
 	}
 
 	std::string Log::GetNowTime() {

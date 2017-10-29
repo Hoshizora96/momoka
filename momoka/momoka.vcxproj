@@ -149,15 +149,52 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="content\config\engine.json" />
     <Text Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\util\Log.cpp" />
+    <ClInclude Include="include\components\Camera.h" />
     <ClInclude Include="include\components\CollisionDetector.h" />
     <ClInclude Include="include\elements\tile.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\exception\MomokaException.h" />
     <ClInclude Include="include\exception\ServiceException.h" />
+    <ClInclude Include="include\extlib\rapidjson\allocators.h" />
+    <ClInclude Include="include\extlib\rapidjson\document.h" />
+    <ClInclude Include="include\extlib\rapidjson\encodedstream.h" />
+    <ClInclude Include="include\extlib\rapidjson\encodings.h" />
+    <ClInclude Include="include\extlib\rapidjson\error\en.h" />
+    <ClInclude Include="include\extlib\rapidjson\error\error.h" />
+    <ClInclude Include="include\extlib\rapidjson\filereadstream.h" />
+    <ClInclude Include="include\extlib\rapidjson\filewritestream.h" />
+    <ClInclude Include="include\extlib\rapidjson\fwd.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\biginteger.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\diyfp.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\dtoa.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\ieee754.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\itoa.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\meta.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\pow10.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\regex.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\stack.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\strfunc.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\strtod.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\swap.h" />
+    <ClInclude Include="include\extlib\rapidjson\istreamwrapper.h" />
+    <ClInclude Include="include\extlib\rapidjson\memorybuffer.h" />
+    <ClInclude Include="include\extlib\rapidjson\memorystream.h" />
+    <ClInclude Include="include\extlib\rapidjson\msinttypes\inttypes.h" />
+    <ClInclude Include="include\extlib\rapidjson\msinttypes\stdint.h" />
+    <ClInclude Include="include\extlib\rapidjson\ostreamwrapper.h" />
+    <ClInclude Include="include\extlib\rapidjson\pointer.h" />
+    <ClInclude Include="include\extlib\rapidjson\prettywriter.h" />
+    <ClInclude Include="include\extlib\rapidjson\rapidjson.h" />
+    <ClInclude Include="include\extlib\rapidjson\reader.h" />
+    <ClInclude Include="include\extlib\rapidjson\schema.h" />
+    <ClInclude Include="include\extlib\rapidjson\stream.h" />
+    <ClInclude Include="include\extlib\rapidjson\stringbuffer.h" />
+    <ClInclude Include="include\extlib\rapidjson\writer.h" />
     <ClInclude Include="include\fsm\HeroState.h" />
     <ClInclude Include="include\fsm\hero\FallingState.h" />
     <ClInclude Include="include\fsm\hero\JumpState.h" />
@@ -175,6 +212,7 @@
     <ClInclude Include="include\services\InputService.h" />
     <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\targetver.h" />
+    <ClInclude Include="include\util\JsonTools.h" />
     <ClInclude Include="include\util\Log.h" />
     <ClInclude Include="include\util\ServiceLoader.h" />
     <ClCompile Include="src\components\CollisionDetector.cpp" />
@@ -199,6 +237,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="content\test.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
