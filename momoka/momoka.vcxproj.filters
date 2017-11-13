@@ -237,6 +237,9 @@
     <ClInclude Include="include\mixin\Collidable.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\map\World.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

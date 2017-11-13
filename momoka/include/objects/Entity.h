@@ -8,6 +8,7 @@
 class Entity : public GameObject, public Renderable, public Collidable {
 public:
 	~Entity() override;
+	// 这三个函数都应该是从外部调用的
 	void Update(float dt) override;
 	void Render(float dt) override;
 	void HandleCollision(const CollisionDetector& collisionDetector) override;

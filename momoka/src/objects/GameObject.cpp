@@ -24,5 +24,3 @@ void GameObject::SetActive(bool active) {
 void GameObject::Update(float dt) {
 }
 
-void GameObject::Render(float dt) {
-}

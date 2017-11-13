@@ -175,6 +175,7 @@
     <ClInclude Include="include\fsm\hero\RunningState.h" />
     <ClInclude Include="include\fsm\hero\StandState.h" />
     <ClInclude Include="include\map\TileType.h" />
+    <ClInclude Include="include\map\World.h" />
     <ClInclude Include="include\mixin\Collidable.h" />
     <ClInclude Include="include\mixin\Renderable.h" />
     <ClInclude Include="include\mixin\Updatable.h" />

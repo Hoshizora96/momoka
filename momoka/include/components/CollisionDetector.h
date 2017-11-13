@@ -7,7 +7,7 @@ class CollisionDetector {
 public:
 	explicit CollisionDetector(TileSet& tileSet);
 	CollisionInfo CheckTileCollision(PhysicalBody &body) const;
-	bool CheckCollision();
+	// bool CheckCollision();
 private:
 	TileSet& m_tileSet_;
 };

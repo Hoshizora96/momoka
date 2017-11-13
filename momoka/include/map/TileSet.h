@@ -1,13 +1,14 @@
 #pragma once
 #include "map/TileType.h"
 #include "util/HashedString.h"
+#include "mixin/Renderable.h"
 #include <map>
 
 typedef __int64 TileMapKey;
 typedef std::map<TileMapKey, int> TileMap;
 typedef std::map<int, TileType> TileTypeMap;
 
-class TileSet {
+class TileSet : public Renderable {
 public:
 	TileSet();
 	void AddTile(int x, int y, int type);
@@ -19,7 +20,7 @@ public:
 	int GetTileTypeId(int x, int y);
 
 	bool LoadTileType();
-	void Render(float dt);
+
 private:
 	TileTypeMap m_typeMap_;
 	TileMap m_tileMap_;
