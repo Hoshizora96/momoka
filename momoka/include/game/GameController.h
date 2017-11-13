@@ -6,7 +6,7 @@ public:
 	GameController();
 	~GameController();
 	
-	void Update();
+	void Update(float dt);
 	void Render(float dt);
 
 	void Initialize();

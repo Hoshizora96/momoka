@@ -1,250 +1,170 @@
 #include "stdafx.h"
 #include "components/CollisionDetector.h"
-#include "components/PhysicalBody.h"
+#include "util/Vector2.h"
 
+CollisionDetector::CollisionDetector(TileSet& tileSet) : m_tileSet_(tileSet) {
 
-CollisionDetector::CollisionDetector(TileMap& tileMap, TileTpyeMap& tileTpyeMap) : m_tileMap_(tileMap),
-                                                                                   m_tileTypeMap_(tileTpyeMap) {
 }
 
-CollisionDetector::~CollisionDetector() {
-}
+CollisionInfo CollisionDetector::CheckTileCollision(PhysicalBody& body) const {
+	// TODO: 重构！
+	CollisionInfo info;
+	auto position = body.GetPosition();
+	auto velocity = body.GetVelocity();
+	auto bodySize = body.GetBodySize();
 
-TileCollisionInfoVector CollisionDetector::TileCollisionChecker(const PhysicalBody& physicalBody) const {
-	TileCollisionInfoVector tileKeyVector;
-	tileKeyVector.clear();
-
-	/* 当一个entity在左边或上边与tile相邻但未重合时，由于查找坐标所在位置对应tile时是用的整除法
-	 * （x:=40, y:=40，x/40=1, y/40=1，虽然(1,1)处没有tile，但是不知道(1,0）或(0,1)处是否有tile）
-	 * 所以检查entity左边或上边tile时不会知道与其相邻，但这种情况也属于碰撞，
-	 * 解决方法：如果entity具有向上或向左的速度分量，就在对应方向上加一个位置偏移，使其与左边或上边的tile重合，进而能够进行碰撞检测 */
-
-	auto x = physicalBody.posX;
-	auto y = physicalBody.posY;
-
-	auto vx = physicalBody.velocityX;
-	auto vy = physicalBody.velocityY;
+	auto x = position.GetX();
+	auto y = position.GetY();
+	auto vx = velocity.GetX();
+	auto vy = velocity.GetY();
+	auto width = bodySize.GetX();
+	auto height = bodySize.GetY();
 
 	if (vx < 0) x -= 0.1f;
 	if (vy < 0) y -= 0.1f;
 
-	// 触碰到地图左边界
-	if (x <= 0 && vx < 0) {
-		tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_left, -1));
+	if (x < 0 && vx < 0) {
+		info.correctedX = 0;
+		info.directionX = Direction::Left;
+		info.inheritedVelocityX = 0;
 	}
 
-	// 触碰到地图上边界
-	if (y <= 0 && vy < 0) {
-		tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_up, -1));
+	if (y < 0 && vy < 0) {
+		info.correctedY = 0;
+		info.directionY = Direction::Right;
+		info.inheritedVelocityY = 0;
 	}
 
-	float bodyWidth = physicalBody.collisionWidth;
-	float bodHeight = physicalBody.collisionHeight;
-	// 规定矩形左上角为起始点（start），右下角为终止点（end）
 	__int64 xStartTile = int(x / momoka_global::TILE_SIZE);
 	__int64 yStartTile = int(y / momoka_global::TILE_SIZE);
-	__int64 xEndTile = int((x + bodyWidth) / momoka_global::TILE_SIZE);
-	__int64 yEndTile = int((y + bodHeight) / momoka_global::TILE_SIZE);
+	__int64 xEndTile = int((x + width) / momoka_global::TILE_SIZE);
+	__int64 yEndTile = int((y + height) / momoka_global::TILE_SIZE);
 
-	__int64 leftUpTileKey = TileMapKeyConvert(xStartTile, yStartTile);
-	__int64 leftDownTileKey = TileMapKeyConvert(xStartTile, yEndTile);
-	__int64 rightUpTileKey = TileMapKeyConvert(xEndTile, yStartTile);
-	__int64 rightDownTileKey = TileMapKeyConvert(xEndTile, yEndTile);
+	auto correctedUp = (yStartTile + 1) * momoka_global::TILE_SIZE;
+	auto correctedDown = yEndTile * momoka_global::TILE_SIZE - height;
+	auto correctedLeft = (xStartTile + 1) * momoka_global::TILE_SIZE;
+	auto correctedRight = xEndTile * momoka_global::TILE_SIZE - width;
 
-	auto leftUpItem = m_tileMap_.find(leftUpTileKey);
-	auto leftDownItem = m_tileMap_.find(leftDownTileKey);
-	auto rightUpItem = m_tileMap_.find(rightUpTileKey);
-	auto rightDownItem = m_tileMap_.find(rightDownTileKey);
-
-	auto nullItem = m_tileMap_.end();
-
-	float maxCollidedTime = 0.f;
-
-	if (leftUpItem != nullItem) {
-		float dx = x - (xStartTile + 1) * momoka_global::TILE_SIZE;
-		float dy = y - (yStartTile + 1) * momoka_global::TILE_SIZE;
+	if (m_tileSet_.IsTileExist(xStartTile, yStartTile)) {
+		info.tileType = m_tileSet_.GetTileTypeId(xStartTile, yStartTile);
 
 		if (vx < 0 && vy < 0) {
-			float dx = x - (xStartTile + 1) * momoka_global::TILE_SIZE;
-			float dy = y - (yStartTile + 1) * momoka_global::TILE_SIZE;
+			float dx = x - correctedLeft;
+			float dy = y - correctedUp;
 			if (abs(vy / vx) <= abs(dy / dx)) {
-				tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_left, leftUpTileKey));
+				info.SetCollision(Direction::Left, correctedLeft);
 			}
 			else {
-				tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_up, leftUpTileKey));
+				info.SetCollision(Direction::Up, correctedUp);
 			}
 		}
-		else if (vx < 0) { tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_left, leftUpTileKey)); }
-		else if (vy < 0) { tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_up, leftUpTileKey)); }
-	}
-
-	if (leftDownItem != nullItem) {
-
-		if (vx < 0 && vy > 0) {
-			float dx = x - (xStartTile + 1) * momoka_global::TILE_SIZE;
-			float dy = (y + bodHeight) - yEndTile * momoka_global::TILE_SIZE;
-			if (abs(vy / vx) <= abs(dy / dx)) {
-				tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_left, leftDownTileKey));
-			}
-			else {
-				tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_down, leftDownTileKey));
-			}
+		else if (vx < 0) {
+			info.SetCollision(Direction::Left, correctedLeft);
 		}
-		else if (vy >= 0) { tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_down, leftDownTileKey)); }
-		else if (vx < 0) { tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_left, leftDownTileKey)); }
+		else if (vy < 0) {
+			info.SetCollision(Direction::Up, correctedUp);
+		}
 	}
 
-	if (rightUpItem != nullItem) {
+	if (m_tileSet_.IsTileExist(xStartTile, yEndTile)) {
+		info.tileType = m_tileSet_.GetTileTypeId(xStartTile, yEndTile);
 
 		if (vx > 0 && vy < 0) {
-			float dx = x + bodyWidth - xEndTile * momoka_global::TILE_SIZE;
-			float dy = y - (yStartTile + 1) * momoka_global::TILE_SIZE;
+			float dx = x - correctedRight;
+			float dy = y - correctedUp;
 			if (abs(vy / vx) <= abs(dy / dx)) {
-				tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_right, rightUpTileKey));
+				info.SetCollision(Direction::Right, correctedRight);
 			}
 			else {
-				tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_up, rightUpTileKey));
+				info.SetCollision(Direction::Up, correctedUp);
 			}
 		}
 		else if (vx > 0) {
-			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_right, rightUpTileKey));
+			info.SetCollision(Direction::Right, correctedRight);
 		}
 		else if (vy < 0) {
-			if ((x + bodyWidth) - int(x + bodyWidth) != 0) {
-				tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_up, rightUpTileKey));
+			if ((x + width) - int(x + width) != 0) {
+				info.SetCollision(Direction::Up, correctedUp);
 			}
 		}
 	}
 
-	if (rightDownItem != nullItem) {
+	if (m_tileSet_.IsTileExist(xStartTile, yEndTile)) {
+		info.tileType = m_tileSet_.GetTileTypeId(xStartTile, yEndTile);
 
-		if (vx > 0 && vy > 0) {
-			float dx = x + bodyWidth - xEndTile * momoka_global::TILE_SIZE;
-			float dy = y + bodHeight - yEndTile * momoka_global::TILE_SIZE;
+		if (vx < 0 && vy > 0) {
+			float dx = x - correctedLeft;
+			float dy = y - correctedDown;
 			if (abs(vy / vx) <= abs(dy / dx)) {
-				tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_right, rightDownTileKey));
+				info.SetCollision(Direction::Left, correctedLeft);
 			}
 			else {
-				tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_down, rightDownTileKey));
+				info.SetCollision(Direction::Down, correctedDown);
 			}
 		}
-		else {
-			if (vy == 0) {
-				if ((x + bodyWidth) - int(x + bodyWidth) != 0) {
-					tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_down, rightDownTileKey));
-				}
-			}
-			else if (vx > 0) {
-				if ((y + bodHeight) - int(y + bodHeight) != 0) {
-					tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_right, rightDownTileKey));
-				}
-			}
-			else if (vy > 0) {
-				if ((x + bodyWidth) - int(x + bodyWidth) != 0) {
-					tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_down, rightDownTileKey));
-				}
-			}
+		else if (vy >= 0) {
+			info.SetCollision(Direction::Down, correctedDown);
+		}
+		else if (vx < 0) {
+			info.SetCollision(Direction::Left, correctedLeft);
 		}
 	}
 
-	// 四条边的碰撞检测
-	for (__int64 i = xStartTile + 1; i < xEndTile; i++) {
-		auto key = TileMapKeyConvert(i, yStartTile);
-		auto item = m_tileMap_.find(key);
-		if (item != nullItem) {
+	if (m_tileSet_.IsTileExist(xEndTile, yEndTile)) {
+		info.tileType = m_tileSet_.GetTileTypeId(xEndTile, yEndTile);
 
-			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_up, key));
-			break;
+		if (vx > 0 && vy > 0) {
+			float dx = x - correctedRight;
+			float dy = y - correctedDown;
+			if (abs(vy / vx) <= abs(dy / dx)) {
+				info.SetCollision(Direction::Right, correctedRight);
+			}
+			else {
+				info.SetCollision(Direction::Down, correctedDown);
+			}
 		}
-
-		key = TileMapKeyConvert(i, yEndTile);
-		item = m_tileMap_.find(key);
-		if (item != nullItem) {
-			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_down, key));
-			break;
+		if (vy == 0) {
+			if ((x + width) - int(x + width) != 0) {
+				info.SetCollision(Direction::Down, correctedDown);
+			}
+		}
+		else if (vx > 0) {
+			if ((y + height) - int(y + height) != 0) {
+				info.SetCollision(Direction::Right, correctedRight);
+			}
+		}
+		else if (vy > 0) {
+			if ((x + width) - int(x + width) != 0) {
+				info.SetCollision(Direction::Down, correctedDown);
+			}
 		}
 	}
 
 	for (__int64 i = yStartTile + 1; i < yEndTile; i++) {
-		auto key = TileMapKeyConvert(xStartTile, i);
-		auto item = m_tileMap_.find(key);
-		if (item != nullItem) {
-			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_left, key));
+		if (m_tileSet_.IsTileExist(xStartTile, y)) {
+			info.SetCollision(Direction::Left, correctedLeft);
+			info.tileType = m_tileSet_.GetTileTypeId(xStartTile, y);
 			break;
 		}
-
-		key = TileMapKeyConvert(xEndTile, i);
-		item = m_tileMap_.find(key);
-		if (item != nullItem) {
-			tileKeyVector.push_back(GenerateTileCollisionInfo(Collision_right, key));
+		if (m_tileSet_.IsTileExist(xEndTile, i)) {
+			info.SetCollision(Direction::Right, correctedRight);
+			info.tileType = m_tileSet_.GetTileTypeId(xEndTile, i);
 			break;
 		}
 	}
 
-	return tileKeyVector;
-}
-
-PhysicalBody CollisionDetector::TileCollisionDefaultSolver(const TileCollisionInfo& tileCollisionInfo, PhysicalBody physicalBody) {
-
-	auto x = physicalBody.posX;
-	auto y = physicalBody.posY;
-	auto vx = physicalBody.velocityX;
-	auto vy = physicalBody.velocityY;
-	if (vx < 0) x -= 0.1f;
-	if (vy < 0) y -= 0.1f;
-
-	if(tileCollisionInfo.tileMapKey==-1 && tileCollisionInfo.flag == Collision_up) {
-		physicalBody.posY = 0;
-		physicalBody.velocityY = 0;
-		return physicalBody;
+	for (__int64 i = xStartTile + 1; i < xEndTile; i++) {
+		if (m_tileSet_.IsTileExist(i, yStartTile)) {
+			info.SetCollision(Direction::Up, correctedUp);
+			info.tileType = m_tileSet_.GetTileTypeId(i, yStartTile);
+			break;
+		}
+		if (m_tileSet_.IsTileExist(i, yEndTile)) {
+			info.SetCollision(Direction::Down, correctedDown);
+			info.tileType = m_tileSet_.GetTileTypeId(i, yEndTile);
+			break;
+		}
 	}
 
-	if (tileCollisionInfo.tileMapKey == -1 && tileCollisionInfo.flag == Collision_left) {
-		physicalBody.posX = 0;
-		physicalBody.velocityX = 0;
-		return physicalBody;
-	}
-
-	float bodyWidth = physicalBody.collisionWidth;
-	float bodyHeight = physicalBody.collisionHeight;
-
-	__int64 xStartTile = int(x / momoka_global::TILE_SIZE);
-	__int64 yStartTile = int(y / momoka_global::TILE_SIZE);
-	__int64 xEndTile = int((x + bodyWidth) / momoka_global::TILE_SIZE);
-	__int64 yEndTile = int((y + bodyHeight) / momoka_global::TILE_SIZE);
-
-	switch (tileCollisionInfo.flag) {
-	case Collision_up:
-		physicalBody.posY = (yStartTile + 1) * momoka_global::TILE_SIZE;
-		physicalBody.velocityY = 0;
-		break;
-	case Collision_down:
-		physicalBody.posY = yEndTile * momoka_global::TILE_SIZE - bodyHeight;
-		physicalBody.velocityY = 0;
-		break;
-	case Collision_left:
-		physicalBody.posX = (xStartTile + 1) * momoka_global::TILE_SIZE;
-		physicalBody.velocityX = 0;
-		break;
-	case Collision_right:
-		physicalBody.posX = xEndTile * momoka_global::TILE_SIZE - bodyWidth;
-		physicalBody.velocityX = 0;
-		break;
-	default:
-		break;
-	}
-	return physicalBody;
-}
-
-TileCollisionInfo CollisionDetector::GenerateTileCollisionInfo(COLLISION_FLAG flag, TileMapKey key) const {
-	TileCollisionInfo info;
-	auto tileType = GetDefaultTileInfo();
-	auto item = m_tileTypeMap_.find(key);
-	if (item != m_tileTypeMap_.end()) {
-		tileType = item->second;
-	}
-	info.flag = flag;
-	info.tileMapKey = key;
-	info.tileType = tileType;
 	return info;
 }

@@ -10,6 +10,4 @@ private:
 
 	bool m_xLock_;
 	bool m_yLock_;
-
-
 };

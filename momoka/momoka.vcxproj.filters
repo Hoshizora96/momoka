@@ -48,46 +48,10 @@
     <ClInclude Include="include\services\Service.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\game\GameState.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\objects\Entity.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\game\GameController.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\objects\Hero.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\global.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\game\GameTestState.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\fsm\HeroState.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\fsm\hero\StandState.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\fsm\hero\JumpState.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\fsm\hero\FallingState.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\fsm\hero\RunningState.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\components\CollisionDetector.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\elements\tile.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\components\PhysicalBody.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\util\Log.h">
@@ -204,6 +168,75 @@
     <ClInclude Include="include\util\JsonTools.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\components\CollisionInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\Direction.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\CollisionDetector.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\map\TileSet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\PhysicalBody.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\HitBox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\HashedString.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\Vector2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\FactionManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\GameState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\GamePlayState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\map\TileType.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\objects\Entity.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\objects\GameObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\objects\Hero.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fsm\hero\FallingState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fsm\hero\JumpState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fsm\hero\RunningState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fsm\hero\StandState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fsm\HeroState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mixin\Renderable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mixin\Updatable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mixin\Collidable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -224,15 +257,6 @@
     <ClCompile Include="src\game\GameController.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\GameTestState.cpp">
-      <Filter>头文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\Entity.cpp">
-      <Filter>头文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\Hero.cpp">
-      <Filter>头文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\fsm\HeroState.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -248,10 +272,40 @@
     <ClCompile Include="src\fsm\hero\RunningState.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\Log.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map\TileSet.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\PhysicalBody.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
     <ClCompile Include="src\components\CollisionDetector.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\util\Log.cpp">
+    <ClCompile Include="src\components\CollisionInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\Directions.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\HashedString.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\GamePlayState.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map\TileType.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Entity.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Hero.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\GameObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -261,5 +315,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="content\test.json" />
+    <None Include="content\config\state-play.json" />
+    <None Include="content\stages\map-test1.json" />
+    <None Include="content\tiles\tile-type-test.json" />
   </ItemGroup>
 </Project>

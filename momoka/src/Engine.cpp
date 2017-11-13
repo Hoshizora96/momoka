@@ -6,7 +6,6 @@
 #include "util/JsonTools.h"
 #include "util/Log.h"
 
-#include <iostream>
 
 // TODO: 解决不安全函数问题
 #pragma warning(disable:4996)
@@ -79,7 +78,8 @@ void Engine::Run() {
 
 		while(dt >= 1000.f/ m_refreshRate) {
 			inputService.lock()->RefreshBuffer();
-			m_gameController_.Update();
+			// 下面这个应该传入一帧的时间，是个常量，注意这里应该以秒为单位
+			m_gameController_.Update(1.0f/ m_refreshRate);
 			dt -= 1000.f / m_refreshRate;
 		}
 		graphicService.lock()->BeginDraw();
@@ -88,7 +88,7 @@ void Engine::Run() {
 	}
 }
 
-void Engine::LoadConfig() {
+bool Engine::LoadConfig() {
 	char* engineConfigFile = "content/config/engine.json";
 	Document d;
 
@@ -104,5 +104,7 @@ void Engine::LoadConfig() {
 
 		std::string level = d["log"]["level"].GetString();
 		momoka::Log::SetReportingLevel(level.c_str());
+		return true;
 	}
+	return false;
 }

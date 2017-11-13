@@ -20,6 +20,3 @@ protected:
 
 	bool m_isOnland_;
 };
-
-
-

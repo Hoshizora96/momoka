@@ -21,5 +21,5 @@ private:
 
 	bool m_debugConsole_;
 
-	void LoadConfig();
+	bool LoadConfig();
 };
