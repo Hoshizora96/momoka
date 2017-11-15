@@ -1,6 +1,7 @@
 #pragma once
 #include "objects/Hero.h" 
 #include "services/InputService.h"
+
 class Hero;
 class HeroState {
 public:
@@ -14,12 +15,9 @@ public:
 	virtual HeroState* JumpKeyState(INPUT_KEY_EVENT keyEvent);
 
 	virtual HeroState* Onland();
-	virtual HeroState* Update();
+	virtual HeroState* Update(float dt);
 protected:
 	Hero& m_hero_;
 
 	bool m_isOnland_;
 };
-
-
-

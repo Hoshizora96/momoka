@@ -3,14 +3,18 @@
 #include "util/ServiceLoader.h"
 #include "services/InputService.h"
 #include "services/GraphicService.h"
+#include "util/JsonTools.h"
+#include "util/Log.h"
 
+
+// TODO: 解决不安全函数问题
 #pragma warning(disable:4996)
 
 LONGLONG Engine::m_freq = GetCurrentFrequency();
 float Engine::m_refreshRate = 60.f;
 ServiceLoader Engine::m_serviceLoader;
 
-Engine::Engine() {
+Engine::Engine(): m_debugConsole_(false) {
 }
 
 Engine::~Engine() {
@@ -18,14 +22,12 @@ Engine::~Engine() {
 }
 
 bool Engine::Initialize() {
-	AllocConsole();
-	freopen("CONOUT$", "w+t", stdout);
-
 	auto pGraphicService = std::make_shared<GraphicService>();
 	auto pInputService = std::make_shared<InputService>(pGraphicService->GetHwnd());
 
 	m_serviceLoader.RegisterService(SERVICE_TYPE::Service_input, pInputService);
 	m_serviceLoader.RegisterService(SERVICE_TYPE::Service_graphic, pGraphicService);
+	LoadConfig();
 
 	m_gameController_.Initialize();
 
@@ -34,7 +36,8 @@ bool Engine::Initialize() {
 
 void Engine::Shutdown() {
 	// TODO: 实现资源的释放
-	FreeConsole();
+	if (m_debugConsole_)
+		FreeConsole();
 }
 
 
@@ -75,11 +78,33 @@ void Engine::Run() {
 
 		while(dt >= 1000.f/ m_refreshRate) {
 			inputService.lock()->RefreshBuffer();
-			m_gameController_.Update();
+			// 下面这个应该传入一帧的时间，是个常量，注意这里应该以秒为单位
+			m_gameController_.Update(1.0f/ m_refreshRate);
 			dt -= 1000.f / m_refreshRate;
 		}
 		graphicService.lock()->BeginDraw();
 		m_gameController_.Render(dt);
 		graphicService.lock()->EndDraw();
 	}
+}
+
+bool Engine::LoadConfig() {
+	char* engineConfigFile = "content/config/engine.json";
+	rapidjson::Document d;
+
+	// 这里参数false是因为AllocConsole()执行前不能向标准输出流写数据，一写控制台就不输出了。
+	// 我也不知道如何解决这个问题，如果能解决就不用传这个参数了。
+	if(LoadJsonFile(d, engineConfigFile, false)) {
+		int isConsole = d["log"]["console"].GetBool();
+		if(isConsole) {
+			m_debugConsole_ = true;
+			AllocConsole();
+			freopen("CONOUT$", "w+t", stdout);
+		}
+
+		std::string level = d["log"]["level"].GetString();
+		momoka::Log::SetReportingLevel(level.c_str());
+		return true;
+	}
+	return false;
 }

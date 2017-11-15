@@ -7,11 +7,14 @@
 
 RunningState::RunningState(Hero& hero, bool isMoveLeft)
 	: HeroState(hero) {
-	if(isMoveLeft) {
-		m_hero_.SetVelocityX(-m_hero_.GetDefaultHorizontalVelocity());
+	auto velocity = m_hero_.physicalBody.GetVelocity();
+	if (isMoveLeft) {
+		velocity.SetX(-m_hero_.physicalBody.GetDefaultHorizonalVelocity());
+		m_hero_.physicalBody.SetVelocity(velocity);
 	}
 	else {
-		m_hero_.SetVelocityX(m_hero_.GetDefaultHorizontalVelocity());
+		velocity.SetX(m_hero_.physicalBody.GetDefaultHorizonalVelocity());
+		m_hero_.physicalBody.SetVelocity(velocity);
 	}
 
 	MOMOKA_LOG(momoka::debug) << "Switch to Running State";
@@ -21,7 +24,7 @@ RunningState::~RunningState() {
 }
 
 HeroState* RunningState::LeftKeyState(INPUT_KEY_EVENT keyEvent) {
-	if(keyEvent == Key_release) {
+	if (keyEvent == Key_release) {
 		return new StandState(m_hero_);
 	}
 	return HeroState::LeftKeyState(keyEvent);
@@ -35,7 +38,7 @@ HeroState* RunningState::RightKeyState(INPUT_KEY_EVENT keyEvent) {
 }
 
 HeroState* RunningState::JumpKeyState(INPUT_KEY_EVENT keyEvent) {
-	if(keyEvent == Key_press) {
+	if (keyEvent == Key_press) {
 		return new JumpState(m_hero_);
 	}
 	return HeroState::JumpKeyState(keyEvent);
@@ -46,8 +49,8 @@ HeroState* RunningState::Onland() {
 	return nullptr;
 }
 
-HeroState* RunningState::Update() {
-	if (!m_isOnland_) 
+HeroState* RunningState::Update(float dt) {
+	if (!m_isOnland_)
 		return new FallingState(m_hero_);
-	return HeroState::Update();
+	return HeroState::Update(dt);
 }

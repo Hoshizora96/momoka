@@ -4,11 +4,11 @@
 #include "fsm/hero/RunningState.h"
 #include "fsm/hero/FallingState.h"
 #include "util/Log.h"
+#include "util/Vector2.h"
 
 StandState::StandState(Hero& hero)
 	: HeroState(hero) {
-	m_hero_.SetVelocityX(0);
-	m_hero_.SetVelocityY(0);
+	m_hero_.physicalBody.SetVelocity(0, 0);
 	MOMOKA_LOG(momoka::debug) << "Switch to Stand State";
 }
 
@@ -41,7 +41,7 @@ HeroState* StandState::Onland() {
 	return nullptr;
 }
 
-HeroState* StandState::Update() {
+HeroState* StandState::Update(float dt) {
 	if (!m_isOnland_) return new FallingState(m_hero_);
 	m_isOnland_ = false;
 	m_hero_.SetJumpNum(1);

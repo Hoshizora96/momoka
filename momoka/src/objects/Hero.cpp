@@ -2,58 +2,29 @@
 #include "Engine.h"
 #include "objects/Hero.h"
 #include "services/GraphicService.h"
+#include "fsm/HeroState.h"
 #include "fsm/hero/StandState.h"
 #include "services/InputService.h"
+#include "util/JsonTools.h"
 
-Hero::Hero() : m_defaultHorizontalVelocity_(400.f), m_state_(new StandState(*this)) {
-	SecureZeroMemory(&m_physicalBody_, sizeof(PhysicalBody));
-	SecureZeroMemory(&m_nextFramePhysicalBody_, sizeof(PhysicalBody));
-
-	m_physicalBody_.collisionWidth = 1 * momoka_global::TILE_SIZE;
-	m_physicalBody_.collisionHeight = 2 * momoka_global::TILE_SIZE;
-}
-
-Hero::~Hero() {
-}
-
+//Hero::Hero() : m_defaultHorizontalVelocity_(400.f), m_state_(new StandState(*this)), m_jumpnumber_(0) {
+//	SecureZeroMemory(&m_physicalBody_, sizeof(PhysicalBody));
+//	SecureZeroMemory(&m_nextFramePhysicalBody_, sizeof(PhysicalBody));
+//
+//	m_physicalBody_.collisionWidth = 1 * momoka_global::TILE_SIZE;
+//	m_physicalBody_.collisionHeight = 2 * momoka_global::TILE_SIZE;
+//}
+//
+//Hero::~Hero() {
+//}
+//
 void Hero::Render(float dt) {
-	auto pGraphicService = Engine::m_serviceLoader.LocateService<GraphicService>(
+	const auto pGraphicService = Engine::m_serviceLoader.LocateService<GraphicService>(
 		SERVICE_TYPE::Service_graphic).lock();
-	float x = m_physicalBody_.posX + m_physicalBody_.velocityX * (dt / 1000);
-	float y = m_physicalBody_.posY + m_physicalBody_.velocityY * (dt / 1000);
-
-	float next_x = m_nextFramePhysicalBody_.posX;
-	float next_y = m_nextFramePhysicalBody_.posY;
-
-	//		if (x > next_x && m_physicalBody_.velocityX > 0 || x < next_x && m_physicalBody_.velocityX < 0) {
-	//			x = next_x;
-	//		}
-	//	
-	//		if (y > next_y && m_physicalBody_.velocityY > 0 || y < next_y && m_physicalBody_.velocityY < 0) {
-	//			y = next_y;
-	//		}
+	float x = physicalBody.GetPosition().GetX() + physicalBody.GetVelocity().GetX() * (dt / 1000);
+	float y = physicalBody.GetPosition().GetY() + physicalBody.GetVelocity().GetY() * (dt / 1000);
 
 	pGraphicService->DrawRect(x, y, momoka_global::TILE_SIZE, momoka_global::TILE_SIZE * 2);
-
-}
-
-void Hero::MoveLeft() {
-
-}
-
-void Hero::MoveRight() {
-
-}
-
-void Hero::MoveUp() {
-	//	m_velocityY_ = -m_defaultHorizontalVelocity_;
-}
-
-void Hero::MoveDown() {
-	//	m_velocityY_ = m_defaultHorizontalVelocity_;
-}
-
-void Hero::Jump() {
 
 }
 
@@ -67,12 +38,23 @@ bool Hero::SwitchState(HeroState* state) {
 	return false;
 }
 
-void Hero::Onland() {
-	SwitchState(m_state_->Onland());
+void Hero::HandleCollisionInfo(CollisionInfo info) {
+	// 这里是默认情况，要想定制新的情况就修改这里的函数
+	if (info.isOnGround) {
+		SwitchState(m_state_->Onland());
+	}
+	physicalBody.SetPosition(info.correctedX, info.correctedY);
+	physicalBody.SetVelocity(info.correctedVelocityX, info.correctedVelocityY);
 }
 
-float Hero::GetDefaultHorizontalVelocity() const {
-	return m_defaultHorizontalVelocity_;
+bool Hero::LoadConfig(char* path) {
+	rapidjson::Document d;
+	// "content/tiles/tile-type-test.json"
+	if (LoadJsonFile(d, path)) {
+		physicalBody.SetDefaultHorizonalVelocity(d["defaultHorizonalVelocity"].GetFloat());
+		return true;
+	}
+	return false;
 }
 
 void Hero::HandleInput() {
@@ -101,6 +83,17 @@ void Hero::HandleInput() {
 	}
 }
 
+
+Hero::~Hero() {
+}
+
+Hero::Hero(World& world): Entity(), m_state_(nullptr), m_jumpnumber_(0), m_world_(world) {
+	m_state_ = new StandState(*this);
+	physicalBody.SetVelocity(0, 0);
+	physicalBody.SetBodySize(momoka_global::TILE_SIZE, momoka_global::TILE_SIZE * 2);
+	physicalBody.SetPosition(0, 0);
+}
+
 int Hero::GetJumpNum() const {
 	return this->m_jumpnumber_;
 }
@@ -109,30 +102,36 @@ void Hero::SetJumpNum(int num) {
 	m_jumpnumber_ = num;
 }
 
-void Hero::Update() {
+void Hero::Update(float dt) {
 	HandleInput();
-	auto dt = 1 / Engine::m_refreshRate;
-	m_physicalBody_.posX += m_physicalBody_.velocityX * dt;
-	m_physicalBody_.posY += m_physicalBody_.velocityY * dt;
+
+	auto velocity = physicalBody.GetVelocity();
+	auto position = physicalBody.GetPosition();
+	physicalBody.SetPosition(position.GetX() + velocity.GetX() * dt, position.GetY() + velocity.GetY() * dt);
+
 	//	m_physicalBody_=m_nextFramePhysicalBody_;
 
+	SwitchState(m_state_->Update(dt));
 
-	SwitchState(m_state_->Update());
-	if (m_pCollisionDetector_ != nullptr) {
-		auto tileCollisionVector = m_pCollisionDetector_->TileCollisionChecker(m_physicalBody_);
-		// 如果你想针对不同的tile做出不同的行为，就在这个for循环中添加吧
-		for (auto tileCollision : tileCollisionVector) {
-			m_physicalBody_ = m_pCollisionDetector_->TileCollisionDefaultSolver(tileCollision, m_physicalBody_);
+	auto info = m_world_.GetCollisionDetector().CheckTileCollision(physicalBody);
+	HandleCollisionInfo(info);
 
-			switch (tileCollision.flag) {
-			case Collision_down:
-				SwitchState(m_state_->Onland());
-				break;
-			default:
-				break;
-			}
-		}
-	}
+
+	//	if (m_pCollisionDetector_ != nullptr) {
+	//		auto tileCollisionVector = m_pCollisionDetector_->TileCollisionChecker(m_physicalBody_);
+	//		// 如果你想针对不同的tile做出不同的行为，就在这个for循环中添加吧
+	//		for (auto tileCollision : tileCollisionVector) {
+	//			m_physicalBody_ = m_pCollisionDetector_->TileCollisionDefaultSolver(tileCollision, m_physicalBody_);
+	//
+	//			switch (tileCollision.flag) {
+	//			case Collision_down:
+	//				SwitchState(m_state_->Onland());
+	//				break;
+	//			default:
+	//				break;
+	//			}
+	//		}
+	//	}
 
 	//		if (m_pCollisionDetector_ != nullptr) {
 	//			m_nextFramePhysicalBody_ = m_physicalBody_;

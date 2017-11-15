@@ -1,35 +1,28 @@
 #pragma once
 #include "objects/Entity.h"
-#include "fsm/HeroState.h"
+#include "map/World.h"
 class HeroState;
+class World;
 class Hero : public Entity {
-
 public:
-	explicit Hero();
 
-	~Hero();
-	void Update() override;
+	~Hero() override;
+	explicit Hero(World& world);
+	void Update(float dt) override;
 	void Render(float dt) override;
-
-	void MoveLeft() override;
-	void MoveRight() override;
-	void MoveUp() override;
-	void MoveDown() override;
-
-	void Jump() override;
-
-	void Onland() override;
 
 	int GetJumpNum() const;
 	void SetJumpNum(int);
 
-	float GetDefaultHorizontalVelocity() const;
-
+	bool LoadConfig(char* path) override;
 private:
-	void HandleInput() override;
+	
+	void HandleInput();
 	bool SwitchState(HeroState* state);
 
-	float m_defaultHorizontalVelocity_;
+	void HandleCollisionInfo(CollisionInfo info) override;
+	
 	HeroState* m_state_;
 	int m_jumpnumber_;
+	World& m_world_;
 };

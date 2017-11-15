@@ -12,5 +12,5 @@ public:
 	HeroState* RightKeyState(INPUT_KEY_EVENT keyEvent) override;
 	HeroState* JumpKeyState(INPUT_KEY_EVENT keyEvent) override;
 	HeroState* Onland() override;
-	HeroState* Update() override;
+	HeroState* Update(float dt) override;
 };

@@ -8,8 +8,8 @@ public:
 
 	~JumpState() override;
 	HeroState* JumpKeyState(INPUT_KEY_EVENT keyEvent) override;
-	HeroState* Update() override;
+	HeroState* Update(float dt) override;
 
 private:
-	float m_jumpingDate_;
+	float m_jumpingDate;
 };

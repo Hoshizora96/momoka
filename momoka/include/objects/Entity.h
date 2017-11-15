@@ -1,49 +1,22 @@
 #pragma once
-#include "global.h"
+#include "mixin/Renderable.h"
 #include "components/PhysicalBody.h"
-#include "elements/tile.h"
-#include "components/CollisionDetector.h"
+#include "objects/GameObject.h"
+#include "util/Vector2.h"
+#include "components/CollisionInfo.h"
 
-class Entity {
+class Entity : public GameObject, public Renderable {
 public:
-	
-	virtual ~Entity();
-	float GetX() const;
-	float GetY() const;
+	PhysicalBody physicalBody;
 
-	void SetCollisionDetector(CollisionDetector* pCollisionDetector);
+	~Entity() override;
+	Entity();
+	// 这两个函数都应该是从外部调用的
+	void Update(float dt) override;
+	void Render(float dt) override;
 
-	virtual void Update();
-	virtual void Render(float dt);
+	virtual bool LoadConfig(char* path);
 
-	virtual void MoveLeft();
-	virtual void MoveRight();
-	virtual void MoveUp();
-	virtual void MoveDown();
-	virtual void Jump();
-
-	virtual void HandleInput();
-
-	virtual void Onland();
-
-	void SetX(float velocityX);
-	void SetY(float velocityY);
-	
-
-	float GetVelocityX() const;
-	float GetVelocityY() const;
-
-	void SetVelocityX(float velocityX);
-	void SetVelocityY(float velocityY);
-
-	void SetOnLandFlag(bool flag);
-
-protected:
-	PhysicalBody m_physicalBody_;
-	PhysicalBody m_nextFramePhysicalBody_;
-
-	bool m_isOnLand_;
-
-	CollisionDetector* m_pCollisionDetector_;
-
+private:
+	virtual void HandleCollisionInfo(CollisionInfo info);
 };

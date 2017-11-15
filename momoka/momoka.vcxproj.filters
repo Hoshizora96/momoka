@@ -48,49 +48,193 @@
     <ClInclude Include="include\services\Service.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\game\GameState.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\objects\Entity.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\game\GameController.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\objects\Hero.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\global.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\game\GameTestState.h">
+    <ClInclude Include="include\util\Log.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\fsm\HeroState.h">
+    <ClInclude Include="include\components\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\fsm\hero\StandState.h">
+    <ClInclude Include="include\extlib\rapidjson\error\en.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\fsm\hero\JumpState.h">
+    <ClInclude Include="include\extlib\rapidjson\error\error.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\fsm\hero\FallingState.h">
+    <ClInclude Include="include\extlib\rapidjson\internal\biginteger.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\fsm\hero\RunningState.h">
+    <ClInclude Include="include\extlib\rapidjson\internal\diyfp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\internal\dtoa.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\internal\ieee754.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\internal\itoa.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\internal\meta.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\internal\pow10.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\internal\regex.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\internal\stack.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\internal\strfunc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\internal\strtod.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\internal\swap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\msinttypes\inttypes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\msinttypes\stdint.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\allocators.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\document.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\encodedstream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\encodings.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\filereadstream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\filewritestream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\fwd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\istreamwrapper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\memorybuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\memorystream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\ostreamwrapper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\pointer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\prettywriter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\rapidjson.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\reader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\schema.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\stream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\stringbuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\extlib\rapidjson\writer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\JsonTools.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\CollisionInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\Direction.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\components\CollisionDetector.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\elements\tile.h">
+    <ClInclude Include="include\map\TileSet.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\components\PhysicalBody.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\util\Log.h">
+    <ClInclude Include="include\components\HitBox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\HashedString.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\Vector2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\FactionManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\GameState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\GamePlayState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\map\TileType.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\objects\Entity.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\objects\GameObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\objects\Hero.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fsm\hero\FallingState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fsm\hero\JumpState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fsm\hero\RunningState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fsm\hero\StandState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\fsm\HeroState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mixin\Renderable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mixin\Updatable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\map\World.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,15 +257,6 @@
     <ClCompile Include="src\game\GameController.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\GameTestState.cpp">
-      <Filter>头文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\Entity.cpp">
-      <Filter>头文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\Hero.cpp">
-      <Filter>头文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\fsm\HeroState.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -137,14 +272,55 @@
     <ClCompile Include="src\fsm\hero\RunningState.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\util\Log.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map\TileSet.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\PhysicalBody.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
     <ClCompile Include="src\components\CollisionDetector.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\util\Log.cpp">
+    <ClCompile Include="src\components\CollisionInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\Directions.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\HashedString.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\GamePlayState.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map\TileType.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Entity.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Hero.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\GameObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\map\World.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.md" />
+    <Text Include="content\config\engine.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="content\test.json" />
+    <None Include="content\config\state-play.json" />
+    <None Include="content\stages\map-test1.json" />
+    <None Include="content\tiles\tile-type-test.json" />
+    <None Include="content\objects\hero.json" />
   </ItemGroup>
 </Project>

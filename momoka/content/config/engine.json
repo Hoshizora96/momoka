@@ -1,0 +1,7 @@
+{
+  "fps": 60,
+  "log": {
+    "console": true,
+    "level": "debug"
+  }
+}

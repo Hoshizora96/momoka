@@ -149,43 +149,100 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="content\config\engine.json" />
     <Text Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\CollisionDetector.cpp" />
+    <ClCompile Include="src\components\CollisionInfo.cpp" />
+    <ClCompile Include="src\components\Directions.cpp" />
+    <ClCompile Include="src\map\TileType.cpp" />
+    <ClCompile Include="src\map\World.cpp" />
+    <ClCompile Include="src\objects\Entity.cpp" />
+    <ClCompile Include="src\objects\GameObject.cpp" />
+    <ClCompile Include="src\objects\Hero.cpp" />
+    <ClCompile Include="src\util\HashedString.cpp" />
+    <ClCompile Include="src\components\PhysicalBody.cpp" />
+    <ClCompile Include="src\game\GamePlayState.cpp" />
+    <ClCompile Include="src\map\TileSet.cpp" />
     <ClCompile Include="src\util\Log.cpp" />
+    <ClInclude Include="include\components\Camera.h" />
     <ClInclude Include="include\components\CollisionDetector.h" />
-    <ClInclude Include="include\elements\tile.h" />
-    <ClInclude Include="include\Engine.h" />
-    <ClInclude Include="include\exception\MomokaException.h" />
-    <ClInclude Include="include\exception\ServiceException.h" />
+    <ClInclude Include="include\components\CollisionInfo.h" />
+    <ClInclude Include="include\components\Direction.h" />
     <ClInclude Include="include\fsm\HeroState.h" />
     <ClInclude Include="include\fsm\hero\FallingState.h" />
     <ClInclude Include="include\fsm\hero\JumpState.h" />
     <ClInclude Include="include\fsm\hero\RunningState.h" />
     <ClInclude Include="include\fsm\hero\StandState.h" />
-    <ClInclude Include="include\game\GameController.h" />
-    <ClInclude Include="include\game\GameState.h" />
-    <ClInclude Include="include\game\GameTestState.h" />
-    <ClInclude Include="include\global.h" />
+    <ClInclude Include="include\map\TileType.h" />
+    <ClInclude Include="include\map\World.h" />
+    <ClInclude Include="include\mixin\Renderable.h" />
+    <ClInclude Include="include\mixin\Updatable.h" />
     <ClInclude Include="include\objects\Entity.h" />
+    <ClInclude Include="include\objects\GameObject.h" />
     <ClInclude Include="include\objects\Hero.h" />
+    <ClInclude Include="include\util\HashedString.h" />
+    <ClInclude Include="include\components\FactionManager.h" />
+    <ClInclude Include="include\components\HitBox.h" />
+    <ClInclude Include="include\util\Vector2.h" />
+    <ClInclude Include="include\Engine.h" />
+    <ClInclude Include="include\exception\MomokaException.h" />
+    <ClInclude Include="include\exception\ServiceException.h" />
+    <ClInclude Include="include\extlib\rapidjson\allocators.h" />
+    <ClInclude Include="include\extlib\rapidjson\document.h" />
+    <ClInclude Include="include\extlib\rapidjson\encodedstream.h" />
+    <ClInclude Include="include\extlib\rapidjson\encodings.h" />
+    <ClInclude Include="include\extlib\rapidjson\error\en.h" />
+    <ClInclude Include="include\extlib\rapidjson\error\error.h" />
+    <ClInclude Include="include\extlib\rapidjson\filereadstream.h" />
+    <ClInclude Include="include\extlib\rapidjson\filewritestream.h" />
+    <ClInclude Include="include\extlib\rapidjson\fwd.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\biginteger.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\diyfp.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\dtoa.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\ieee754.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\itoa.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\meta.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\pow10.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\regex.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\stack.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\strfunc.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\strtod.h" />
+    <ClInclude Include="include\extlib\rapidjson\internal\swap.h" />
+    <ClInclude Include="include\extlib\rapidjson\istreamwrapper.h" />
+    <ClInclude Include="include\extlib\rapidjson\memorybuffer.h" />
+    <ClInclude Include="include\extlib\rapidjson\memorystream.h" />
+    <ClInclude Include="include\extlib\rapidjson\msinttypes\inttypes.h" />
+    <ClInclude Include="include\extlib\rapidjson\msinttypes\stdint.h" />
+    <ClInclude Include="include\extlib\rapidjson\ostreamwrapper.h" />
+    <ClInclude Include="include\extlib\rapidjson\pointer.h" />
+    <ClInclude Include="include\extlib\rapidjson\prettywriter.h" />
+    <ClInclude Include="include\extlib\rapidjson\rapidjson.h" />
+    <ClInclude Include="include\extlib\rapidjson\reader.h" />
+    <ClInclude Include="include\extlib\rapidjson\schema.h" />
+    <ClInclude Include="include\extlib\rapidjson\stream.h" />
+    <ClInclude Include="include\extlib\rapidjson\stringbuffer.h" />
+    <ClInclude Include="include\extlib\rapidjson\writer.h" />
+    <ClInclude Include="include\game\GameController.h" />
+    <ClInclude Include="include\game\GamePlayState.h" />
+    <ClInclude Include="include\game\GameState.h" />
+    <ClInclude Include="include\global.h" />
+    <ClInclude Include="include\map\TileSet.h" />
     <ClInclude Include="include\components\PhysicalBody.h" />
     <ClInclude Include="include\services\Service.h" />
     <ClInclude Include="include\services\GraphicService.h" />
     <ClInclude Include="include\services\InputService.h" />
     <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\targetver.h" />
+    <ClInclude Include="include\util\JsonTools.h" />
     <ClInclude Include="include\util\Log.h" />
     <ClInclude Include="include\util\ServiceLoader.h" />
-    <ClCompile Include="src\components\CollisionDetector.cpp" />
     <ClCompile Include="src\fsm\HeroState.cpp" />
     <ClCompile Include="src\fsm\hero\FallingState.cpp" />
     <ClCompile Include="src\fsm\hero\JumpState.cpp" />
     <ClCompile Include="src\fsm\hero\RunningState.cpp" />
     <ClCompile Include="src\fsm\hero\StandState.cpp" />
-    <ClCompile Include="src\game\GameTestState.cpp" />
-    <ClCompile Include="src\objects\Entity.cpp" />
-    <ClCompile Include="src\objects\Hero.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine.cpp" />
@@ -199,6 +256,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="content\config\state-play.json" />
+    <None Include="content\objects\hero.json" />
+    <None Include="content\stages\map-test1.json" />
+    <None Include="content\test.json" />
+    <None Include="content\tiles\tile-type-test.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

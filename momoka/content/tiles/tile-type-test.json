@@ -1,0 +1,14 @@
+{
+  "types": [
+    {
+      "name": "default",
+      "id": 0,
+      "attr": "solid"
+    },
+    {
+      "name": "block",
+      "id": 1,
+      "attr": "solid"
+    }
+  ] 
+}
