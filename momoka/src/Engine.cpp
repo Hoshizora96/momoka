@@ -14,7 +14,7 @@ LONGLONG Engine::m_freq = GetCurrentFrequency();
 float Engine::m_refreshRate = 60.f;
 ServiceLoader Engine::m_serviceLoader;
 
-Engine::Engine() {
+Engine::Engine(): m_debugConsole_(false) {
 }
 
 Engine::~Engine() {
@@ -90,7 +90,7 @@ void Engine::Run() {
 
 bool Engine::LoadConfig() {
 	char* engineConfigFile = "content/config/engine.json";
-	Document d;
+	rapidjson::Document d;
 
 	// 这里参数false是因为AllocConsole()执行前不能向标准输出流写数据，一写控制台就不输出了。
 	// 我也不知道如何解决这个问题，如果能解决就不用传这个参数了。

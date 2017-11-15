@@ -1,5 +1,6 @@
 #pragma once
 #include "game/GameState.h"
+#include "map/World.h"
 #include "objects/Hero.h"
 #include "objects/Entity.h"
 #include "map/TileSet.h"
@@ -15,9 +16,7 @@ public:
 	void Render(float dt) override;
 	void Update(float dt) override;
 
-	bool LoadMap();
-
 private:
 //	Hero *m_hero_;
-	TileSet m_tileSet_;
+	World* m_pWorld_;
 };

@@ -7,7 +7,7 @@ public:
 	static int GenerateObjectId();
 
 private:
-	static unsigned int nextId;
+	static unsigned int m_nextId_;
 
 public:
 	explicit GameObject(int id = GenerateObjectId());

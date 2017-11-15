@@ -40,9 +40,10 @@ TileType& TileSet::GetTileType(int x, int y) {
 	return defaultType;
 }
 
-bool TileSet::LoadTileType() {
-	Document d;
-	if (LoadJsonFile(d, "content/tiles/tile-type-test.json")) {
+bool TileSet::LoadTileType(char* path) {
+	rapidjson::Document d;
+	// "content/tiles/tile-type-test.json"
+	if (LoadJsonFile(d, path)) {
 		auto allType = d["types"].GetArray();
 		for (auto& type : allType) {
 			TileType t(type["id"].GetInt());
@@ -67,6 +68,9 @@ void TileSet::Render(float dt) {
 
 TileMapKey TileSet::TileMapKeyConvert(long long xTile, long long yTile) {
 	return xTile * 1000000 + yTile;
+}
+
+TileSet::~TileSet() {
 }
 
 TileType& TileSet::GetTileType(int id) {

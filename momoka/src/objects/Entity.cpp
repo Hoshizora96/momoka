@@ -1,5 +1,9 @@
 #include "stdafx.h"
 #include "objects/Entity.h"
+
+Entity::~Entity() {
+}
+
 //
 //Entity::~Entity() {
 //}
@@ -74,3 +78,18 @@
 //void Entity::SetOnLandFlag(bool flag) {
 //	m_isOnLand_ = flag;
 //}
+Entity::Entity():GameObject(GameObject::GenerateObjectId()) {
+}
+
+void Entity::Update(float dt) {
+}
+
+void Entity::Render(float dt) {
+}
+
+bool Entity::LoadConfig(char* path) {
+	return false;
+}
+
+void Entity::HandleCollisionInfo(CollisionInfo info) {
+}

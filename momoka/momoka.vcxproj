@@ -157,6 +157,7 @@
     <ClCompile Include="src\components\CollisionInfo.cpp" />
     <ClCompile Include="src\components\Directions.cpp" />
     <ClCompile Include="src\map\TileType.cpp" />
+    <ClCompile Include="src\map\World.cpp" />
     <ClCompile Include="src\objects\Entity.cpp" />
     <ClCompile Include="src\objects\GameObject.cpp" />
     <ClCompile Include="src\objects\Hero.cpp" />
@@ -176,7 +177,6 @@
     <ClInclude Include="include\fsm\hero\StandState.h" />
     <ClInclude Include="include\map\TileType.h" />
     <ClInclude Include="include\map\World.h" />
-    <ClInclude Include="include\mixin\Collidable.h" />
     <ClInclude Include="include\mixin\Renderable.h" />
     <ClInclude Include="include\mixin\Updatable.h" />
     <ClInclude Include="include\objects\Entity.h" />
@@ -259,6 +259,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="content\config\state-play.json" />
+    <None Include="content\objects\hero.json" />
     <None Include="content\stages\map-test1.json" />
     <None Include="content\test.json" />
     <None Include="content\tiles\tile-type-test.json" />

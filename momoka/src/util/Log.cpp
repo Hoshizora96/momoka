@@ -60,8 +60,9 @@ namespace momoka {
 		}
 	}
 
-	std::ostream& Log::StartLog(LogLevel level) {
-		m_outputStream_ << std::endl << "[" << GetNowTime() << "] *" << ToString(level) << "* ";
+	std::ostream& Log::StartLog(char* module, LogLevel level) {
+		m_outputStream_ << std::endl << "[" << GetNowTime() << "] *" << ToString(level) << "* " << "[" << module << "] ";
 		return m_outputStream_;
 	}
+
 }

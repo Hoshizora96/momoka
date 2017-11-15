@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "objects/GameObject.h"
 
+unsigned int GameObject::m_nextId_ = 0;
 int GameObject::GenerateObjectId() {
-	return nextId++;
+	return m_nextId_++;
 }
 
 GameObject::GameObject(int id): m_id_(id), m_isActive_(true) {

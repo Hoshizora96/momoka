@@ -234,9 +234,6 @@
     <ClInclude Include="include\mixin\Updatable.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\mixin\Collidable.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\map\World.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -311,6 +308,9 @@
     <ClCompile Include="src\objects\GameObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\map\World.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.md" />
@@ -321,5 +321,6 @@
     <None Include="content\config\state-play.json" />
     <None Include="content\stages\map-test1.json" />
     <None Include="content\tiles\tile-type-test.json" />
+    <None Include="content\objects\hero.json" />
   </ItemGroup>
 </Project>

@@ -7,7 +7,7 @@ namespace momoka {
 #define MOMOKA_LOG(level) \
 	if(level > MOMOKA_LOG_MAX_LEVEL) {} \
 	else if (level > ::momoka::Log::GetReportingLevel()) {} \
-	else ::momoka::Log::StartLog(level)
+	else ::momoka::Log::StartLog(__FUNCTION__, level)
 
 	enum LogLevel {
 		fatal,
@@ -25,7 +25,7 @@ namespace momoka {
 		static std::string GetNowTime();
 		static std::string ToString(const LogLevel& level);
 	public:
-		static std::ostream& StartLog(LogLevel level = debug);
+		static std::ostream& StartLog(char* module, LogLevel level = debug);
 		static LogLevel& GetReportingLevel();
 		static void SetReportingLevel(const LogLevel& level);
 		static void SetReportingLevel(const char* level);

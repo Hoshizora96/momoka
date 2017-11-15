@@ -19,10 +19,13 @@ public:
 	TileType& GetTileType(int id);
 	int GetTileTypeId(int x, int y);
 
-	bool LoadTileType();
+	bool LoadTileType(char* path);
 
 private:
 	TileTypeMap m_typeMap_;
 	TileMap m_tileMap_;
 	static TileMapKey TileMapKeyConvert(long long xTile, long long yTile);
+public:
+	~TileSet() override;
+	void Render(float dt) override;
 };
