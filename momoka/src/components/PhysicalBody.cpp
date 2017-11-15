@@ -24,7 +24,7 @@ float PhysicalBody::GetDefaultHorizonalVelocity() const {
 
 void PhysicalBody::SetDefaultHorizonalVelocity(float velocity) {
 	if (velocity < 0) {
-		MOMOKA_LOG(momoka::error) <<
+		MOMOKA_LOG(momoka::debug) <<
 			"Try to set default horizonal velocity with negative value: " << velocity <<
 			", it will do nothing.";
 		return;
@@ -34,7 +34,7 @@ void PhysicalBody::SetDefaultHorizonalVelocity(float velocity) {
 
 void PhysicalBody::SetPosition(Vector2<float>& position) {
 	if (position.GetX() < 0 || position.GetY() < 0) {
-		MOMOKA_LOG(momoka::error) <<
+		MOMOKA_LOG(momoka::debug) <<
 			"Try to set position with negative value:" << position <<
 			", it will turn to 0.";
 		if (position.GetX() < 0) position.SetX(0);
@@ -45,7 +45,7 @@ void PhysicalBody::SetPosition(Vector2<float>& position) {
 
 void PhysicalBody::SetPosition(float x, float y) {
 	if (x < 0 || y < 0) {
-		MOMOKA_LOG(momoka::error) <<
+		MOMOKA_LOG(momoka::debug) <<
 			"Try to set position with negative value:" << Vector2<float>(x, y) <<
 			", it will turn to 0.";
 		if (x < 0) x = 0;
@@ -64,7 +64,7 @@ void PhysicalBody::SetVelocity(float velocityX, float velocityY) {
 
 void PhysicalBody::SetBodySize(Vector2<float>& size) {
 	if (size.GetX() < 0 || size.GetY() < 0) {
-		MOMOKA_LOG(momoka::error) << "Try to set an negative size: " << size <<
+		MOMOKA_LOG(momoka::warning) << "Try to set an negative size: " << size <<
 			", it will do nothing.";
 		return;
 	}
@@ -73,7 +73,7 @@ void PhysicalBody::SetBodySize(Vector2<float>& size) {
 
 void PhysicalBody::SetBodySize(float width, float height) {
 	if (width < 0 || height < 0) {
-		MOMOKA_LOG(momoka::error) << "Try to set an negative size: " << Vector2<float>(width, height) <<
+		MOMOKA_LOG(momoka::warning) << "Try to set an negative size: " << Vector2<float>(width, height) <<
 			", it will do nothing.";
 		return;
 	}

@@ -14,6 +14,8 @@ CollisionInfo CollisionDetector::CheckTileCollision(PhysicalBody& body) const {
 	* （x:=40, y:=40，x/40=1, y/40=1，虽然(1,1)处没有tile，但是不知道(1,0）或(0,1)处是否有tile）
 	* 所以检查entity左边或上边tile时不会知道与其相邻，但这种情况也属于碰撞，
 	* 解决方法：如果entity具有向上或向左的速度分量，就在对应方向上加一个位置偏移，使其与左边或上边的tile重合，进而能够进行碰撞检测 */
+
+	// 截止2017/11/16，该函数正常工作，未发现问题
 	CollisionInfo info;
 	info.correctedX = body.GetPosition().GetX();
 	info.correctedY = body.GetPosition().GetY();
@@ -30,6 +32,7 @@ CollisionInfo CollisionDetector::CheckTileCollision(PhysicalBody& body) const {
 	auto width = bodySize.GetX();
 	auto height = bodySize.GetY();
 
+	// 因为沿着body的左边界和上边界查找无法找到与之恰好边界重合的tile，所以强行给它一个偏移
 	if (vx < 0) x -= 0.1f;
 	if (vy < 0) y -= 0.1f;
 
@@ -187,6 +190,10 @@ CollisionInfo CollisionDetector::CheckTileCollision(PhysicalBody& body) const {
 	}
 
 	return info;
+}
+
+bool CollisionDetector::CheckHitBoxCollison(HitBox myHitBox, HitBox opponentHitBox) {
+	return false;
 }
 
 bool CollisionDetector::IsOnTileLine(float o) {
