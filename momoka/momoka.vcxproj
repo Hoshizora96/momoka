@@ -153,6 +153,7 @@
     <Text Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\Camera.cpp" />
     <ClCompile Include="src\components\CollisionDetector.cpp" />
     <ClCompile Include="src\components\CollisionInfo.cpp" />
     <ClCompile Include="src\components\Directions.cpp" />

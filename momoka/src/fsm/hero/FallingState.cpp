@@ -30,10 +30,8 @@ HeroState* FallingState::JumpKeyState(INPUT_KEY_EVENT keyEvent) {
 }
 
 HeroState* FallingState::Update(float dt) {
-	if (m_hero_.physicalBody.GetVelocity().GetY() < 1300.f) {
-		auto velocity = m_hero_.physicalBody.GetVelocity();
-		velocity.SetY(velocity.GetY() + 200);
-		m_hero_.physicalBody.SetVelocity(velocity);
+	if (m_hero_.GetVelocityY() < 1300.f) {
+		m_hero_.SetVelocityY(m_hero_.GetVelocityY() + 200);
 	}
 	return HeroState::Update(dt);
 }

@@ -7,7 +7,6 @@
 
 GamePlayState::GamePlayState(): m_pWorld_(nullptr) {
 	m_pWorld_ = new World();
-	GamePlayState::OnEnter();
 }
 
 void GamePlayState::OnEnter() {

@@ -3,12 +3,12 @@
 
 class PhysicalBody {
 private:
-	Vector2<float> m_position;
-	Vector2<float> m_velocity;
-	Vector2<float> m_bodySize;
+	Vector2<float> m_position_;
+	Vector2<float> m_velocity_;
+	Vector2<float> m_bodySize_;
 
-	bool m_isOnGround;
-	float m_defaultMovingVelocity;
+	bool m_isOnGround_;
+	float m_movingVelocity_;
 
 public:
 	PhysicalBody();
@@ -17,8 +17,8 @@ public:
 	Vector2<float> GetVelocity() const;
 	Vector2<float> GetBodySize() const;
 
-	float GetDefaultHorizonalVelocity() const;
-	void SetDefaultHorizonalVelocity(float velocity);
+	float GetMovingVelocity() const;
+	void SetMovingVelocity(float velocity);
 
 	void SetPosition(Vector2<float>& position);
 	void SetPosition(float x, float y);

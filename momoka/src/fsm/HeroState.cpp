@@ -11,28 +11,20 @@ void HeroState::ClearFlag() {
 
 HeroState* HeroState::LeftKeyState(INPUT_KEY_EVENT keyEvent) {
 	if(keyEvent == Key_press || keyEvent == Key_down) {
-		m_hero_.physicalBody.SetVelocity(
-			-m_hero_.physicalBody.GetDefaultHorizonalVelocity(),
-			m_hero_.physicalBody.GetVelocity().GetY());
+		m_hero_.SetVelocityX(-m_hero_.GetMovingVelocity());
 	}
 	else if(keyEvent == Key_release) {
-		m_hero_.physicalBody.SetVelocity(
-			0, m_hero_.physicalBody.GetVelocity().GetY()
-		);
+		m_hero_.SetVelocityX(0);
 	}
 	return nullptr;
 }
 
 HeroState* HeroState::RightKeyState(INPUT_KEY_EVENT keyEvent) {
 	if (keyEvent == Key_press || keyEvent == Key_down) {
-		m_hero_.physicalBody.SetVelocity(
-			m_hero_.physicalBody.GetDefaultHorizonalVelocity(),
-			m_hero_.physicalBody.GetVelocity().GetY());
+		m_hero_.SetVelocityX(m_hero_.GetMovingVelocity());
 	}
 	else if (keyEvent == Key_release) {
-		m_hero_.physicalBody.SetVelocity(
-			0, m_hero_.physicalBody.GetVelocity().GetY()
-		);
+		m_hero_.SetVelocityX(0);
 	}
 	return nullptr;
 }

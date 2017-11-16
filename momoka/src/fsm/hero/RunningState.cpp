@@ -7,14 +7,11 @@
 
 RunningState::RunningState(Hero& hero, bool isMoveLeft)
 	: HeroState(hero) {
-	auto velocity = m_hero_.physicalBody.GetVelocity();
 	if (isMoveLeft) {
-		velocity.SetX(-m_hero_.physicalBody.GetDefaultHorizonalVelocity());
-		m_hero_.physicalBody.SetVelocity(velocity);
+		m_hero_.SetVelocityX(-m_hero_.GetMovingVelocity());
 	}
 	else {
-		velocity.SetX(m_hero_.physicalBody.GetDefaultHorizonalVelocity());
-		m_hero_.physicalBody.SetVelocity(velocity);
+		m_hero_.SetVelocityX(m_hero_.GetMovingVelocity());
 	}
 
 	MOMOKA_LOG(momoka::debug) << "Switch to Running State";

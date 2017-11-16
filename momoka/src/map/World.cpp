@@ -2,6 +2,7 @@
 #include "map/World.h"
 #include "extlib/rapidjson/document.h"
 #include "util/JsonTools.h"
+#include "util/Log.h"
 
 World::World(): m_pTileSet_(nullptr), m_pCollisionDetector_(nullptr), m_pHero_(nullptr) {
 	m_pTileSet_ = new TileSet();
@@ -24,6 +25,8 @@ CollisionDetector& World::GetCollisionDetector() const {
 
 bool World::LoadConfig(char* path) {
 	// TODO: 添加数据有效性判断
+
+	MOMOKA_LOG(momoka::verbose) << "Load world config.";
 	rapidjson::Document d;
 	m_pTileSet_->LoadTileType("content/tiles/tile-type-test.json");
 	m_pHero_->LoadConfig("content/objects/hero.json");

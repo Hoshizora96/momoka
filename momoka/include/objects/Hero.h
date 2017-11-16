@@ -5,7 +5,6 @@ class HeroState;
 class World;
 class Hero : public Entity {
 public:
-
 	~Hero() override;
 	explicit Hero(World& world);
 	void Update(float dt) override;
@@ -15,8 +14,8 @@ public:
 	void SetJumpNum(int);
 
 	bool LoadConfig(char* path) override;
+
 private:
-	
 	void HandleInput();
 	bool SwitchState(HeroState* state);
 

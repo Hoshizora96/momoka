@@ -2,34 +2,34 @@
 #include "components/PhysicalBody.h"
 #include "util/Log.h"
 
-PhysicalBody::PhysicalBody(): m_isOnGround(false), m_defaultMovingVelocity(100) {
+PhysicalBody::PhysicalBody(): m_isOnGround_(false), m_movingVelocity_(100) {
 
 }
 
 Vector2<float> PhysicalBody::GetPosition() const {
-	return m_position;
+	return m_position_;
 }
 
 Vector2<float> PhysicalBody::GetVelocity() const {
-	return m_velocity;
+	return m_velocity_;
 }
 
 Vector2<float> PhysicalBody::GetBodySize() const {
-	return m_bodySize;
+	return m_bodySize_;
 }
 
-float PhysicalBody::GetDefaultHorizonalVelocity() const {
-	return m_defaultMovingVelocity;
+float PhysicalBody::GetMovingVelocity() const {
+	return m_movingVelocity_;
 }
 
-void PhysicalBody::SetDefaultHorizonalVelocity(float velocity) {
+void PhysicalBody::SetMovingVelocity(float velocity) {
 	if (velocity < 0) {
 		MOMOKA_LOG(momoka::debug) <<
 			"Try to set default horizonal velocity with negative value: " << velocity <<
 			", it will do nothing.";
 		return;
 	}
-	m_defaultMovingVelocity = velocity;
+	m_movingVelocity_ = velocity;
 }
 
 void PhysicalBody::SetPosition(Vector2<float>& position) {
@@ -40,7 +40,7 @@ void PhysicalBody::SetPosition(Vector2<float>& position) {
 		if (position.GetX() < 0) position.SetX(0);
 		if (position.GetY() < 0) position.SetY(0);
 	}
-	m_position = position;
+	m_position_ = position;
 }
 
 void PhysicalBody::SetPosition(float x, float y) {
@@ -51,15 +51,15 @@ void PhysicalBody::SetPosition(float x, float y) {
 		if (x < 0) x = 0;
 		if (y < 0) y = 0;
 	}
-	m_position = Vector2<float>(x, y);
+	m_position_ = Vector2<float>(x, y);
 }
 
 void PhysicalBody::SetVelocity(Vector2<float>& velocity) {
-	m_velocity = velocity;
+	m_velocity_ = velocity;
 }
 
 void PhysicalBody::SetVelocity(float velocityX, float velocityY) {
-	m_velocity = Vector2<float>(velocityX, velocityY);
+	m_velocity_ = Vector2<float>(velocityX, velocityY);
 }
 
 void PhysicalBody::SetBodySize(Vector2<float>& size) {
@@ -68,7 +68,7 @@ void PhysicalBody::SetBodySize(Vector2<float>& size) {
 			", it will do nothing.";
 		return;
 	}
-	m_bodySize = size;
+	m_bodySize_ = size;
 }
 
 void PhysicalBody::SetBodySize(float width, float height) {
@@ -77,5 +77,5 @@ void PhysicalBody::SetBodySize(float width, float height) {
 			", it will do nothing.";
 		return;
 	}
-	m_bodySize = Vector2<float>(width, height);
+	m_bodySize_ = Vector2<float>(width, height);
 }

@@ -8,7 +8,7 @@
 
 StandState::StandState(Hero& hero)
 	: HeroState(hero) {
-	m_hero_.physicalBody.SetVelocity(0, 0);
+	m_hero_.SetVelocity(0, 0);
 	MOMOKA_LOG(momoka::debug) << "Switch to Stand State";
 }
 
