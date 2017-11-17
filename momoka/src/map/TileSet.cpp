@@ -54,7 +54,7 @@ bool TileSet::LoadTileType(char* path) {
 	return false;
 }
 
-void TileSet::Render(float dt, Camera* camera) {
+void TileSet::Render(Camera* camera) {
 	if(camera == nullptr) {
 		MOMOKA_LOG(momoka::warning) << "No camera provided, it will do nothing.";
 		return;

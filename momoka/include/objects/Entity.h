@@ -11,13 +11,13 @@ public:
 	Entity();
 	
 	void Update(float dt) override;
-	virtual void Render(float dt, Camera* camera = nullptr) override;
+	virtual void Render(Camera* camera = nullptr) override;
 
 	virtual bool LoadConfig(char* path);
 
-	Vector2<float> GetVelocity();
-	Vector2<float> GetPosition();
-	float GetMovingVelocity();
+	Vector2<float> GetVelocity() const;
+	Vector2<float> GetPosition() const;
+	float GetMovingVelocity() const;
 
 	// 这两个是总的设置端，底下那些具体设置X和Y值的函数最终都会调用这里
 	// 如果想要添加限制，只要override下面这两个函数中就可以了
@@ -25,7 +25,7 @@ public:
 	virtual void SetPosition(float x, float y);
 	virtual void SetMovingVelocity(float velocity);
 
-	float GetVelocityX();
+	float GetVelocityX() const;
 	float GetVelocityY();
 	void SetVelocityX(float vx);
 	void SetVelocityY(float vy);

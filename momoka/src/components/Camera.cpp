@@ -3,7 +3,7 @@
 #include "services/GraphicService.h"
 #include "Engine.h"
 
-Camera::Camera(): m_centerX_(1280/2), m_centerY_(960/2), m_viewWidth_(1280), m_viewHeight_(960), m_scaleRatio_(1.f), m_xLock_(false),
+Camera::Camera(): m_centerX_(1280/2), m_centerY_(960/2), m_viewWidth_(1280), m_viewHeight_(960), m_scaleRatio_(1), m_xLock_(false),
                   m_yLock_(false) {
 	// TODO: 更改初始化参数，这里窗口大小是写死的
 }
@@ -34,4 +34,9 @@ void Camera::DrawRect(const float& x, const float& y, const float& width, const 
 	auto coordinate = TransformedCoordinate(x, y);
 
 	pGraphicService->DrawRect(coordinate.GetX(), coordinate.GetY(), TransformedLength(width), TransformedLength(height));
+}
+
+void Camera::LookAt(float x, float y) {
+	m_centerX_ = x;
+	m_centerY_ = y;
 }

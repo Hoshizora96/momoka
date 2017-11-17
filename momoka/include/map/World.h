@@ -14,7 +14,7 @@ class World : public Renderable, public Updatable {
 public:
 	World();
 
-	void Render(float dt, Camera* camera = nullptr) override;
+	void Render(Camera* camera = nullptr) override;
 	void Update(float dt) override;
 	CollisionDetector& GetCollisionDetector() const;
 

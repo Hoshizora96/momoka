@@ -13,7 +13,7 @@ public:
 
 	void OnEnter() override;
 	void OnExit() override;
-	void Render(float dt) override;
+	void Render() override;
 	void Update(float dt) override;
 
 private:

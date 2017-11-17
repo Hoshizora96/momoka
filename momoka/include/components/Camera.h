@@ -12,6 +12,8 @@ public:
 
 	// 只要把游戏实际的坐标传入就好了，里面会负责自动转换绘制
 	void DrawRect(const float& x, const float& y, const float& width, const float& height) const;
+
+	void LookAt(float x, float y);
 private:
 	HitBox m_hitBox_;
 

@@ -8,16 +8,15 @@
 #include "util/JsonTools.h"
 #include "util/Log.h"
 
-void Hero::Render(float dt, Camera* camera) {
-
-	float x = m_physicalBody_.GetPosition().GetX() + m_physicalBody_.GetVelocity().GetX() * (dt / 1000);
-	float y = m_physicalBody_.GetPosition().GetY() + m_physicalBody_.GetVelocity().GetY() * (dt / 1000);
+void Hero::Render(Camera* camera) {
+	camera->LookAt(GetX(), GetY());
 	if(camera != nullptr) {
-		m_world_.GetCamera()->DrawRect(x, y, momoka_global::TILE_SIZE, momoka_global::TILE_SIZE * 2);
+		m_world_.GetCamera()->DrawRect(GetX(), GetY(), momoka_global::TILE_SIZE, momoka_global::TILE_SIZE * 2);
 	}
 	else {
 		MOMOKA_LOG(momoka::warning) << "No camera provided, it will do nothing.";
 	}
+	
 }
 
 bool Hero::SwitchState(HeroState* state) {

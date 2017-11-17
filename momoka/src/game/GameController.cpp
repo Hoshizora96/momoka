@@ -12,8 +12,8 @@ void GameController::Update(float dt) {
 	m_pGameState_->Update(dt);
 }
 
-void GameController::Render(float dt) {
-	m_pGameState_->Render(dt);
+void GameController::Render() {
+	m_pGameState_->Render();
 }
 
 void GameController::Initialize() {

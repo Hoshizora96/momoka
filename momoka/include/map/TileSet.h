@@ -27,5 +27,5 @@ private:
 	static TileMapKey TileMapKeyConvert(long long xTile, long long yTile);
 public:
 	~TileSet() override;
-	void Render(float dt, Camera* camera = nullptr) override;
+	void Render(Camera* camera = nullptr) override;
 };

@@ -83,8 +83,9 @@ void Engine::Run() {
 			dt -= 1000.f / refreshRate;
 		}
 		graphicService.lock()->BeginDraw();
-		m_gameController_.Render(dt);
+		m_gameController_.Render();
 		graphicService.lock()->EndDraw();
+
 	}
 }
 

@@ -3,5 +3,5 @@
 class Renderable {
 public:
 	virtual ~Renderable() = default;
-	virtual void Render(float dt, Camera* camera = nullptr) = 0;
+	virtual void Render(Camera* camera = nullptr) = 0;
 };

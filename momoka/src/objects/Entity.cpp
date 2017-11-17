@@ -10,14 +10,14 @@ Entity::Entity(): GameObject(GameObject::GenerateObjectId()) {
 void Entity::Update(float dt) {
 }
 
-void Entity::Render(float dt, Camera* camera) {
+void Entity::Render(Camera* camera) {
 }
 
 bool Entity::LoadConfig(char* path) {
 	return false;
 }
 
-Vector2<float> Entity::GetVelocity() {
+Vector2<float> Entity::GetVelocity() const {
 	return m_physicalBody_.GetVelocity();
 }
 
@@ -25,11 +25,11 @@ void Entity::SetVelocity(float vx, float vy) {
 	m_physicalBody_.SetVelocity(vx, vy);
 }
 
-Vector2<float> Entity::GetPosition() {
+Vector2<float> Entity::GetPosition() const {
 	return m_physicalBody_.GetPosition();
 }
 
-float Entity::GetMovingVelocity() {
+float Entity::GetMovingVelocity() const {
 	return m_physicalBody_.GetMovingVelocity();
 }
 
@@ -41,7 +41,7 @@ void Entity::SetMovingVelocity(float velocity) {
 	m_physicalBody_.SetMovingVelocity(velocity);
 }
 
-float Entity::GetVelocityX() {
+float Entity::GetVelocityX() const {
 	return m_physicalBody_.GetVelocity().GetX();
 }
 

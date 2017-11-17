@@ -11,13 +11,14 @@ World::World(): m_pTileSet_(nullptr), m_pCollisionDetector_(nullptr), m_pHero_(n
 	m_pCamera_ = new Camera();
 }
 
-void World::Render(float dt, Camera* camera) {
-	m_pTileSet_->Render(dt, m_pCamera_);
-	m_pHero_->Render(dt, m_pCamera_);
+void World::Render(Camera* camera) {
+	m_pTileSet_->Render(m_pCamera_);
+	m_pHero_->Render(m_pCamera_);
 }
 
 void World::Update(float dt) {
 	m_pHero_->Update(dt);
+	m_pCamera_->LookAt(m_pHero_->GetX(), m_pHero_->GetY());
 }
 
 CollisionDetector& World::GetCollisionDetector() const {

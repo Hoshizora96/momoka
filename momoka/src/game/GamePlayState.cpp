@@ -16,11 +16,11 @@ void GamePlayState::OnEnter() {
 void GamePlayState::OnExit() {
 }
 
-void GamePlayState::Render(float dt) {
+void GamePlayState::Render() {
 	auto pGraphicService = Engine::serviceLoader.LocateService<GraphicService>(
 		SERVICE_TYPE::Service_graphic).lock();
 	pGraphicService->DrawTestWhiteBackGround();
-	m_pWorld_->Render(dt);
+	m_pWorld_->Render();
 }
 
 void GamePlayState::Update(float dt) {
