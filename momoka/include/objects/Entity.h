@@ -11,7 +11,7 @@ public:
 	Entity();
 	
 	void Update(float dt) override;
-	void Render(float dt) override;
+	virtual void Render(float dt, Camera* camera = nullptr) override;
 
 	virtual bool LoadConfig(char* path);
 

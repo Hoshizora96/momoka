@@ -8,11 +8,10 @@ public:
 	~Hero() override;
 	explicit Hero(World& world);
 	void Update(float dt) override;
-	void Render(float dt) override;
+	void Render(float dt, Camera* camera = nullptr) override;
 
 	int GetJumpNum() const;
 	void SetJumpNum(int);
-
 	bool LoadConfig(char* path) override;
 
 private:

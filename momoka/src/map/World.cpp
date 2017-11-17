@@ -4,15 +4,16 @@
 #include "util/JsonTools.h"
 #include "util/Log.h"
 
-World::World(): m_pTileSet_(nullptr), m_pCollisionDetector_(nullptr), m_pHero_(nullptr) {
+World::World(): m_pTileSet_(nullptr), m_pCollisionDetector_(nullptr), m_pHero_(nullptr), m_pCamera_(nullptr) {
 	m_pTileSet_ = new TileSet();
 	m_pCollisionDetector_ = new CollisionDetector(*m_pTileSet_);
 	m_pHero_ = new Hero(*this);
+	m_pCamera_ = new Camera();
 }
 
-void World::Render(float dt) {
-	m_pTileSet_->Render(dt);
-	m_pHero_->Render(dt);
+void World::Render(float dt, Camera* camera) {
+	m_pTileSet_->Render(dt, m_pCamera_);
+	m_pHero_->Render(dt, m_pCamera_);
 }
 
 void World::Update(float dt) {
@@ -39,4 +40,8 @@ bool World::LoadConfig(char* path) {
 		return true;
 	}
 	return true;
+}
+
+Camera* World::GetCamera() const {
+	return m_pCamera_;
 }

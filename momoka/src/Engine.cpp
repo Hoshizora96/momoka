@@ -10,9 +10,9 @@
 // TODO: 解决不安全函数问题
 #pragma warning(disable:4996)
 
-LONGLONG Engine::m_freq = GetCurrentFrequency();
-float Engine::m_refreshRate = 60.f;
-ServiceLoader Engine::m_serviceLoader;
+LONGLONG Engine::freq = GetCurrentFrequency();
+float Engine::refreshRate = 60.f;
+ServiceLoader Engine::serviceLoader;
 
 Engine::Engine(): m_debugConsole_(false) {
 }
@@ -25,8 +25,8 @@ bool Engine::Initialize() {
 	auto pGraphicService = std::make_shared<GraphicService>();
 	auto pInputService = std::make_shared<InputService>(pGraphicService->GetHwnd());
 
-	m_serviceLoader.RegisterService(SERVICE_TYPE::Service_input, pInputService);
-	m_serviceLoader.RegisterService(SERVICE_TYPE::Service_graphic, pGraphicService);
+	serviceLoader.RegisterService(SERVICE_TYPE::Service_input, pInputService);
+	serviceLoader.RegisterService(SERVICE_TYPE::Service_graphic, pGraphicService);
 	LoadConfig();
 
 	m_gameController_.Initialize();
@@ -51,9 +51,9 @@ void Engine::Run() {
 
 	float dt = 0;
 
-	auto inputService = m_serviceLoader.LocateService<InputService>(SERVICE_TYPE::Service_input);
+	auto inputService = serviceLoader.LocateService<InputService>(SERVICE_TYPE::Service_input);
 
-	auto graphicService = m_serviceLoader.LocateService<GraphicService>(SERVICE_TYPE::Service_graphic);
+	auto graphicService = serviceLoader.LocateService<GraphicService>(SERVICE_TYPE::Service_graphic);
 
 	auto preTick = GetCurrentTick();
 
@@ -73,14 +73,14 @@ void Engine::Run() {
 
 		auto curTick = GetCurrentTick();
 
-		dt += (curTick - preTick) * 1000 / m_freq;
+		dt += (curTick - preTick) * 1000 / freq;
 		preTick = curTick;
 
-		while(dt >= 1000.f/ m_refreshRate) {
+		while(dt >= 1000.f/ refreshRate) {
 			inputService.lock()->RefreshBuffer();
 			// 下面这个应该传入一帧的时间，是个常量，注意这里应该以秒为单位
-			m_gameController_.Update(1.0f/ m_refreshRate);
-			dt -= 1000.f / m_refreshRate;
+			m_gameController_.Update(1.0f/ refreshRate);
+			dt -= 1000.f / refreshRate;
 		}
 		graphicService.lock()->BeginDraw();
 		m_gameController_.Render(dt);

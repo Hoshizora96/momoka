@@ -152,7 +152,7 @@ CollisionInfo CollisionDetector::CheckTileCollision(PhysicalBody& body) const {
 			info.SetCollision(Direction::Right, correctedRight);
 		}
 		else if (vy < 0) {
-			if(!IsOnTileLine(x+width)) {
+			if (!IsOnTileLine(x + width)) {
 				info.SetCollision(Direction::Up, correctedUp);
 			}
 		}
@@ -192,7 +192,23 @@ CollisionInfo CollisionDetector::CheckTileCollision(PhysicalBody& body) const {
 	return info;
 }
 
-bool CollisionDetector::CheckHitBoxCollison(HitBox myHitBox, HitBox opponentHitBox) {
+bool CollisionDetector::CheckHitBoxCollison(HitBox hitBox1, HitBox hitBox2) {
+	if (hitBox1.position.GetX() < hitBox2.position.GetX() && hitBox2.position.GetX() - hitBox1.position.GetX() < hitBox1.
+		size.GetX()) {
+		return true;
+	}
+	if (hitBox2.position.GetX() < hitBox1.position.GetX() && hitBox1.position.GetX() - hitBox2.position.GetX() < hitBox2.
+		size.GetX()) {
+		return true;
+	}
+	if (hitBox1.position.GetY() < hitBox2.position.GetY() && hitBox2.position.GetY() - hitBox1.position.GetY() < hitBox1.
+		size.GetY()) {
+		return true;
+	}
+	if (hitBox2.position.GetY() < hitBox1.position.GetY() && hitBox1.position.GetY() - hitBox2.position.GetY() < hitBox2.
+		size.GetY()) {
+		return true;
+	}
 	return false;
 }
 

@@ -6,14 +6,18 @@
 #include "fsm/hero/StandState.h"
 #include "services/InputService.h"
 #include "util/JsonTools.h"
+#include "util/Log.h"
 
-void Hero::Render(float dt) {
-	const auto pGraphicService = Engine::m_serviceLoader.LocateService<GraphicService>(
-		SERVICE_TYPE::Service_graphic).lock();
+void Hero::Render(float dt, Camera* camera) {
+
 	float x = m_physicalBody_.GetPosition().GetX() + m_physicalBody_.GetVelocity().GetX() * (dt / 1000);
 	float y = m_physicalBody_.GetPosition().GetY() + m_physicalBody_.GetVelocity().GetY() * (dt / 1000);
-
-	pGraphicService->DrawRect(x, y, momoka_global::TILE_SIZE, momoka_global::TILE_SIZE * 2);
+	if(camera != nullptr) {
+		m_world_.GetCamera()->DrawRect(x, y, momoka_global::TILE_SIZE, momoka_global::TILE_SIZE * 2);
+	}
+	else {
+		MOMOKA_LOG(momoka::warning) << "No camera provided, it will do nothing.";
+	}
 }
 
 bool Hero::SwitchState(HeroState* state) {
@@ -45,7 +49,7 @@ bool Hero::LoadConfig(char* path) {
 }
 
 void Hero::HandleInput() {
-	const auto pInputService = Engine::m_serviceLoader.LocateService<InputService>(SERVICE_TYPE::Service_input).
+	const auto pInputService = Engine::serviceLoader.LocateService<InputService>(SERVICE_TYPE::Service_input).
 	                                                   lock();
 
 	if (pInputService->IsKeyEventHappened(DIK_A, Key_down)) {

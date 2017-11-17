@@ -54,14 +54,17 @@ bool TileSet::LoadTileType(char* path) {
 	return false;
 }
 
-void TileSet::Render(float dt) {
-	auto pGraphicService = Engine::m_serviceLoader.LocateService<GraphicService>(
-		SERVICE_TYPE::Service_graphic).lock();
+void TileSet::Render(float dt, Camera* camera) {
+	if(camera == nullptr) {
+		MOMOKA_LOG(momoka::warning) << "No camera provided, it will do nothing.";
+		return;
+	}
+	
 	for (const auto tile : m_tileMap_) {
 		int y = tile.first % 1000000;
 		int x = (tile.first - y) / 1000000;
 		auto type = m_typeMap_[tile.second];
-		pGraphicService->DrawRect(x * momoka_global::TILE_SIZE, y * momoka_global::TILE_SIZE, momoka_global::TILE_SIZE,
+		camera->DrawRect(x * momoka_global::TILE_SIZE, y * momoka_global::TILE_SIZE, momoka_global::TILE_SIZE,
 		                          momoka_global::TILE_SIZE);
 	}
 }

@@ -10,7 +10,7 @@ Entity::Entity(): GameObject(GameObject::GenerateObjectId()) {
 void Entity::Update(float dt) {
 }
 
-void Entity::Render(float dt) {
+void Entity::Render(float dt, Camera* camera) {
 }
 
 bool Entity::LoadConfig(char* path) {
