@@ -75,17 +75,14 @@ void Engine::Run() {
 
 		dt += (curTick - preTick) * 1000 / freq;
 		preTick = curTick;
-
+		graphicService.lock()->BeginDraw();
 		while(dt >= 1000.f/ refreshRate) {
 			inputService.lock()->RefreshBuffer();
 			// 下面这个应该传入一帧的时间，是个常量，注意这里应该以秒为单位
-			m_gameController_.Update(1.0f/ refreshRate);
+			m_gameController_.Update(1.0f/ refreshRate);			
 			dt -= 1000.f / refreshRate;
 		}
-		graphicService.lock()->BeginDraw();
-		m_gameController_.Render();
 		graphicService.lock()->EndDraw();
-
 	}
 }
 

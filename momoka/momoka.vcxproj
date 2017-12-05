@@ -153,40 +153,57 @@
     <Text Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\components\Camera.cpp" />
-    <ClCompile Include="src\components\CollisionDetector.cpp" />
-    <ClCompile Include="src\components\CollisionInfo.cpp" />
-    <ClCompile Include="src\components\Directions.cpp" />
-    <ClCompile Include="src\map\TileType.cpp" />
-    <ClCompile Include="src\map\World.cpp" />
-    <ClCompile Include="src\objects\Entity.cpp" />
-    <ClCompile Include="src\objects\GameObject.cpp" />
-    <ClCompile Include="src\objects\Hero.cpp" />
+    <ClCompile Include="src\core\factory\HeroFactroy.cpp" />
+    <ClCompile Include="src\core\map\TilePool.cpp" />
+    <ClCompile Include="src\core\System\GravitySystem.cpp" />
+    <ClCompile Include="src\core\System\MoveSystem.cpp" />
+    <ClCompile Include="src\core\System\PlayerControlSystem.cpp" />
+    <ClCompile Include="src\core\System\RenderSystem.cpp" />
+    <ClCompile Include="src\core\System\WorldObstacleSystem.cpp" />
+    <ClCompile Include="src\game\GameController.cpp" />
     <ClCompile Include="src\util\HashedString.cpp" />
-    <ClCompile Include="src\components\PhysicalBody.cpp" />
-    <ClCompile Include="src\game\GamePlayState.cpp" />
-    <ClCompile Include="src\map\TileSet.cpp" />
     <ClCompile Include="src\util\Log.cpp" />
-    <ClInclude Include="include\components\Camera.h" />
-    <ClInclude Include="include\components\CollisionDetector.h" />
-    <ClInclude Include="include\components\CollisionInfo.h" />
-    <ClInclude Include="include\components\Direction.h" />
-    <ClInclude Include="include\fsm\HeroState.h" />
-    <ClInclude Include="include\fsm\hero\FallingState.h" />
-    <ClInclude Include="include\fsm\hero\JumpState.h" />
-    <ClInclude Include="include\fsm\hero\RunningState.h" />
-    <ClInclude Include="include\fsm\hero\StandState.h" />
-    <ClInclude Include="include\map\TileType.h" />
-    <ClInclude Include="include\map\World.h" />
-    <ClInclude Include="include\mixin\Renderable.h" />
-    <ClInclude Include="include\mixin\Updatable.h" />
-    <ClInclude Include="include\objects\Entity.h" />
-    <ClInclude Include="include\objects\GameObject.h" />
-    <ClInclude Include="include\objects\Hero.h" />
-    <ClInclude Include="include\util\HashedString.h" />
-    <ClInclude Include="include\components\FactionManager.h" />
-    <ClInclude Include="include\components\HitBox.h" />
-    <ClInclude Include="include\util\Vector2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Engine.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\services\GraphicService.cpp" />
+    <ClCompile Include="src\services\InputService.cpp" />
+    <ClCompile Include="src\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="content\config\state-play.json" />
+    <None Include="content\objects\hero.json" />
+    <None Include="content\stages\map-test1.json" />
+    <None Include="content\test.json" />
+    <None Include="content\tiles\tile-type-test.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\core\Core.h" />
+    <ClInclude Include="include\core\factory\Factory.h" />
+    <ClInclude Include="include\core\factory\HeroFactory.h" />
+    <ClInclude Include="include\core\GameCore.h" />
+    <ClInclude Include="include\core\map\TilePool.h" />
+    <ClInclude Include="include\core\object\components\GravityComponent.h" />
+    <ClInclude Include="include\core\object\components\JumpComponent.h" />
+    <ClInclude Include="include\core\object\components\MoveComponent.h" />
+    <ClInclude Include="include\core\object\components\ObstacleComponent.h" />
+    <ClInclude Include="include\core\object\components\PlayerComponent.h" />
+    <ClInclude Include="include\core\object\components\PositionComponent.h" />
+    <ClInclude Include="include\core\object\components\RenderComponent.h" />
+    <ClInclude Include="include\core\object\components\VelocityComponent.h" />
+    <ClInclude Include="include\core\object\GameObjectPool.h" />
+    <ClInclude Include="include\core\system\GravitySystem.h" />
+    <ClInclude Include="include\core\system\MoveSystem.h" />
+    <ClInclude Include="include\core\system\PlayerControlSystem.h" />
+    <ClInclude Include="include\core\system\RenderSystem.h" />
+    <ClInclude Include="include\core\system\WorldObstacleSystem.h" />
+    <ClInclude Include="include\core\system\System.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\exception\MomokaException.h" />
     <ClInclude Include="include\exception\ServiceException.h" />
@@ -226,44 +243,21 @@
     <ClInclude Include="include\extlib\rapidjson\stringbuffer.h" />
     <ClInclude Include="include\extlib\rapidjson\writer.h" />
     <ClInclude Include="include\game\GameController.h" />
-    <ClInclude Include="include\game\GamePlayState.h" />
-    <ClInclude Include="include\game\GameState.h" />
     <ClInclude Include="include\global.h" />
-    <ClInclude Include="include\map\TileSet.h" />
-    <ClInclude Include="include\components\PhysicalBody.h" />
-    <ClInclude Include="include\services\Service.h" />
+    <ClInclude Include="include\core\object\components\Component.h" />
+    <ClInclude Include="include\core\object\EntityPool.h" />
     <ClInclude Include="include\services\GraphicService.h" />
     <ClInclude Include="include\services\InputService.h" />
+    <ClInclude Include="include\services\Service.h" />
     <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\targetver.h" />
+    <ClInclude Include="include\util\Direction.h" />
+    <ClInclude Include="include\util\Signal.h" />
+    <ClInclude Include="include\util\HashedString.h" />
     <ClInclude Include="include\util\JsonTools.h" />
     <ClInclude Include="include\util\Log.h" />
     <ClInclude Include="include\util\ServiceLoader.h" />
-    <ClCompile Include="src\fsm\HeroState.cpp" />
-    <ClCompile Include="src\fsm\hero\FallingState.cpp" />
-    <ClCompile Include="src\fsm\hero\JumpState.cpp" />
-    <ClCompile Include="src\fsm\hero\RunningState.cpp" />
-    <ClCompile Include="src\fsm\hero\StandState.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\Engine.cpp" />
-    <ClCompile Include="src\game\GameController.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\services\GraphicService.cpp" />
-    <ClCompile Include="src\services\InputService.cpp" />
-    <ClCompile Include="src\stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="content\config\state-play.json" />
-    <None Include="content\objects\hero.json" />
-    <None Include="content\stages\map-test1.json" />
-    <None Include="content\test.json" />
-    <None Include="content\tiles\tile-type-test.json" />
+    <ClInclude Include="include\util\Vector2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
