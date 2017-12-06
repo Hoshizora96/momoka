@@ -153,6 +153,7 @@
     <Text Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\factory\BulletFactory.cpp" />
     <ClCompile Include="src\core\factory\HeroFactroy.cpp" />
     <ClCompile Include="src\core\map\TilePool.cpp" />
     <ClCompile Include="src\core\System\GravitySystem.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="src\core\System\PlayerControlSystem.cpp" />
     <ClCompile Include="src\core\System\RenderSystem.cpp" />
     <ClCompile Include="src\core\System\WorldObstacleSystem.cpp" />
+    <ClCompile Include="src\core\tools\Camera.cpp" />
     <ClCompile Include="src\game\GameController.cpp" />
     <ClCompile Include="src\util\HashedString.cpp" />
     <ClCompile Include="src\util\Log.cpp" />
@@ -185,7 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\core\Core.h" />
-    <ClInclude Include="include\core\factory\Factory.h" />
+    <ClInclude Include="include\core\factory\BulletFactory.h" />
     <ClInclude Include="include\core\factory\HeroFactory.h" />
     <ClInclude Include="include\core\GameCore.h" />
     <ClInclude Include="include\core\map\TilePool.h" />
@@ -197,6 +199,7 @@
     <ClInclude Include="include\core\object\components\PositionComponent.h" />
     <ClInclude Include="include\core\object\components\RenderComponent.h" />
     <ClInclude Include="include\core\object\components\VelocityComponent.h" />
+    <ClInclude Include="include\core\object\components\WeaponSlotComponent.h" />
     <ClInclude Include="include\core\object\GameObjectPool.h" />
     <ClInclude Include="include\core\system\GravitySystem.h" />
     <ClInclude Include="include\core\system\MoveSystem.h" />
@@ -204,6 +207,7 @@
     <ClInclude Include="include\core\system\RenderSystem.h" />
     <ClInclude Include="include\core\system\WorldObstacleSystem.h" />
     <ClInclude Include="include\core\system\System.h" />
+    <ClInclude Include="include\core\tools\Camera.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\exception\MomokaException.h" />
     <ClInclude Include="include\exception\ServiceException.h" />

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "core/factory/HeroFactory.h"
 
-GameEntityPool::Entity HeroFactroy::Create(GameEntityPool& pool) {
+GameEntityPool::Entity HeroFactory::Create(GameEntityPool& pool) {
 	auto positionCom = PositionComponent();
 	positionCom.x = 0;
 	positionCom.y = 0;

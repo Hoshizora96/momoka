@@ -1,7 +1,6 @@
 #pragma once
 #include "core/object/GameObjectPool.h"
-class HeroFactory {
-
+class BulletFactory{
 public:
 	GameEntityPool::Entity Create(GameEntityPool& pool);
 };

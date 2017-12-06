@@ -158,7 +158,9 @@ void WorldObstacleSystem::Update(float& dt, GameCore& core) {
 				break;
 			}
 			if (core.tilePool.HasTile(i, yEndTile)) {
-				TakeObstacle(entity, Down, correctedDown);
+				if (vy > 0) {
+					TakeObstacle(entity, Down, correctedDown);
+				}
 				// info.tileType = m_tileSet_.GetTileTypeId(i, yEndTile);
 
 				break;

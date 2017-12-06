@@ -15,7 +15,6 @@ class GameCore : public Core{
 public:
 	GameEntityPool entityPool;
 	TilePool tilePool;
-	HeroFactroy heroFactroy;
 
 	GravitySystem gravitySystem;
 	MoveSystem moveSystem;
@@ -34,7 +33,9 @@ inline GameCore::GameCore() {
 }
 
 inline void GameCore::Initialize() {
+	HeroFactory heroFactroy;
 	heroFactroy.Create(entityPool);
+
 	tilePool.AddTile(0, 9, 0);
 	tilePool.AddTile(1, 9, 0);
 	tilePool.AddTile(2, 9, 0);

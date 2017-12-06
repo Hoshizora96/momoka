@@ -39,10 +39,13 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 			if (inputService->IsKeyEventHappened(DIK_K, Key_press)) {
 				jumpCom->jumpedTimes++;
 				jumpCom->floatTime = 0;
+				velocityCom->vy = -jumpCom->jumpVelocity;
+				jumpCom->floatTime += dt;
 			}
 
 			if (jumpCom->jumpedTimes <= jumpCom->maxJumpTimes
 				&& jumpCom->floatTime < jumpCom->maxFloatTime
+				&& !(obstacleCom->yObstacle && obstacleCom->yDirection == Down)
 				&& inputService->IsKeyEventHappened(DIK_K)) {
 				velocityCom->vy = -jumpCom->jumpVelocity;
 				jumpCom->floatTime += dt;

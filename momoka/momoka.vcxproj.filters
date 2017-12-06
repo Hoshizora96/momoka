@@ -66,6 +66,12 @@
     <ClCompile Include="src\core\System\GravitySystem.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\factory\BulletFactory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\tools\Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.md" />
@@ -286,9 +292,6 @@
     <ClInclude Include="include\core\factory\HeroFactory.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\core\factory\Factory.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\core\Core.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -299,6 +302,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\util\Direction.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\factory\BulletFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\WeaponSlotComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\tools\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
