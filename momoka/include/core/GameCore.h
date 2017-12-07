@@ -3,6 +3,7 @@
 #include "object/EntityPool.h"
 #include "map/TilePool.h"
 #include "core/object/GameObjectPool.h"
+#include "core/tools/Camera.h"
 
 #include "factory/HeroFactory.h"
 #include "system/MoveSystem.h"
@@ -16,6 +17,8 @@ public:
 	GameEntityPool entityPool;
 	TilePool tilePool;
 
+	Camera camera;
+
 	GravitySystem gravitySystem;
 	MoveSystem moveSystem;
 	PlayerControlSystem playerControlSystem;
@@ -26,6 +29,9 @@ public:
 
 	void Initialize();
 	void Update(float& dt) override;
+
+private:
+	
 };
 
 inline GameCore::GameCore() {
@@ -36,15 +42,15 @@ inline void GameCore::Initialize() {
 	HeroFactory heroFactroy;
 	heroFactroy.Create(entityPool);
 
-	tilePool.AddTile(0, 9, 0);
-	tilePool.AddTile(1, 9, 0);
-	tilePool.AddTile(2, 9, 0);
-	tilePool.AddTile(3, 9, 0);
-	tilePool.AddTile(4, 9, 0);
+	tilePool.AddTile(0, 11, 0);
+	tilePool.AddTile(1, 11, 0);
+	tilePool.AddTile(2, 11, 0);
+	tilePool.AddTile(3, 11, 0);
+	tilePool.AddTile(4, 11, 0);
 	tilePool.AddTile(4, 5, 0);
-	tilePool.AddTile(5, 9, 0);
+	tilePool.AddTile(5, 11, 0);
 	tilePool.AddTile(5, 7, 0);
-	tilePool.AddTile(6, 9, 0);
+	tilePool.AddTile(6, 11, 0);
 }
 
 inline void GameCore::Update(float& dt) {

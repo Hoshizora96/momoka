@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include "core/tools/Camera.h"
 
 class TilePool {
 public:
@@ -26,7 +27,7 @@ public:
 
 	bool LoadConfig(char* path);
 	void AddTile(int tileX, int tileY, TypeIndex type);
-	void Render();
+	void Render(Camera& camera);
 
 private:
 	

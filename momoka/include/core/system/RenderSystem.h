@@ -5,8 +5,4 @@ class RenderSystem:public System {
 
 public:
 	void Update(float& dt, GameCore& core) override;
-
-	class Camera {
-		
-	};
 };

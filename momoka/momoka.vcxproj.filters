@@ -313,5 +313,8 @@
     <ClInclude Include="include\core\tools\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\core\utility\CollisionDetector.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -35,25 +35,25 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 				jumpCom->jumpedTimes = 0;
 				jumpCom->floatTime = 0;
 			}
+			if (jumpCom->jumpedTimes < jumpCom->maxJumpTimes) {
+				if (inputService->IsKeyEventHappened(DIK_K, Key_press)) {
+					jumpCom->floatTime = 0;
+					velocityCom->vy = -jumpCom->jumpVelocity;
+				}
 
-			if (inputService->IsKeyEventHappened(DIK_K, Key_press)) {
-				jumpCom->jumpedTimes++;
-				jumpCom->floatTime = 0;
-				velocityCom->vy = -jumpCom->jumpVelocity;
-				jumpCom->floatTime += dt;
+				if (jumpCom->floatTime < jumpCom->maxFloatTime
+					&& !(obstacleCom->yObstacle && obstacleCom->yDirection == Down)
+					&& inputService->IsKeyEventHappened(DIK_K)) {
+					velocityCom->vy = -jumpCom->jumpVelocity;
+					jumpCom->floatTime += dt;
+				}
+				else if (inputService->IsKeyEventHappened(DIK_K, Key_release)) {
+					if (jumpCom->floatTime < jumpCom->maxFloatTime)
+						velocityCom->vy = 0;
+					jumpCom->jumpedTimes++;
+				}
 			}
 
-			if (jumpCom->jumpedTimes <= jumpCom->maxJumpTimes
-				&& jumpCom->floatTime < jumpCom->maxFloatTime
-				&& !(obstacleCom->yObstacle && obstacleCom->yDirection == Down)
-				&& inputService->IsKeyEventHappened(DIK_K)) {
-				velocityCom->vy = -jumpCom->jumpVelocity;
-				jumpCom->floatTime += dt;
-			}
-			else if (jumpCom->floatTime < jumpCom->maxFloatTime
-				&& inputService->IsKeyEventHappened(DIK_K, Key_release)) {
-				velocityCom->vy = 0;
-			}
 		}
 	});
 }

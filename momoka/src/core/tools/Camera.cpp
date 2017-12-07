@@ -3,7 +3,7 @@
 #include "services/GraphicService.h"
 #include "Engine.h"
 
-Camera::Camera() : m_centerX_(1280 / 2), m_centerY_(960 / 2), m_viewWidth_(1280), m_viewHeight_(960), m_scaleRatio_(0.8),
+Camera::Camera() : m_centerX_(1280 / 2), m_centerY_(960 / 2), m_viewWidth_(1280), m_viewHeight_(960), m_scaleRatio_(1.2),
 m_xLock_(false),
 m_yLock_(false) {
 	// TODO: 更改初始化参数，这里窗口大小是写死的

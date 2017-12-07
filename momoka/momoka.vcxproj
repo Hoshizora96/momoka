@@ -208,6 +208,7 @@
     <ClInclude Include="include\core\system\WorldObstacleSystem.h" />
     <ClInclude Include="include\core\system\System.h" />
     <ClInclude Include="include\core\tools\Camera.h" />
+    <ClInclude Include="include\core\utility\CollisionDetector.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\exception\MomokaException.h" />
     <ClInclude Include="include\exception\ServiceException.h" />

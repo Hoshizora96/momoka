@@ -3,7 +3,6 @@
 #include "extlib/rapidjson/document.h"
 #include "util/JsonTools.h"
 #include "Engine.h"
-#include "services/GraphicService.h"
 
 
 bool TilePool::HasTile(int tileX, int tileY) {
@@ -55,13 +54,12 @@ void TilePool::AddTile(int tileX, int tileY, TypeIndex typeIndex) {
 	m_tileMap_[TileHashConvert(tileX, tileY)] = typeIndex;
 }
 
-void TilePool::Render() {
-	auto graphicService = Engine::serviceLoader.LocateService<GraphicService>(Service_graphic).lock();
+void TilePool::Render(Camera& camera) {
 	for (const auto tile : m_tileMap_) {
 		int x = tile.first >> 20;
 		int y = tile.first - (x << 20);
 		auto type = m_typeMap_[tile.second];
-		graphicService->DrawRect(x * momoka::TILE_SIZE, y * momoka::TILE_SIZE, momoka::TILE_SIZE,
+		camera.DrawRect(x * momoka::TILE_SIZE, y * momoka::TILE_SIZE, momoka::TILE_SIZE,
 			momoka::TILE_SIZE);
 	}
 }
