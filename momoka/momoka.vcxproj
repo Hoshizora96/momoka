@@ -195,6 +195,7 @@
     <ClInclude Include="include\core\GameCore.h" />
     <ClInclude Include="include\core\map\TilePool.h" />
     <ClInclude Include="include\core\object\components\BulletComponent.h" />
+    <ClInclude Include="include\core\object\components\BulletStorageComponent.h" />
     <ClInclude Include="include\core\object\components\CanInputComponent.h" />
     <ClInclude Include="include\core\object\components\GravityComponent.h" />
     <ClInclude Include="include\core\object\components\HurtComponent.h" />

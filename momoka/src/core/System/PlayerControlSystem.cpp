@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "core/system/PlayerControlSystem.h"
+#include "core/factory/BulletFactory.h"
 #include "core/GameCore.h"
 #include "Engine.h"
 #include "services/InputService.h"
@@ -55,7 +56,11 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 					&& inputService->IsKeyEventHappened(DIK_K, Key_release)) {
 					velocityCom->vy = 0;
 				}
-		}
+			}
+
+			if (entity.Has<BulletStorageComponent>()) {
+				if(inputService->IsKeyEventHappened(DIK_J, Key_press))
+			}
 		}
 		else {
 
