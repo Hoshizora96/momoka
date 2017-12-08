@@ -15,6 +15,8 @@ public:
 	bool BeginDraw();
 	bool EndDraw();
 
+	bool LoadBitMap(LPWSTR path);
+
 	void KillWindow();
 
 	HWND& GetHwnd();
@@ -25,12 +27,23 @@ public:
 
 	void DrawTestWhiteBackGround();
 
+
 private:
-	// pointer
-	ID2D1Factory* m_pDirect2DFactory_;
-	IDWriteFactory* m_pDWriteFactory_;
-	ID2D1HwndRenderTarget* m_pRenderTarget_;
-	ID2D1SolidColorBrush* m_pCornflowerBlueBrush_;
+	// 首先初始化要在声明时就做，反正都是nullptr
+
+	// 这是一个设备无关资源，用来创建基本的direct2d绘图工具
+	ID2D1Factory* m_pDirect2DFactory_ = nullptr;
+
+	// 这是一个设备无关资源，用来创建direct2d文字绘制工具
+	IDWriteFactory* m_pDWriteFactory_ = nullptr;
+
+	// 这是一个设备相关资源，用来向窗口绘制图形图像
+	ID2D1HwndRenderTarget* m_pRenderTarget_ = nullptr;
+
+	// 这是一个设备相关资源，蓝色笔刷
+	ID2D1SolidColorBrush* m_pCornflowerBlueBrush_ = nullptr;
+
+	IWICImagingFactory2* m_pWicFactory_ = nullptr;
 
 	bool m_bufferLock_;
 

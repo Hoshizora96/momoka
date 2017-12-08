@@ -22,6 +22,7 @@
 // TODO:  在此处引用程序需要的其他头文件
 
 #include <d2d1.h>
+#include <d2d1_2.h>
 #include <d2d1helper.h>
 #include <dinput.h>
 #include <dwrite.h>

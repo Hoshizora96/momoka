@@ -3,10 +3,7 @@
 
 GraphicService* GraphicService::m_handle_ = nullptr;
 
-GraphicService::GraphicService() : m_pDirect2DFactory_(nullptr),
-                                   m_pDWriteFactory_(nullptr),
-                                   m_pRenderTarget_(nullptr),
-                                   m_bufferLock_(true) {
+GraphicService::GraphicService(): m_bufferLock_(true) {
 	m_handle_ = this;
 	CreateDeviceIndependentResources();
 	InitializeWindow();
@@ -91,6 +88,7 @@ bool GraphicService::CreateDeviceResources() {
 			rc.bottom - rc.top
 		);
 
+		// 创建m_pRenderTarget_
 		hr = m_pDirect2DFactory_->CreateHwndRenderTarget(
 			D2D1::RenderTargetProperties(),
 			D2D1::HwndRenderTargetProperties(m_hwnd_, size),
@@ -108,10 +106,12 @@ bool GraphicService::CreateDeviceResources() {
 }
 
 void GraphicService::DiscardDeviceResources() {
+	// 销毁一切资源
 	SafeRelease(&m_pDirect2DFactory_);
 	SafeRelease(&m_pRenderTarget_);
 	SafeRelease(&m_pDWriteFactory_);
 	SafeRelease(&m_pCornflowerBlueBrush_);
+	SafeRelease(&m_pWicFactory_);
 }
 
 void GraphicService::GetDpi(FLOAT& dpiX, FLOAT& dpiY) const {
@@ -152,6 +152,36 @@ bool GraphicService::EndDraw() {
 	}
 }
 
+bool GraphicService::LoadBitMap(LPWSTR path) {
+	// LoadBitmapFromFile();
+
+	HRESULT hr = S_OK;
+
+	IWICBitmapDecoder *pDecoder = nullptr;
+	IWICBitmapFrameDecode *pSource = nullptr;
+	IWICStream *pStream = nullptr;
+	IWICFormatConverter *pConverter = nullptr;
+	IWICBitmapScaler *pScaler = nullptr;
+
+	hr = m_pWicFactory_->CreateDecoderFromFilename(
+		path,
+		nullptr,
+		GENERIC_READ,
+		WICDecodeMetadataCacheOnLoad,
+		&pDecoder
+	);
+	if (SUCCEEDED(hr)) {
+
+		// Create the initial frame.
+		hr = pDecoder->GetFrame(0, &pSource);
+	}
+
+	if (SUCCEEDED(hr)) {
+		hr = m_pWicFactory_->CreateFormatConverter(&pConverter);
+	}
+	return false;
+}
+
 void GraphicService::KillWindow() {
 	ShowCursor(true);
 
@@ -170,6 +200,7 @@ void GraphicService::DrawTestWhiteBackGround() {
 	m_pRenderTarget_->SetTransform(D2D1::Matrix3x2F::Identity());
 	m_pRenderTarget_->Clear(D2D1::ColorF(D2D1::ColorF::White));
 }
+
 
 HWND& GraphicService::GetHwnd() {
 	return m_hwnd_;
