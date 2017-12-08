@@ -59,7 +59,11 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 			}
 
 			if (entity.Has<BulletStorageComponent>()) {
-				if(inputService->IsKeyEventHappened(DIK_J, Key_press))
+				if (inputService->IsKeyEventHappened(DIK_J, Key_press)) { //Éä»÷
+					BulletFactory bulletFactory;
+					auto bullet = bulletFactory.Create(core.entityPool);
+					bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x + momoka::TILE_SIZE;
+					bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;				}
 			}
 		}
 		else {

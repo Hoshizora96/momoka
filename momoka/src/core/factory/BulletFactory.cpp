@@ -7,17 +7,18 @@ GameEntityPool::Entity BulletFactory::Create(GameEntityPool& pool) {
 	positionCom.y = 0;
 
 	auto velocityCom = VelocityComponent();
-	velocityCom.vx = 0;
+	velocityCom.vx = 700;
 	velocityCom.vy = 0;
 
-	auto gravityCom = GravityComponent();
 
 	auto moveCom = MoveComponent();
-	moveCom.runningVelocity = 500;
+	moveCom.runningVelocity = 700;
+
+	auto bulletCom = BulletComponent();
 
 	auto obstacleCom = ObstacleComponent();
-	obstacleCom.obstacleHeight = 2 * momoka::TILE_SIZE;
-	obstacleCom.obstacleWidth = momoka::TILE_SIZE;
+	obstacleCom.obstacleHeight = bulletCom.obstacleHeight;
+	obstacleCom.obstacleWidth = bulletCom.obstacleWidth;
 
 	auto renderCom = RenderComponent();
 	renderCom.renderHeight = obstacleCom.obstacleHeight;
@@ -25,17 +26,16 @@ GameEntityPool::Entity BulletFactory::Create(GameEntityPool& pool) {
 
 
 	auto hurtCom = HurtComponent();
-	hurtCom.Height = 2 * momoka::TILE_SIZE;
-	hurtCom.Width = momoka::TILE_SIZE;
+	hurtCom.Height = bulletCom.obstacleHeight;
+	hurtCom.Width = bulletCom.obstacleWidth;
 
-	auto bulletCom = BulletComponent();
+	
 
 	auto timingCom = TimingComponent();
 
 	return pool.CreateEntity(
 		positionCom,
 		velocityCom,
-		gravityCom,
 		moveCom,
 		obstacleCom,
 		renderCom,

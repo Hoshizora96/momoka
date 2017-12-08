@@ -35,6 +35,7 @@ GameEntityPool::Entity HeroFactory::Create(GameEntityPool& pool) {
 
 	auto timingCom = TimingComponent();
 
+	auto bulletstorageCom = BulletStorageComponent();
 	return pool.CreateEntity(
 		positionCom,
 		velocityCom,
@@ -46,6 +47,7 @@ GameEntityPool::Entity HeroFactory::Create(GameEntityPool& pool) {
 		playerCom,
 		hurtCom,
 		inputCom,
-		timingCom
+		timingCom,
+		bulletstorageCom
 	);
 }

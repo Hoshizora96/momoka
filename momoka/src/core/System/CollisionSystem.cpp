@@ -4,7 +4,7 @@
 #include "core/GameCore.h"
 
 void CollisionSystem::Update(float& dt, GameCore& core) {
-	core.entityPool.Each<HurtComponent, VelocityComponent, PositionComponent, PlayerComponent>([&](GameEntityPool::Entity player) {
+	core.entityPool.Each<HurtComponent, VelocityComponent, PositionComponent, PlayerComponent>([&](GameEntityPool::Entity player) { //人物与怪物碰撞
 		core.entityPool.Each<HurtComponent, VelocityComponent, PositionComponent, MonsterComponent>([&](GameEntityPool::Entity monster) {
 			auto Player = player.Get<VelocityComponent>();
 			switch (CollisionDetector(player.Get<PositionComponent>()->x,
@@ -32,30 +32,39 @@ void CollisionSystem::Update(float& dt, GameCore& core) {
 			}
 		});
 	});
-	/*core.entityPool.Each<HurtComponent, VelocityComponent, PositionComponent, MonsterComponent>([&](GameEntityPool::Entity player) {
-		core.entityPool.Each<HurtComponent, VelocityComponent, PositionComponent, PlayerComponent>([&](GameEntityPool::Entity monster) {
-			switch (CollisionDetector(player.Get<PositionComponent>()->x,
-				player.Get<PositionComponent>()->y,
-				player.Get<HurtComponent>()->Width,
-				player.Get<HurtComponent>()->Height,
+
+	core.entityPool.Each<HurtComponent, VelocityComponent, PositionComponent, PlayerComponent, BulletComponent>([&](GameEntityPool::Entity playerbullet) {
+		core.entityPool.Each<HurtComponent, VelocityComponent, PositionComponent, MonsterComponent>([&](GameEntityPool::Entity monster) { //人物与怪物子弹碰撞
+			auto PlayerBullet = playerbullet.Get<VelocityComponent>();
+			switch (CollisionDetector(playerbullet.Get<PositionComponent>()->x,
+				playerbullet.Get<PositionComponent>()->y,
+				playerbullet.Get<HurtComponent>()->Width,
+				playerbullet.Get<HurtComponent>()->Height,
 				monster.Get<PositionComponent>()->x,
 				monster.Get<PositionComponent>()->y,
 				monster.Get<HurtComponent>()->Width,
 				monster.Get<HurtComponent>()->Height)) {
-				auto Player = player.Get<VelocityComponent>();
 			case 0:
 				break;
 			case 1:
-				Player->vx = -100;
-				Player->vy = -100;
+				playerbullet.Destory();
+				monster.Get<HurtComponent>()->HealthPower -= playerbullet.Get<BulletComponent>()->damage;
+				if (monster.Get<HurtComponent>()->HealthPower <= 0) {
+					monster.Destory();
+				}
 				break;
 			case 2:
-				Player->vx = 100;
-				Player->vy = -100;
+				playerbullet.Destory();
+				monster.Get<HurtComponent>()->HealthPower -= playerbullet.Get<BulletComponent>()->damage;
+				if (monster.Get<HurtComponent>()->HealthPower <= 0) {
+					monster.Destory();
+				}
 				break;
 			default:
 				break;
 			}
 		});
-	});*/
+	});
+
+	
 }
