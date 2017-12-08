@@ -5,11 +5,13 @@
 #include "core/object/GameObjectPool.h"
 
 #include "factory/HeroFactory.h"
+#include "factory/MonsterFactory.h"
 #include "system/MoveSystem.h"
 #include "system/PlayerControlSystem.h"
 #include "system/WorldObstacleSystem.h"
 #include "system/RenderSystem.h"
 #include "system/GravitySystem.h"
+#include "system/CollisionSystem.h"
 
 class GameCore : public Core{
 public:
@@ -21,6 +23,7 @@ public:
 	PlayerControlSystem playerControlSystem;
 	WorldObstacleSystem worldObstacleSystem;
 	RenderSystem renderSystem;
+	CollisionSystem collisionSystem;
 
 	GameCore();
 
@@ -35,6 +38,9 @@ inline GameCore::GameCore() {
 inline void GameCore::Initialize() {
 	HeroFactory heroFactroy;
 	heroFactroy.Create(entityPool);
+
+	MonsterFactory monsterFactroy;
+	monsterFactroy.Create(entityPool);
 
 	tilePool.AddTile(0, 9, 0);
 	tilePool.AddTile(1, 9, 0);
@@ -52,5 +58,7 @@ inline void GameCore::Update(float& dt) {
 	playerControlSystem.Update(dt, *this);
 	moveSystem.Update(dt, *this);
 	worldObstacleSystem.Update(dt, *this);
+	collisionSystem.Update(dt, *this);
 	renderSystem.Update(dt, *this);
+	
 }
