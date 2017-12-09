@@ -71,4 +71,21 @@ namespace behavior {
 			jumpCom->floatTime = 0;
 		}
 	}
+
+	/**
+	 * \brief 使entity产生一个击退的效果
+	 * \param entity 目标entity
+	 * \param direction 击退方向，只能是Left或Right
+	 */
+	inline void Repel(GameEntityPool::Entity& entity, DIRECTION direction) {
+		auto velocityCom = entity.Get<VelocityComponent>();
+		if(direction==Left) {
+			velocityCom->vx = -500;
+			velocityCom->vy = -1000;
+		}
+		else if(direction==Right) {
+			velocityCom->vx = 500;
+			velocityCom->vy = -1000;
+		}
+	}
 }

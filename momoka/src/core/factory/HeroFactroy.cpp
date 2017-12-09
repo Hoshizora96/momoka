@@ -27,11 +27,11 @@ GameEntityPool::Entity HeroFactory::Create(GameEntityPool& pool) {
 
 	auto playerCom = PlayerComponent();
 
-	auto hurtCom = HurtComponent();
+	auto hurtCom = HealthComponent();
 	hurtCom.height = 2 * momoka::TILE_SIZE;
 	hurtCom.width = momoka::TILE_SIZE;
 
-	auto inputCom = CanInputComponent();
+	auto inputCom = InputControlComponent();
 
 	auto timingCom = TimingComponent();
 

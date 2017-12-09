@@ -1,14 +1,15 @@
 #include "stdafx.h"
-#include "core/system/CollisionSystem.h"
+#include "core/system/DamageSystem.h"
 #include "core/utility/utility.h"
 #include "core/GameCore.h"
+#include "core/utility/bahavior.h"
 
-void CollisionSystem::Update(float& dt, GameCore& core) {
+void DamageSystem::Update(float& dt, GameCore& core) {
 	//人物与怪物碰撞
-	core.entityPool.Each<HurtComponent, VelocityComponent, PositionComponent, PlayerComponent>(
+	core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, PlayerComponent>(
 		[&](GameEntityPool::Entity player) {
 
-		core.entityPool.Each<HurtComponent, VelocityComponent, PositionComponent, MonsterComponent>(
+		core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, MonsterComponent>(
 			[&](GameEntityPool::Entity monster) {
 
 			auto playerVelocityCom = player.Get<VelocityComponent>();
@@ -17,26 +18,26 @@ void CollisionSystem::Update(float& dt, GameCore& core) {
 			if (utility::CollisionDetector(
 				Vector2F(player.Get<PositionComponent>()->x,
 					player.Get<PositionComponent>()->y),
-				Vector2F(player.Get<HurtComponent>()->width,
-					player.Get<HurtComponent>()->height),
+				Vector2F(player.Get<HealthComponent>()->width,
+					player.Get<HealthComponent>()->height),
 				Vector2F(monster.Get<PositionComponent>()->x,
 					monster.Get<PositionComponent>()->y),
-				Vector2F(monster.Get<HurtComponent>()->width,
-					monster.Get<HurtComponent>()->height))
+				Vector2F(monster.Get<HealthComponent>()->width,
+					monster.Get<HealthComponent>()->height))
 				) {
-				player.Disable<CanInputComponent>();
+				player.Disable<InputControlComponent>();
 				if (playerPositionCom->x < monsterPositionCom->x) {
-					playerVelocityCom->vx = -500;
-					playerVelocityCom->vy = -1000;
+					behavior::Repel(player, Left);
 				}
 				else {
-					playerVelocityCom->vx = 500;
-					playerVelocityCom->vy = -1000;
+					behavior::Repel(player, Right);
 				}
 			}
 
 		});
 	});
+
+
 
 //	core.entityPool.Each<HurtComponent, VelocityComponent, PositionComponent, PlayerComponent, BulletComponent>(
 //		[&](GameEntityPool::Entity playerbullet) {

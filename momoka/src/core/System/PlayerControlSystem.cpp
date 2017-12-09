@@ -16,7 +16,7 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 		PositionComponent
 	>([&](GameEntityPool::Entity entity) {
 		auto velocityCom = entity.Get<VelocityComponent>();
-		if (entity.Has<CanInputComponent>()) {
+		if (entity.Has<InputControlComponent>()) {
 			if (inputService->IsKeyEventHappened(DIK_D)) {
 				behavior::Running(entity, dt, Right);
 			}
@@ -58,7 +58,7 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 					if (entity.Get<ObstacleComponent>()->yObstacle && entity.Get<ObstacleComponent>()->yDirection == Down) {
 						entity.Get<VelocityComponent>()->vx = 0;
 						entity.Get<VelocityComponent>()->vy = 0;
-						entity.Activate<CanInputComponent>();
+						entity.Activate<InputControlComponent>();
 					}
 				}
 			}
