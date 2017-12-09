@@ -8,6 +8,12 @@
 #include "core/object/components/PositionComponent.h"
 #include "core/object/components/RenderComponent.h"
 #include "core/object/components/PlayerComponent.h"
+#include "core/object/components/HurtComponent.h"
+#include "core/object/components/MonsterComponent.h"
+#include "core/object/components/CanInputComponent.h"
+#include "core/object/components/TimingComponent.h"
+#include "core/object/components/BulletComponent.h"
+#include "core/object/components/BulletStorageComponent.h"
 
 using GameEntityPool = EntityPool<
 	// 以下参数列表为安装的组件
@@ -18,5 +24,11 @@ using GameEntityPool = EntityPool<
 	JumpComponent,
 	PositionComponent,
 	RenderComponent,
-	PlayerComponent
+	PlayerComponent,
+	HurtComponent,
+	MonsterComponent,
+	CanInputComponent,
+	TimingComponent,
+	BulletComponent,
+	BulletStorageComponent
 >;

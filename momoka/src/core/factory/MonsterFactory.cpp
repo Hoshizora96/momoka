@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "core/factory/HeroFactory.h"
+#include "core/factory/MonsterFactory.h"
 
-GameEntityPool::Entity HeroFactory::Create(GameEntityPool& pool) {
+GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool) {
 	auto positionCom = PositionComponent();
-	positionCom.x = 0;
+	positionCom.x = 3 * momoka::TILE_SIZE;
 	positionCom.y = 0;
 
 	auto velocityCom = VelocityComponent();
@@ -25,17 +25,12 @@ GameEntityPool::Entity HeroFactory::Create(GameEntityPool& pool) {
 	renderCom.renderHeight = obstacleCom.obstacleHeight;
 	renderCom.renderWidth = obstacleCom.obstacleWidth;
 
-	auto playerCom = PlayerComponent();
+	auto monsterCom = MonsterComponent();
 
 	auto hurtCom = HurtComponent();
 	hurtCom.Height = 2 * momoka::TILE_SIZE;
 	hurtCom.Width = momoka::TILE_SIZE;
 
-	auto inputCom = CanInputComponent();
-
-	auto timingCom = TimingComponent();
-
-	auto bulletstorageCom = BulletStorageComponent();
 	return pool.CreateEntity(
 		positionCom,
 		velocityCom,
@@ -44,10 +39,7 @@ GameEntityPool::Entity HeroFactory::Create(GameEntityPool& pool) {
 		moveCom,
 		obstacleCom,
 		renderCom,
-		playerCom,
-		hurtCom,
-		inputCom,
-		timingCom,
-		bulletstorageCom
-	);
+		monsterCom,
+		hurtCom
+		);
 }

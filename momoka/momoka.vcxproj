@@ -155,7 +155,9 @@
   <ItemGroup>
     <ClCompile Include="src\core\factory\BulletFactory.cpp" />
     <ClCompile Include="src\core\factory\HeroFactroy.cpp" />
+    <ClCompile Include="src\core\factory\MonsterFactory.cpp" />
     <ClCompile Include="src\core\map\TilePool.cpp" />
+    <ClCompile Include="src\core\System\CollisionSystem.cpp" />
     <ClCompile Include="src\core\System\GravitySystem.cpp" />
     <ClCompile Include="src\core\System\MoveSystem.cpp" />
     <ClCompile Include="src\core\System\PlayerControlSystem.cpp" />
@@ -189,18 +191,26 @@
     <ClInclude Include="include\core\Core.h" />
     <ClInclude Include="include\core\factory\BulletFactory.h" />
     <ClInclude Include="include\core\factory\HeroFactory.h" />
+    <ClInclude Include="include\core\factory\MonsterFactory.h" />
     <ClInclude Include="include\core\GameCore.h" />
     <ClInclude Include="include\core\map\TilePool.h" />
+    <ClInclude Include="include\core\object\components\BulletComponent.h" />
+    <ClInclude Include="include\core\object\components\BulletStorageComponent.h" />
+    <ClInclude Include="include\core\object\components\CanInputComponent.h" />
     <ClInclude Include="include\core\object\components\GravityComponent.h" />
+    <ClInclude Include="include\core\object\components\HurtComponent.h" />
     <ClInclude Include="include\core\object\components\JumpComponent.h" />
+    <ClInclude Include="include\core\object\components\MonsterComponent.h" />
     <ClInclude Include="include\core\object\components\MoveComponent.h" />
     <ClInclude Include="include\core\object\components\ObstacleComponent.h" />
     <ClInclude Include="include\core\object\components\PlayerComponent.h" />
     <ClInclude Include="include\core\object\components\PositionComponent.h" />
     <ClInclude Include="include\core\object\components\RenderComponent.h" />
+    <ClInclude Include="include\core\object\components\TimingComponent.h" />
     <ClInclude Include="include\core\object\components\VelocityComponent.h" />
     <ClInclude Include="include\core\object\components\WeaponSlotComponent.h" />
     <ClInclude Include="include\core\object\GameObjectPool.h" />
+    <ClInclude Include="include\core\system\CollisionSystem.h" />
     <ClInclude Include="include\core\system\GravitySystem.h" />
     <ClInclude Include="include\core\system\MoveSystem.h" />
     <ClInclude Include="include\core\system\PlayerControlSystem.h" />
