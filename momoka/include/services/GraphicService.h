@@ -15,7 +15,8 @@ public:
 	bool BeginDraw();
 	bool EndDraw();
 
-	bool LoadBitMap(LPWSTR path);
+	bool LoadBitMap(LPWSTR path, ID2D1Bitmap** ppBitmap);
+	void DrawBitmap(ID2D1Bitmap* pBitmap);
 
 	void KillWindow();
 
@@ -44,6 +45,8 @@ private:
 	ID2D1SolidColorBrush* m_pCornflowerBlueBrush_ = nullptr;
 
 	IWICImagingFactory2* m_pWicFactory_ = nullptr;
+
+	ID2D1Bitmap1* m_pMapAsset_ = nullptr;
 
 	bool m_bufferLock_;
 

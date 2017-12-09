@@ -25,6 +25,8 @@ public:
 	WorldObstacleSystem worldObstacleSystem;
 	RenderSystem renderSystem;
 
+	ID2D1Bitmap* heroBitmap;
+
 	GameCore();
 
 	void Initialize();
