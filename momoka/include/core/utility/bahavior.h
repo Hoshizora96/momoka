@@ -71,6 +71,4 @@ namespace behavior {
 			jumpCom->floatTime = 0;
 		}
 	}
-
-	// void Shoot()
 }
