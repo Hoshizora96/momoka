@@ -28,8 +28,8 @@ GameEntityPool::Entity HeroFactory::Create(GameEntityPool& pool) {
 	auto playerCom = PlayerComponent();
 
 	auto hurtCom = HurtComponent();
-	hurtCom.Height = 2 * momoka::TILE_SIZE;
-	hurtCom.Width = momoka::TILE_SIZE;
+	hurtCom.height = 2 * momoka::TILE_SIZE;
+	hurtCom.width = momoka::TILE_SIZE;
 
 	auto inputCom = CanInputComponent();
 

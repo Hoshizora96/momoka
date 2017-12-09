@@ -28,8 +28,8 @@ GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool) {
 	auto monsterCom = MonsterComponent();
 
 	auto hurtCom = HurtComponent();
-	hurtCom.Height = 2 * momoka::TILE_SIZE;
-	hurtCom.Width = momoka::TILE_SIZE;
+	hurtCom.height = 2 * momoka::TILE_SIZE;
+	hurtCom.width = momoka::TILE_SIZE;
 
 	return pool.CreateEntity(
 		positionCom,

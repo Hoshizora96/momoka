@@ -26,8 +26,8 @@ GameEntityPool::Entity BulletFactory::Create(GameEntityPool& pool) {
 
 
 	auto hurtCom = HurtComponent();
-	hurtCom.Height = bulletCom.obstacleHeight;
-	hurtCom.Width = bulletCom.obstacleWidth;
+	hurtCom.height = bulletCom.obstacleHeight;
+	hurtCom.width = bulletCom.obstacleWidth;
 
 	
 

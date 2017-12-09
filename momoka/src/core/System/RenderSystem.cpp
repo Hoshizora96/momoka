@@ -5,7 +5,7 @@
 #include "services/GraphicService.h"
 
 void RenderSystem::Update(float& dt, GameCore& core) {
-	core.entityPool.Each<PositionComponent>([&](GameEntityPool::Entity entity) {
+	core.entityPool.Each<PlayerComponent>([&](GameEntityPool::Entity entity) {
 		core.camera.LookAt(entity.Get<PositionComponent>()->x, entity.Get<PositionComponent>()->y);
 	});
 	auto graphicService = Engine::serviceLoader.LocateService<GraphicService>(Service_graphic).lock();

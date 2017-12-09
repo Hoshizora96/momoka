@@ -197,6 +197,7 @@
     <ClInclude Include="include\core\object\components\BulletComponent.h" />
     <ClInclude Include="include\core\object\components\BulletStorageComponent.h" />
     <ClInclude Include="include\core\object\components\CanInputComponent.h" />
+    <ClInclude Include="include\core\object\components\FriendComponent.h" />
     <ClInclude Include="include\core\object\components\GravityComponent.h" />
     <ClInclude Include="include\core\object\components\HurtComponent.h" />
     <ClInclude Include="include\core\object\components\JumpComponent.h" />
@@ -218,7 +219,8 @@
     <ClInclude Include="include\core\system\WorldObstacleSystem.h" />
     <ClInclude Include="include\core\system\System.h" />
     <ClInclude Include="include\core\tools\Camera.h" />
-    <ClInclude Include="include\core\utility\CollisionDetector.h" />
+    <ClInclude Include="include\core\utility\bahavior.h" />
+    <ClInclude Include="include\core\utility\utility.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\exception\MomokaException.h" />
     <ClInclude Include="include\exception\ServiceException.h" />

@@ -50,11 +50,11 @@ inline void GameCore::Initialize() {
 	MonsterFactory monsterFactroy;
 	monsterFactroy.Create(entityPool);
 
-	tilePool.AddTile(0, 9, 0);
-	tilePool.AddTile(1, 9, 0);
-	tilePool.AddTile(2, 9, 0);
-	tilePool.AddTile(3, 9, 0);
-	tilePool.AddTile(4, 9, 0);
+	tilePool.AddTile(0, 11, 0);
+	tilePool.AddTile(1, 11, 0);
+	tilePool.AddTile(2, 11, 0);
+	tilePool.AddTile(3, 11, 0);
+	tilePool.AddTile(4, 11, 0);
 	tilePool.AddTile(4, 5, 0);
 	tilePool.AddTile(5, 11, 0);
 	tilePool.AddTile(5, 7, 0);

@@ -5,68 +5,49 @@
 #include "Engine.h"
 #include "services/InputService.h"
 #include "util/Log.h"
+#include "core/utility/bahavior.h"
 
 void PlayerControlSystem::Update(float& dt, GameCore& core) {
 	auto inputService = Engine::serviceLoader.LocateService<InputService>(Service_input).lock();
 	core.entityPool.Each<
 		PlayerComponent,
 		VelocityComponent,
-		MoveComponent
+		MoveComponent,
+		PositionComponent
 	>([&](GameEntityPool::Entity entity) {
 		auto velocityCom = entity.Get<VelocityComponent>();
-		if (entity.Has<CanInputComponent>()) {		
+		if (entity.Has<CanInputComponent>()) {
 			if (inputService->IsKeyEventHappened(DIK_D)) {
-				velocityCom->vx = entity.Get<MoveComponent>()->runningVelocity;
+				behavior::Running(entity, dt, Right);
 			}
-			else if (inputService->IsKeyEventHappened(DIK_D, Key_release)) {
-				velocityCom->vx = 0;
+			else if (inputService->IsKeyEventHappened(DIK_A)) {
+				behavior::Running(entity, dt, Left);
+
+			}
+			else {
+				behavior::Stand(entity);
 			}
 
-			if (inputService->IsKeyEventHappened(DIK_A)) {
-				velocityCom->vx = -entity.Get<MoveComponent>()->runningVelocity;
+			if (inputService->IsKeyEventHappened(DIK_K)) {
+				behavior::Jump(entity, dt);
 			}
-			else if (inputService->IsKeyEventHappened(DIK_A, Key_release)) {
-				velocityCom->vx = 0;
+			else if (inputService->IsKeyEventHappened(DIK_K, Key_release)) {
+				behavior::StopJumpAndFall(entity);
 			}
 
-			if (entity.Has<ObstacleComponent, JumpComponent>()) {
-				auto jumpCom = entity.Get<JumpComponent>();
-				auto obstacleCom = entity.Get<ObstacleComponent>();
 
-			if (obstacleCom->yObstacle && obstacleCom->yDirection == Down) {
-				jumpCom->jumpedTimes = 0;
-				jumpCom->floatTime = 0;
-			}
-			if (jumpCom->jumpedTimes < jumpCom->maxJumpTimes) {
-				if (inputService->IsKeyEventHappened(DIK_K, Key_press)) {
-					jumpCom->floatTime = 0;
-					velocityCom->vy = -jumpCom->jumpVelocity;
-				}
-
-				if (jumpCom->jumpedTimes <= jumpCom->maxJumpTimes
-					&& jumpCom->floatTime < jumpCom->maxFloatTime
-					&& !(obstacleCom->yObstacle && obstacleCom->yDirection == Down)
-					&& inputService->IsKeyEventHappened(DIK_K)) {
-					velocityCom->vy = -jumpCom->jumpVelocity;
-					jumpCom->floatTime += dt;
-				}
-				else if (jumpCom->floatTime < jumpCom->maxFloatTime
-					&& inputService->IsKeyEventHappened(DIK_K, Key_release)) {
-					velocityCom->vy = 0;
-				}
-			}
 
 			if (entity.Has<BulletStorageComponent>()) {
-				if (inputService->IsKeyEventHappened(DIK_J, Key_press)) { //Éä»÷
+				if (inputService->IsKeyEventHappened(DIK_J, Key_press)) {
+					//Éä»÷
 					BulletFactory bulletFactory;
 					auto bullet = bulletFactory.Create(core.entityPool);
 					bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x + momoka::TILE_SIZE;
-					bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;				}
+					bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
+				}
 			}
 		}
 		else {
-
-			
 			if (entity.Has<TimingComponent>()) {
 				auto inputableTime = entity.Get<TimingComponent>();
 				if (inputableTime->InputDisabledTime < inputableTime->MaxInputDisabledTime) {
@@ -82,6 +63,6 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 				}
 			}
 		}
-
 	});
 }
+

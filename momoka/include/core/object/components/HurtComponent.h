@@ -4,7 +4,7 @@
 
 class HurtComponent :public Component {
 public:
-	float HealthPower = 100;
-	float Width = 0;
-	float Height = 0;
+	float healthPower = 100;
+	float width = 0;
+	float height = 0;
 };

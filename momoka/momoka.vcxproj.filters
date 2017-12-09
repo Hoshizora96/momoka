@@ -72,6 +72,12 @@
     <ClCompile Include="src\core\tools\Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\factory\MonsterFactory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\System\CollisionSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.md" />
@@ -313,7 +319,37 @@
     <ClInclude Include="include\core\tools\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\core\utility\CollisionDetector.h">
+    <ClInclude Include="include\core\factory\MonsterFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\BulletComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\BulletStorageComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\CanInputComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\HurtComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\MonsterComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\TimingComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\system\CollisionSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\FriendComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\utility\utility.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\utility\bahavior.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
