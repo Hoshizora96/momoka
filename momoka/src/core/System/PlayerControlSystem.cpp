@@ -38,10 +38,17 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 
 
 			if (entity.Has<BulletStorageComponent>()) {
+				auto bulletStorage = entity.Get<BulletStorageComponent>();
+				if (inputService->IsKeyEventHappened(DIK_TAB, Key_press)) {
+					bulletStorage->curGenreNum = (bulletStorage->curGenreNum + 1) % bulletStorage->maxGenreNum;
+					while (bulletStorage->genre[bulletStorage->curGenreNum] == 0) {
+						bulletStorage->curGenreNum = (bulletStorage->curGenreNum + 1) % bulletStorage->maxGenreNum;
+					}
+				}
 				if (inputService->IsKeyEventHappened(DIK_J, Key_press)) {
 					//Éä»÷
 					BulletFactory bulletFactory;
-					auto bullet = bulletFactory.Create(core.entityPool);
+					auto bullet = bulletFactory.Create(core.entityPool, bulletStorage->curGenreNum);
 					bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x + momoka::TILE_SIZE;
 					bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
 				}

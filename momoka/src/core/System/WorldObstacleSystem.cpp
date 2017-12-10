@@ -196,6 +196,7 @@ void WorldObstacleSystem::TakeObstacle(GameEntityPool::Entity& entity, DIRECTION
 		obstaclePtr->xDirection = direction;
 		positionPtr->x = correntPosition;
 		velocityPtr->vx = 0;
+		
 	}
 	else {
 		obstaclePtr->yObstacle = true;
@@ -203,4 +204,7 @@ void WorldObstacleSystem::TakeObstacle(GameEntityPool::Entity& entity, DIRECTION
 		positionPtr->y = correntPosition;
 		velocityPtr->vy = 0;
 	}
+	/*if (entity.Has<BulletComponent>()) {
+		entity.Destory();
+	}*/
 }

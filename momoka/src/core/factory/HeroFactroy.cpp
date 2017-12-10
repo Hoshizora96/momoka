@@ -27,9 +27,9 @@ GameEntityPool::Entity HeroFactory::Create(GameEntityPool& pool) {
 
 	auto playerCom = PlayerComponent();
 
-	auto hurtCom = HealthComponent();
-	hurtCom.height = 2 * momoka::TILE_SIZE;
-	hurtCom.width = momoka::TILE_SIZE;
+	auto healthCom = HealthComponent();
+	healthCom.height = 2 * momoka::TILE_SIZE;
+	healthCom.width = momoka::TILE_SIZE;
 
 	auto inputCom = InputControlComponent();
 
@@ -45,7 +45,7 @@ GameEntityPool::Entity HeroFactory::Create(GameEntityPool& pool) {
 		obstacleCom,
 		renderCom,
 		playerCom,
-		hurtCom,
+		healthCom,
 		inputCom,
 		timingCom,
 		bulletstorageCom

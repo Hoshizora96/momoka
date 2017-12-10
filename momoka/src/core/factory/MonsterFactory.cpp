@@ -27,9 +27,9 @@ GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool) {
 
 	auto monsterCom = MonsterComponent();
 
-	auto hurtCom = HealthComponent();
-	hurtCom.height = 2 * momoka::TILE_SIZE;
-	hurtCom.width = momoka::TILE_SIZE;
+	auto healthCom = HealthComponent();
+	healthCom.height = 2 * momoka::TILE_SIZE;
+	healthCom.width = momoka::TILE_SIZE;
 
 	return pool.CreateEntity(
 		positionCom,
@@ -40,6 +40,6 @@ GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool) {
 		obstacleCom,
 		renderCom,
 		monsterCom,
-		hurtCom
+		healthCom
 		);
 }

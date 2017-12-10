@@ -2,5 +2,5 @@
 #include "core/object/GameObjectPool.h"
 class BulletFactory{
 public:
-	GameEntityPool::Entity Create(GameEntityPool& pool);
+	GameEntityPool::Entity Create(GameEntityPool& pool, int i);
 };

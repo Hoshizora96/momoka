@@ -32,6 +32,10 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 				else {
 					behavior::Repel(player, Right);
 				}
+			/*	player.Get<HealthComponent>()->healthPower -= monster.Get<MonsterComponent>()->CollisionDamage;
+				if (player.Get<HealthComponent>()->healthPower <= 0) {
+					player.Destory();
+				}*/
 			}
 
 		});
@@ -39,28 +43,28 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 
 
 
-//	core.entityPool.Each<HurtComponent, VelocityComponent, PositionComponent, PlayerComponent, BulletComponent>(
-//		[&](GameEntityPool::Entity playerbullet) {
-//
-//		core.entityPool.Each<HurtComponent, VelocityComponent, PositionComponent, MonsterComponent>(
-//			[&](GameEntityPool::Entity monster) {
-//			//人物与怪物子弹碰撞
-//			auto PlayerBullet = playerbullet.Get<VelocityComponent>();
-//			if (utility::CollisionDetector(
-//				Vector2F(player.Get<PositionComponent>()->x,
-//					player.Get<PositionComponent>()->y),
-//				Vector2F(player.Get<HurtComponent>()->width,
-//					player.Get<HurtComponent>()->height),
-//				Vector2F(monster.Get<PositionComponent>()->x,
-//					monster.Get<PositionComponent>()->y),
-//				Vector2F(monster.Get<HurtComponent>()->width,
-//					monster.Get<HurtComponent>()->height))) {
-//				playerbullet.Destory();
-//				monster.Get<HurtComponent>()->healthPower -= playerbullet.Get<BulletComponent>()->damage;
-//				if (monster.Get<HurtComponent>()->healthPower <= 0) {
-//					monster.Destory();
-//				}
-//			}
-//		});
-//	});
+	core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, PlayerComponent, BulletComponent>(
+		[&](GameEntityPool::Entity playerbullet) {
+
+		core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, MonsterComponent>(
+				[&](GameEntityPool::Entity monster) {
+			//人物与怪物子弹碰撞
+			auto PlayerBullet = playerbullet.Get<VelocityComponent>();
+			if (utility::CollisionDetector(
+				Vector2F(playerbullet.Get<PositionComponent>()->x,
+					playerbullet.Get<PositionComponent>()->y),
+				Vector2F(playerbullet.Get<HealthComponent>()->width,
+					playerbullet.Get<HealthComponent>()->height),
+				Vector2F(monster.Get<PositionComponent>()->x,
+					monster.Get<PositionComponent>()->y),
+				Vector2F(monster.Get<HealthComponent>()->width,
+					monster.Get<HealthComponent>()->height))) {
+				playerbullet.Destory();
+				monster.Get<HealthComponent>()->healthPower -= playerbullet.Get<BulletComponent>()->damage;
+				if (monster.Get<HealthComponent>()->healthPower <= 0) {
+					monster.Destory();
+				}
+			}
+		});
+	});
 }
