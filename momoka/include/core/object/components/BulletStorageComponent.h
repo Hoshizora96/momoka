@@ -1,12 +1,13 @@
 #pragma once
 #include "core/object/components/Component.h"
 
+#define maxGenreNum 10
 #define normalbullet 0
-#define longbullet 0
+#define longbullet 1
 
 class BulletStorageComponent :public Component {
 public:
-	int maxGenreNum = 10;
+	int MaxGenreNum = maxGenreNum;
 	int curGenreNum = 0;
-	int genre[10] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
+	int genre[maxGenreNum] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
 };

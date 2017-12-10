@@ -16,13 +16,15 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 		PositionComponent
 	>([&](GameEntityPool::Entity entity) {
 		auto velocityCom = entity.Get<VelocityComponent>();
+		auto playerCom = entity.Get<PlayerComponent>();
 		if (entity.Has<InputControlComponent>()) {
 			if (inputService->IsKeyEventHappened(DIK_D)) {
 				behavior::Running(entity, dt, Right);
+				playerCom->direction = right;
 			}
 			else if (inputService->IsKeyEventHappened(DIK_A)) {
 				behavior::Running(entity, dt, Left);
-
+				playerCom->direction = left;
 			}
 			else {
 				behavior::Stand(entity);
@@ -40,17 +42,25 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 			if (entity.Has<BulletStorageComponent>()) {
 				auto bulletStorage = entity.Get<BulletStorageComponent>();
 				if (inputService->IsKeyEventHappened(DIK_TAB, Key_press)) {
-					bulletStorage->curGenreNum = (bulletStorage->curGenreNum + 1) % bulletStorage->maxGenreNum;
+					bulletStorage->curGenreNum = (bulletStorage->curGenreNum + 1) % bulletStorage->MaxGenreNum;
 					while (bulletStorage->genre[bulletStorage->curGenreNum] == 0) {
-						bulletStorage->curGenreNum = (bulletStorage->curGenreNum + 1) % bulletStorage->maxGenreNum;
+						bulletStorage->curGenreNum = (bulletStorage->curGenreNum + 1) % bulletStorage->MaxGenreNum;
 					}
 				}
 				if (inputService->IsKeyEventHappened(DIK_J, Key_press)) {
 					//Éä»÷
 					BulletFactory bulletFactory;
 					auto bullet = bulletFactory.Create(core.entityPool, bulletStorage->curGenreNum);
-					bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x + momoka::TILE_SIZE;
-					bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
+					if (playerCom->direction == 0) {
+						bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x + momoka::TILE_SIZE;
+						bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
+					}
+					else {
+						bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x;
+						bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
+						bullet.Get<VelocityComponent>()->vx = -bullet.Get<VelocityComponent>()->vx;
+					}
+					
 				}
 			}
 		}

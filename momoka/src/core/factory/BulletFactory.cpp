@@ -51,9 +51,6 @@ GameEntityPool::Entity BulletFactory::Create(GameEntityPool& pool, int curGenreN
 	renderCom.renderHeight = obstacleCom.obstacleHeight;
 	renderCom.renderWidth = obstacleCom.obstacleWidth;
 
-	
-	
-
 	auto timingCom = TimingComponent();
 
 	return pool.CreateEntity(
