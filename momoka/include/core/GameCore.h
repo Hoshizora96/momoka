@@ -14,6 +14,9 @@
 #include "system/GravitySystem.h"
 #include "system/DamageSystem.h"
 
+#include "Engine.h"
+#include "services/GraphicService.h"
+
 class GameCore : public Core{
 public:
 	GameEntityPool entityPool;
@@ -44,6 +47,10 @@ inline GameCore::GameCore() {
 }
 
 inline void GameCore::Initialize() {
+	auto graphicService = Engine::serviceLoader.LocateService<GraphicService>(Service_graphic).lock();
+
+	graphicService->LoadBitMap(L"content/assert/40.png", &heroBitmap);
+
 	HeroFactory heroFactroy;
 	heroFactroy.Create(entityPool);
 

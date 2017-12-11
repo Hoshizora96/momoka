@@ -252,7 +252,6 @@ void GraphicService::DrawBitmap(ID2D1Bitmap* pBitmap) {
 	HRESULT hr = m_pRenderTarget_->EndDraw();
 	if (FAILED(hr)) {
 		MessageBox(nullptr, L"Draw failed!", L"Error", 0);
-
 		return;
 	}
 }

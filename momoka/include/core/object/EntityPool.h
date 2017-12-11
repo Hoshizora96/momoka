@@ -284,7 +284,8 @@ public:
 
 	template <typename... TSubComps>
 	void Each(typename Identity<std::function<void(Entity)>>::type func) {
-		for (auto index : m_cachedEntities_) {
+		auto copy = m_cachedEntities_;
+		for (auto index : copy) {
 			if (AllTrue(HasComponent<TSubComps>(index)...))
 				func(Entity(this, m_entityInfoArray_[index].version, index));
 		}
