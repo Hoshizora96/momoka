@@ -49,18 +49,8 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 				}
 				if (inputService->IsKeyEventHappened(DIK_J, Key_press)) {
 					//Éä»÷
-					BulletFactory bulletFactory;
-					auto bullet = bulletFactory.Create(core.entityPool, bulletStorage->curGenreNum);
-					if (playerCom->direction == Right) {
-						bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x + momoka::TILE_SIZE;
-						bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
+					behavior::Shoot(entity, core, playerCom->direction);
 					}
-					else {
-						bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x;
-						bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
-						bullet.Get<VelocityComponent>()->vx = -bullet.Get<VelocityComponent>()->vx;
-					}
-				}
 			}
 		}
 		else {
