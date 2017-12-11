@@ -21,6 +21,7 @@
 #include "core/object/components/TimingComponent.h"
 #include "core/object/components/VelocityComponent.h"
 #include "core/object/components/WeaponSlotComponent.h"
+#include "core/object/components/DeadComponent.h"
 
 using GameEntityPool = EntityPool<
 	// 以下参数列表为安装的组件
@@ -39,5 +40,6 @@ using GameEntityPool = EntityPool<
 	PositionComponent,
 	RenderComponent,
 	TimingComponent,
-	VelocityComponent
+	VelocityComponent,
+	DeadComponent
 >;

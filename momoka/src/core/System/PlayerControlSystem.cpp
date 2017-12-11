@@ -20,11 +20,11 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 		if (entity.Has<InputControlComponent>()) {
 			if (inputService->IsKeyEventHappened(DIK_D)) {
 				behavior::Running(entity, dt, Right);
-				playerCom->direction = right;
+				playerCom->direction = Right;
 			}
 			else if (inputService->IsKeyEventHappened(DIK_A)) {
 				behavior::Running(entity, dt, Left);
-				playerCom->direction = left;
+				playerCom->direction = Left;
 			}
 			else {
 				behavior::Stand(entity);
@@ -51,7 +51,7 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 					//Éä»÷
 					BulletFactory bulletFactory;
 					auto bullet = bulletFactory.Create(core.entityPool, bulletStorage->curGenreNum);
-					if (playerCom->direction == 0) {
+					if (playerCom->direction == Right) {
 						bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x + momoka::TILE_SIZE;
 						bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
 					}
@@ -60,7 +60,6 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 						bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
 						bullet.Get<VelocityComponent>()->vx = -bullet.Get<VelocityComponent>()->vx;
 					}
-					
 				}
 			}
 		}

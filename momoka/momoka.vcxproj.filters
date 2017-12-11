@@ -78,6 +78,9 @@
     <ClCompile Include="src\core\System\DamageSystem.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\System\DeadSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.md" />
@@ -354,6 +357,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\core\object\components\HealthComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\DeadComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\system\DeadSystem.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

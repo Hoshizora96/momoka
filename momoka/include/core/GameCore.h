@@ -13,6 +13,7 @@
 #include "system/RenderSystem.h"
 #include "system/GravitySystem.h"
 #include "system/DamageSystem.h"
+#include "system/DeadSystem.h"
 
 class GameCore : public Core{
 public:
@@ -27,6 +28,7 @@ public:
 	WorldObstacleSystem worldObstacleSystem;
 	RenderSystem renderSystem;
 	DamageSystem damageSystem;
+	DeadSystem deadSystem;
 
 	ID2D1Bitmap* heroBitmap;
 
@@ -68,5 +70,6 @@ inline void GameCore::Update(float& dt) {
 	worldObstacleSystem.Update(dt, *this);
 	damageSystem.Update(dt, *this);
 	renderSystem.Update(dt, *this);
+	deadSystem.Update(dt, *this);
 	
 }
