@@ -35,12 +35,11 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 				else {
 					behavior::Repel(player, Right);
 				}
-			/*	player.Get<HealthComponent>()->healthPower -= monster.Get<MonsterComponent>()->CollisionDamage;
+				player.Get<HealthComponent>()->healthPower -= monster.Get<MonsterComponent>()->CollisionDamage;
 				if (player.Get<HealthComponent>()->healthPower <= 0) {
-					player.Destory();
-				}*/
+					player.Activate<DeadComponent>();
+				}
 			}
-
 		});
 	});
 	end = GetCurrentTick();
@@ -49,8 +48,8 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 //		MOMOKA_LOG(momoka::debug) << " +-- first loop cost " << (end - begin) * 1000 / Engine::freq;
 //	}
 
-	begin = GetCurrentTick();
-	core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, PlayerComponent, BulletComponent>(
+
+	core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, FriendComponent, BulletComponent>(
 		[&](GameEntityPool::Entity playerbullet) {
 
 		core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, MonsterComponent>(
@@ -66,10 +65,10 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 					monster.Get<PositionComponent>()->y),
 				Vector2F(monster.Get<HealthComponent>()->width,
 					monster.Get<HealthComponent>()->height))) {
-				playerbullet.Destory();
+				playerbullet.Activate<DeadComponent>();
 				monster.Get<HealthComponent>()->healthPower -= playerbullet.Get<BulletComponent>()->damage;
 				if (monster.Get<HealthComponent>()->healthPower <= 0) {
-					monster.Destory();
+					monster.Activate<DeadComponent>();
 				}
 			}
 		});

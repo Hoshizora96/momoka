@@ -1,7 +1,9 @@
 #pragma once
 #include "core/object/GameObjectPool.h"
+#include "core/GameCore.h"
 #include "Engine.h"
 #include "services/InputService.h"
+#include "core/factory/BulletFactory.h"
 
 namespace behavior {
 	/**
@@ -86,6 +88,21 @@ namespace behavior {
 		else if(direction==Right) {
 			velocityCom->vx = 500;
 			velocityCom->vy = -1000;
+		}
+	}
+
+	inline void Shoot(GameEntityPool::Entity& entity, GameCore& core, DIRECTION direction) {
+		auto bulletStorage = entity.Get<BulletStorageComponent>();
+		BulletFactory bulletFactory;
+		GameEntityPool::Entity bullet = bulletFactory.Create(core.entityPool, bulletStorage->curGenreNum);
+		if (direction == Right) {
+			bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x + momoka::TILE_SIZE;
+			bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
+		}
+		else {
+			bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x;
+			bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
+			bullet.Get<VelocityComponent>()->vx = -bullet.Get<VelocityComponent>()->vx;
 		}
 	}
 }

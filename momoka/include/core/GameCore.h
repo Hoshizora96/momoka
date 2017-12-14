@@ -7,6 +7,7 @@
 
 #include "factory/HeroFactory.h"
 #include "factory/MonsterFactory.h"
+#include "factory/PropFactory.h"
 #include "system/MoveSystem.h"
 #include "system/PlayerControlSystem.h"
 #include "system/WorldObstacleSystem.h"
@@ -14,6 +15,7 @@
 #include "system/GravitySystem.h"
 #include "system/DamageSystem.h"
 #include "system/DeadSystem.h"
+#include "system/PickPropSystem.h"
 
 #include "Engine.h"
 #include "services/GraphicService.h"
@@ -32,6 +34,7 @@ public:
 	RenderSystem renderSystem;
 	DamageSystem damageSystem;
 	DeadSystem deadSystem;
+	PickPropSystem pickpropSystem;
 
 	ID2D1Bitmap* heroBitmap;
 
@@ -51,13 +54,17 @@ inline GameCore::GameCore() {
 inline void GameCore::Initialize() {
 	auto graphicService = Engine::serviceLoader.LocateService<GraphicService>(Service_graphic).lock();
 
-	graphicService->LoadBitMap(L"content/assert/40.png", &heroBitmap);
+	//graphicService->LoadBitMap(L"content/assert/40.png", &heroBitmap);
 
 	HeroFactory heroFactroy;
 	heroFactroy.Create(entityPool);
 
 	MonsterFactory monsterFactroy;
 	monsterFactroy.Create(entityPool);
+
+	PropFactory propFactory;
+	propFactory.Create(entityPool, 0);
+	propFactory.Create(entityPool, 1);
 
 	tilePool.AddTile(0, 11, 0);
 	tilePool.AddTile(1, 11, 0);
@@ -136,5 +143,6 @@ inline void GameCore::Update(float& dt) {
 //	damageSystem.Update(dt, *this);
 //	renderSystem.Update(dt, *this);
 //	deadSystem.Update(dt, *this);
+	pickpropSystem.Update(dt, *this);
 	
 }

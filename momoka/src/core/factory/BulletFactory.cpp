@@ -21,6 +21,7 @@ GameEntityPool::Entity BulletFactory::Create(GameEntityPool& pool, int curGenreN
 
 	auto obstacleCom = ObstacleComponent();
 
+	auto friendCom = FriendComponent();
 
 	switch (curGenreNum) {
 	case 0:
@@ -61,6 +62,7 @@ GameEntityPool::Entity BulletFactory::Create(GameEntityPool& pool, int curGenreN
 		renderCom,
 		bulletCom,
 		hurtCom,
-		timingCom
+		timingCom,
+		friendCom
 		);
 }

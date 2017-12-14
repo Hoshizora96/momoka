@@ -6,6 +6,6 @@ void DeadSystem::Update(float& dt, GameCore& core) {
 	//人物与怪物碰撞
 	core.entityPool.Each<DeadComponent>(
 		[&](GameEntityPool::Entity entity) {
-//		entity.Destory();
+		entity.Destory();
 	});
 }
