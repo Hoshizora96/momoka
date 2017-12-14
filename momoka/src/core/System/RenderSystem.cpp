@@ -17,6 +17,5 @@ void RenderSystem::Update(float& dt, GameCore& core) {
 	});
 
 	core.tilePool.Render(core.camera);
-
-	
+	graphicService->DrawBitmap(core.heroBitmap);
 }

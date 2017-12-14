@@ -16,8 +16,13 @@ GraphicService::~GraphicService() {
 
 bool GraphicService::CreateDeviceIndependentResources() {
 	HRESULT hr = S_OK;
+	CoInitialize(nullptr);
 	if (SUCCEEDED(hr)) {
 		hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pDirect2DFactory_);
+	}
+
+	if (SUCCEEDED(hr)) {
+		hr = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_pWicFactory_));
 	}
 
 	if (SUCCEEDED(hr)) {
@@ -122,8 +127,10 @@ bool GraphicService::BeginDraw() {
 	// 防止连续调用两次BeginDraw
 	if (m_bufferLock_) {
 		m_bufferLock_ = false;
-		bool result;
-		result = CreateDeviceResources();
+		bool result = true;
+		if(m_deviceResetFlag_) {
+			result = CreateDeviceResources();
+		}
 		if (result) {
 			m_pRenderTarget_->BeginDraw();
 		}
@@ -143,6 +150,7 @@ bool GraphicService::EndDraw() {
 		if (hr == D2DERR_RECREATE_TARGET) {
 			hr = S_OK;
 			DiscardDeviceResources();
+			m_deviceResetFlag_ = true;
 		}
 		return SUCCEEDED(hr);
 	}
@@ -154,6 +162,8 @@ bool GraphicService::EndDraw() {
 
 bool GraphicService::LoadBitMap(LPWSTR path, ID2D1Bitmap** ppBitmap) {
 	// LoadBitmapFromFile();
+
+	CreateDeviceResources();
 
 	HRESULT hr = S_OK;
 
@@ -231,7 +241,7 @@ bool GraphicService::LoadBitMap(LPWSTR path, ID2D1Bitmap** ppBitmap) {
 
 void GraphicService::DrawBitmap(ID2D1Bitmap* pBitmap) {
 
-	m_pRenderTarget_->BeginDraw();
+
 
 	// Clear background color to dark cyan
 	// m_pRenderTarget_->Clear(D2D1::ColorF(D2D1::ColorF::White));
@@ -249,11 +259,10 @@ void GraphicService::DrawBitmap(ID2D1Bitmap* pBitmap) {
 			upperLeftCorner.y + size.height)
 	);
 
-	HRESULT hr = m_pRenderTarget_->EndDraw();
-	if (FAILED(hr)) {
-		MessageBox(nullptr, L"Draw failed!", L"Error", 0);
-		return;
-	}
+//	if (FAILED(hr)) {
+//		MessageBox(nullptr, L"Draw failed!", L"Error", 0);
+//		return;
+//	}
 }
 
 void GraphicService::KillWindow() {

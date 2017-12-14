@@ -12,6 +12,7 @@
 
 LONGLONG Engine::freq = GetCurrentFrequency();
 float Engine::refreshRate = 60.f;
+bool Engine::aSecond = false;
 ServiceLoader Engine::serviceLoader;
 
 Engine::Engine(): m_debugConsole_(false) {
@@ -57,6 +58,8 @@ void Engine::Run() {
 
 	auto preTick = GetCurrentTick();
 
+	int loop_counter = 0;
+
 	while (!gameover) {
 		// Windows Message Loop
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
@@ -76,11 +79,20 @@ void Engine::Run() {
 		dt += (curTick - preTick) * 1000 / freq;
 		preTick = curTick;
 		graphicService.lock()->BeginDraw();
-		while(dt >= 1000.f/ refreshRate) {
+		while (dt >= 1000.f / refreshRate) {
+
 			inputService.lock()->RefreshBuffer();
 			// 下面这个应该传入一帧的时间，是个常量，注意这里应该以秒为单位
-			m_gameController_.Update(1.0f/ refreshRate);			
+			m_gameController_.Update(1.0f / refreshRate);
 			dt -= 1000.f / refreshRate;
+
+			loop_counter++;
+			if (loop_counter % int(momoka::REFRESH_RATE) == 0) {
+				aSecond = true;
+			}
+			else {
+				aSecond = false;
+			}
 		}
 		graphicService.lock()->EndDraw();
 	}
@@ -92,9 +104,9 @@ bool Engine::LoadConfig() {
 
 	// 这里参数false是因为AllocConsole()执行前不能向标准输出流写数据，一写控制台就不输出了。
 	// 我也不知道如何解决这个问题，如果能解决就不用传这个参数了。
-	if(LoadJsonFile(d, engineConfigFile, false)) {
+	if (LoadJsonFile(d, engineConfigFile, false)) {
 		int isConsole = d["log"]["console"].GetBool();
-		if(isConsole) {
+		if (isConsole) {
 			m_debugConsole_ = true;
 			AllocConsole();
 			freopen("CONOUT$", "w+t", stdout);

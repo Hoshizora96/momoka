@@ -5,6 +5,7 @@
 #include <vector>
 #include <bitset>
 #include <stack>
+#include "util/Log.h"
 
 // 用于类型计数    
 template <typename T, typename... Ts>
@@ -289,5 +290,9 @@ public:
 			if (AllTrue(HasComponent<TSubComps>(index)...))
 				func(Entity(this, m_entityInfoArray_[index].version, index));
 		}
+	}
+
+	size_t AliveNum() {
+		return m_cachedEntities_.size();
 	}
 };

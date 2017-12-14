@@ -71,12 +71,70 @@ inline void GameCore::Initialize() {
 }
 
 inline void GameCore::Update(float& dt) {
+
+	LONGLONG begin = 0, end = 0;
+
+
+	if (Engine::aSecond) {
+		MOMOKA_LOG(momoka::debug) << "Entities num: " << entityPool.AliveNum();
+	}
+
+	begin = GetCurrentTick();
 	gravitySystem.Update(dt, *this);
+	end = GetCurrentTick();
+	if(Engine::aSecond) {
+		MOMOKA_LOG(momoka::debug) << "gravitySystem: " << (end - begin) * 1000 / Engine::freq;
+	}
+
+	begin = GetCurrentTick();
 	playerControlSystem.Update(dt, *this);
+	end = GetCurrentTick();
+	if (Engine::aSecond) {
+		MOMOKA_LOG(momoka::debug) << "playerControlSystem: " << (end - begin) * 1000 / Engine::freq;
+	}
+
+	begin = GetCurrentTick();
 	moveSystem.Update(dt, *this);
+	end = GetCurrentTick();
+	if (Engine::aSecond) {
+		MOMOKA_LOG(momoka::debug) << "moveSystem: " << (end - begin) * 1000 / Engine::freq;
+	}
+
+	begin = GetCurrentTick();
 	worldObstacleSystem.Update(dt, *this);
+	end = GetCurrentTick();
+	if (Engine::aSecond) {
+		MOMOKA_LOG(momoka::debug) << "worldObstacleSystem: " << (end - begin) * 1000 / Engine::freq;
+	}
+
+	begin = GetCurrentTick();
 	damageSystem.Update(dt, *this);
+	end = GetCurrentTick();
+	if (Engine::aSecond) {
+		MOMOKA_LOG(momoka::debug) << "damageSystem: " << (end - begin) * 1000 / Engine::freq;
+	}
+
+	begin = GetCurrentTick();
 	renderSystem.Update(dt, *this);
+	end = GetCurrentTick();
+	if (Engine::aSecond) {
+		MOMOKA_LOG(momoka::debug) << "renderSystem: " << (end - begin) * 1000 / Engine::freq;
+	}
+
+	begin = GetCurrentTick();
 	deadSystem.Update(dt, *this);
+	end = GetCurrentTick();
+	if (Engine::aSecond) {
+		MOMOKA_LOG(momoka::debug) << "deadSystem: " << (end - begin) * 1000 / Engine::freq << std::endl;
+	}
+
+
+//	gravitySystem.Update(dt, *this);
+//	playerControlSystem.Update(dt, *this);
+//	moveSystem.Update(dt, *this);
+//	worldObstacleSystem.Update(dt, *this);
+//	damageSystem.Update(dt, *this);
+//	renderSystem.Update(dt, *this);
+//	deadSystem.Update(dt, *this);
 	
 }

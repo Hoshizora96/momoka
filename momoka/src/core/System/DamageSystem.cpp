@@ -5,7 +5,10 @@
 #include "core/utility/bahavior.h"
 
 void DamageSystem::Update(float& dt, GameCore& core) {
+	LONGLONG begin = 0, end = 0;
+
 	//人物与怪物碰撞
+	begin = GetCurrentTick();
 	core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, PlayerComponent>(
 		[&](GameEntityPool::Entity player) {
 
@@ -40,9 +43,13 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 
 		});
 	});
+	end = GetCurrentTick();
 
+//	if (Engine::aSecond) {
+//		MOMOKA_LOG(momoka::debug) << " +-- first loop cost " << (end - begin) * 1000 / Engine::freq;
+//	}
 
-
+	begin = GetCurrentTick();
 	core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, PlayerComponent, BulletComponent>(
 		[&](GameEntityPool::Entity playerbullet) {
 
@@ -67,4 +74,10 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 			}
 		});
 	});
+	end = GetCurrentTick();
+
+//	if(Engine::aSecond) {
+//		MOMOKA_LOG(momoka::debug) << " +-- second loop cost " << (end - begin) * 1000 / Engine::freq;
+//	}
+	
 }
