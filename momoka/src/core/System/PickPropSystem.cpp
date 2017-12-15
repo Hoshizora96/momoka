@@ -26,6 +26,12 @@ void PickPropSystem::Update(float& dt, GameCore& core) {
 					prop::Recover(player, prop);
 					prop.Activate<DeadComponent>();
 					break;
+				case 1:
+				case 2:
+				case 3:
+					prop::AddBullet(player, prop);
+					prop.Activate<DeadComponent>();
+					break;
 				default:
 					break;
 				}

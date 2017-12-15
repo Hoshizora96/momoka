@@ -3,5 +3,5 @@
 class MonsterFactory {
 
 public:
-	GameEntityPool::Entity Create(GameEntityPool& pool);
+	GameEntityPool::Entity Create(GameEntityPool& pool, int index);
 }; 

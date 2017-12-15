@@ -17,6 +17,7 @@
 #include "system/DamageSystem.h"
 #include "system/DeadSystem.h"
 #include "system/PickPropSystem.h"
+#include "system/MonsterAISystem.h"
 
 #include "Engine.h"
 #include "services/GraphicService.h"
@@ -38,6 +39,7 @@ public:
 	DamageSystem damageSystem;
 	DeadSystem deadSystem;
 	PickPropSystem pickpropSystem;
+	MonsterAISystem monsterAISystem;
 
 	ID2D1Bitmap* heroBitmap;
 
@@ -94,7 +96,7 @@ inline void GameCore::Initialize() {
 	heroFactroy.Create(entityPool);
 
 	MonsterFactory monsterFactroy;
-	monsterFactroy.Create(entityPool);
+	monsterFactroy.Create(entityPool, 0);
 
 	PropFactory propFactory;
 	propFactory.Create(entityPool, 0);
@@ -178,5 +180,6 @@ inline void GameCore::Update(float& dt) {
 	//	renderSystem.Update(dt, *this);
 	//	deadSystem.Update(dt, *this);
 	pickpropSystem.Update(dt, *this);
-
+	monsterAISystem.Update(dt, *this);
+	
 }
