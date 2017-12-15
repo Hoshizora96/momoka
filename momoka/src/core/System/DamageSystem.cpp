@@ -15,7 +15,6 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 		core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, MonsterComponent>(
 			[&](GameEntityPool::Entity monster) {
 
-			auto playerVelocityCom = player.Get<VelocityComponent>();
 			auto playerPositionCom = player.Get<PositionComponent>();
 			auto monsterPositionCom = monster.Get<PositionComponent>();
 			if (utility::CollisionDetector(
@@ -43,12 +42,12 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 		});
 	});
 	end = GetCurrentTick();
-
+//
 //	if (Engine::aSecond) {
 //		MOMOKA_LOG(momoka::debug) << " +-- first loop cost " << (end - begin) * 1000 / Engine::freq;
 //	}
 
-
+	begin = GetCurrentTick();
 	core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, FriendComponent, BulletComponent>(
 		[&](GameEntityPool::Entity playerbullet) {
 
@@ -78,5 +77,5 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 //	if(Engine::aSecond) {
 //		MOMOKA_LOG(momoka::debug) << " +-- second loop cost " << (end - begin) * 1000 / Engine::freq;
 //	}
-	
+//	
 }

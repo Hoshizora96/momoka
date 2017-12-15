@@ -1,5 +1,6 @@
 #pragma once
 #include "Core.h"
+#include <vector>
 #include "object/EntityPool.h"
 #include "map/TilePool.h"
 #include "core/object/GameObjectPool.h"
@@ -20,12 +21,14 @@
 #include "Engine.h"
 #include "services/GraphicService.h"
 
-class GameCore : public Core{
+class GameCore : public Core {
 public:
 	GameEntityPool entityPool;
 	TilePool tilePool;
 
 	Camera camera;
+
+	std::vector<System*> systems;
 
 	GravitySystem gravitySystem;
 	MoveSystem moveSystem;
@@ -39,22 +42,53 @@ public:
 	ID2D1Bitmap* heroBitmap;
 
 	GameCore();
-
 	void Initialize();
+
 	void Update(float& dt) override;
 
 private:
-	
+
+	template <typename T, typename U, typename ... TSystems>
+	void InitializeSystem();
+
+	template <typename T>
+	void InitializeSystem();
+
+
 };
 
-inline GameCore::GameCore() {
-	Initialize();
+
+template <typename T, typename U, typename ... TSystems>
+void GameCore::InitializeSystem() {
+	System* t = static_cast<System*>(new T());
+	t->Initialize(this);
+	systems.push_back(t);
+	InitializeSystem<U, TSystems...>();
+}
+
+template <typename T>
+void GameCore::InitializeSystem() {
+	System* t = static_cast<System*>(new T());
+	t->Initialize(this);
+	systems.push_back(t);
 }
 
 inline void GameCore::Initialize() {
+
+	InitializeSystem<
+		GravitySystem,
+		MoveSystem,
+		PlayerControlSystem,
+		WorldObstacleSystem,
+		RenderSystem,
+		DamageSystem,
+		DeadSystem,
+		PickPropSystem
+	>();
+
 	auto graphicService = Engine::serviceLoader.LocateService<GraphicService>(Service_graphic).lock();
 
-	//graphicService->LoadBitMap(L"content/assert/40.png", &heroBitmap);
+	graphicService->LoadBitMap(L"content/assert/40.png", &heroBitmap);
 
 	HeroFactory heroFactroy;
 	heroFactroy.Create(entityPool);
@@ -89,7 +123,7 @@ inline void GameCore::Update(float& dt) {
 	begin = GetCurrentTick();
 	gravitySystem.Update(dt, *this);
 	end = GetCurrentTick();
-	if(Engine::aSecond) {
+	if (Engine::aSecond) {
 		MOMOKA_LOG(momoka::debug) << "gravitySystem: " << (end - begin) * 1000 / Engine::freq;
 	}
 
@@ -136,13 +170,13 @@ inline void GameCore::Update(float& dt) {
 	}
 
 
-//	gravitySystem.Update(dt, *this);
-//	playerControlSystem.Update(dt, *this);
-//	moveSystem.Update(dt, *this);
-//	worldObstacleSystem.Update(dt, *this);
-//	damageSystem.Update(dt, *this);
-//	renderSystem.Update(dt, *this);
-//	deadSystem.Update(dt, *this);
+	//	gravitySystem.Update(dt, *this);
+	//	playerControlSystem.Update(dt, *this);
+	//	moveSystem.Update(dt, *this);
+	//	worldObstacleSystem.Update(dt, *this);
+	//	damageSystem.Update(dt, *this);
+	//	renderSystem.Update(dt, *this);
+	//	deadSystem.Update(dt, *this);
 	pickpropSystem.Update(dt, *this);
-	
+
 }

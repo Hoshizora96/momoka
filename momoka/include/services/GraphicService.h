@@ -49,7 +49,7 @@ private:
 	ID2D1Bitmap1* m_pMapAsset_ = nullptr;
 
 	bool m_bufferLock_;
-	bool m_deviceResetFlag_ = false;
+	bool m_deviceResetFlag_ = true;
 
 	HWND m_hwnd_;
 	LPCWSTR m_appName_;
