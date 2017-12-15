@@ -75,6 +75,10 @@ void GameCore::InitializeSystem() {
 	systems.push_back(t);
 }
 
+inline GameCore::GameCore() {
+	Initialize();
+}
+
 inline void GameCore::Initialize() {
 
 	InitializeSystem<
