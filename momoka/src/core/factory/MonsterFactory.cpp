@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "core/factory/MonsterFactory.h"
 
-GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool) {
+GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool, int monsterIndex) {
 	auto positionCom = PositionComponent();
-	positionCom.x = 3 * momoka::TILE_SIZE;
+	positionCom.x = 6 * momoka::TILE_SIZE;
 	positionCom.y = 0;
 
 	auto velocityCom = VelocityComponent();
@@ -11,6 +11,8 @@ GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool) {
 	velocityCom.vy = 0;
 
 	auto gravityCom = GravityComponent();
+
+	auto bulletStorageCom = BulletStorageComponent();
 
 	auto jumpCom = JumpComponent();
 
@@ -27,9 +29,26 @@ GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool) {
 
 	auto monsterCom = MonsterComponent();
 
+	auto DetectAreaCom = DetectAreaComponent();
+
 	auto healthCom = HealthComponent();
 	healthCom.height = 2 * momoka::TILE_SIZE;
 	healthCom.width = momoka::TILE_SIZE;
+
+	switch (monsterIndex) {
+	case 0:
+		obstacleCom.obstacleHeight = 2 * momoka::TILE_SIZE;
+		obstacleCom.obstacleWidth = momoka::TILE_SIZE;
+		monsterCom.CollisionDamage = 10;
+		break;
+	case 1:
+		obstacleCom.obstacleHeight = 3 * momoka::TILE_SIZE;
+		obstacleCom.obstacleWidth = 2 * momoka::TILE_SIZE;
+		monsterCom.CollisionDamage = 20;
+		break;
+	default:
+		break;
+	}
 
 	return pool.CreateEntity(
 		positionCom,
@@ -40,6 +59,8 @@ GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool) {
 		obstacleCom,
 		renderCom,
 		monsterCom,
-		healthCom
+		healthCom,
+		DetectAreaCom,
+		bulletStorageCom
 		);
 }

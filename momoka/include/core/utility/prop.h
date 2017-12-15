@@ -14,4 +14,11 @@ namespace prop {
 			player.Get<HealthComponent>()->healthPower += prop.Get<PropComponent>()->Recovery;
 		}
 	}
+
+	inline void AddBullet(GameEntityPool::Entity& player, GameEntityPool::Entity& prop) {
+		if (prop.Get<PropComponent>()->PropIndex < player.Get<BulletStorageComponent>()->MaxGenreNum) {
+			player.Get<BulletStorageComponent>()->genre[prop.Get<PropComponent>()->PropIndex] = 1;
+		}
+		
+	}
 }

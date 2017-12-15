@@ -2,5 +2,5 @@
 #include "core/object/GameObjectPool.h"
 class PropFactory {
 public:
-	GameEntityPool::Entity Create(GameEntityPool& pool, int i);
+	GameEntityPool::Entity Create(GameEntityPool& pool, int index);
 };

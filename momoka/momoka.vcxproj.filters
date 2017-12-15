@@ -87,6 +87,9 @@
     <ClCompile Include="src\core\System\PickPropSystem.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\System\MonsterAISystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.md" />
@@ -381,6 +384,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\core\system\PickPropSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\DetectAreaComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\system\MonsterAISystem.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

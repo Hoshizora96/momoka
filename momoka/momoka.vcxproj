@@ -161,6 +161,7 @@
     <ClCompile Include="src\core\System\DamageSystem.cpp" />
     <ClCompile Include="src\core\System\DeadSystem.cpp" />
     <ClCompile Include="src\core\System\GravitySystem.cpp" />
+    <ClCompile Include="src\core\System\MonsterAISystem.cpp" />
     <ClCompile Include="src\core\System\MoveSystem.cpp" />
     <ClCompile Include="src\core\System\PickPropSystem.cpp" />
     <ClCompile Include="src\core\System\PlayerControlSystem.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="include\core\object\components\BulletStorageComponent.h" />
     <ClInclude Include="include\core\object\components\DamageBodyComponent.h" />
     <ClInclude Include="include\core\object\components\DeadComponent.h" />
+    <ClInclude Include="include\core\object\components\DetectAreaComponent.h" />
     <ClInclude Include="include\core\object\components\InputControlComponent.h" />
     <ClInclude Include="include\core\object\components\FriendComponent.h" />
     <ClInclude Include="include\core\object\components\GravityComponent.h" />
@@ -222,6 +224,7 @@
     <ClInclude Include="include\core\system\DamageSystem.h" />
     <ClInclude Include="include\core\system\DeadSystem.h" />
     <ClInclude Include="include\core\system\GravitySystem.h" />
+    <ClInclude Include="include\core\system\MonsterAISystem.h" />
     <ClInclude Include="include\core\system\MoveSystem.h" />
     <ClInclude Include="include\core\system\PickPropSystem.h" />
     <ClInclude Include="include\core\system\PlayerControlSystem.h" />
