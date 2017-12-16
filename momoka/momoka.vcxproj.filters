@@ -21,43 +21,96 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\stdafx.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\targetver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\services\GraphicService.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\services\InputService.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Engine.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\util\ServiceLoader.h">
+    <ClCompile Include="src\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services\GraphicService.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services\InputService.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\Log.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\HashedString.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\GameController.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\map\TilePool.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\System\WorldObstacleSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\System\PlayerControlSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\System\RenderSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\System\MoveSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\factory\HeroFactroy.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\System\GravitySystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\factory\BulletFactory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\tools\Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\factory\MonsterFactory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\System\DamageSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\System\DeadSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\factory\PropFactory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\System\PickPropSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\System\MonsterAISystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.md" />
+    <Text Include="content\config\engine.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="content\test.json" />
+    <None Include="content\config\state-play.json" />
+    <None Include="content\stages\map-test1.json" />
+    <None Include="content\tiles\tile-type-test.json" />
+    <None Include="content\objects\hero.json" />
+    <None Include="include\core\object\components\AddComponent.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\core\GameCore.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\exception\MomokaException.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\exception\ServiceException.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\services\Service.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\game\GameController.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\global.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\util\Log.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\components\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\extlib\rapidjson\error\en.h">
@@ -165,165 +218,179 @@
     <ClInclude Include="include\extlib\rapidjson\writer.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\util\JsonTools.h">
+    <ClInclude Include="include\game\GameController.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\components\CollisionInfo.h">
+    <ClInclude Include="include\services\GraphicService.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\components\Direction.h">
+    <ClInclude Include="include\services\InputService.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\components\CollisionDetector.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\map\TileSet.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\components\PhysicalBody.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\components\HitBox.h">
+    <ClInclude Include="include\services\Service.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\util\HashedString.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\util\JsonTools.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\Log.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\ServiceLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
     <ClInclude Include="include\util\Vector2.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\components\FactionManager.h">
+    <ClInclude Include="include\Engine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\game\GameState.h">
+    <ClInclude Include="include\global.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\game\GamePlayState.h">
+    <ClInclude Include="include\stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\map\TileType.h">
+    <ClInclude Include="include\targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\objects\Entity.h">
+    <ClInclude Include="include\core\object\components\Component.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\objects\GameObject.h">
+    <ClInclude Include="include\core\object\EntityPool.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\objects\Hero.h">
+    <ClInclude Include="include\util\Signal.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\fsm\hero\FallingState.h">
+    <ClInclude Include="include\core\map\TilePool.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\fsm\hero\JumpState.h">
+    <ClInclude Include="include\core\object\components\ObstacleComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\fsm\hero\RunningState.h">
+    <ClInclude Include="include\core\system\System.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\fsm\hero\StandState.h">
+    <ClInclude Include="include\core\object\components\GravityComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\fsm\HeroState.h">
+    <ClInclude Include="include\core\object\components\MoveComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\mixin\Renderable.h">
+    <ClInclude Include="include\core\object\components\VelocityComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\mixin\Updatable.h">
+    <ClInclude Include="include\core\object\components\JumpComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\map\World.h">
+    <ClInclude Include="include\core\object\components\PositionComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\services\GraphicService.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\services\InputService.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Engine.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\GameController.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fsm\HeroState.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fsm\hero\StandState.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fsm\hero\JumpState.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fsm\hero\FallingState.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fsm\hero\RunningState.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\util\Log.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\map\TileSet.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\components\PhysicalBody.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\components\CollisionDetector.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\components\CollisionInfo.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\components\Directions.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\util\HashedString.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\GamePlayState.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\map\TileType.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\Entity.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\Hero.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\GameObject.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\map\World.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\components\Camera.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.md" />
-    <Text Include="content\config\engine.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="content\test.json" />
-    <None Include="content\config\state-play.json" />
-    <None Include="content\stages\map-test1.json" />
-    <None Include="content\tiles\tile-type-test.json" />
-    <None Include="content\objects\hero.json" />
+    <ClInclude Include="include\core\system\WorldObstacleSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\PlayerComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\system\PlayerControlSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\RenderComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\system\RenderSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\system\MoveSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\factory\HeroFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\Core.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\GameObjectPool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\system\GravitySystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\Direction.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\factory\BulletFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\WeaponSlotComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\tools\Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\factory\MonsterFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\BulletComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\BulletStorageComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\MonsterComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\TimingComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\FriendComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\utility\utility.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\utility\bahavior.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\InputControlComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\system\DamageSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\DamageBodyComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\HealthComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\DeadComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\system\DeadSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\factory\PropFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\PropComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\utility\prop.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\system\PickPropSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\components\DetectAreaComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\system\MonsterAISystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

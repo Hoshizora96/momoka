@@ -32,6 +32,8 @@ public:
 	}
 };
 
+using Vector2F = Vector2<float>;
+
 template <class T>
 Vector2<T>::Vector2() {
 }
