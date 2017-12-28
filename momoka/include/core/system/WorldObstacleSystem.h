@@ -5,7 +5,7 @@
 
 class WorldObstacleSystem : public System {
 public:
-	void Update(float& dt, GameCore& core) override;
+	void Update(float& dt) override;
 	static bool IsOnTileLine(float o);
 
 private:

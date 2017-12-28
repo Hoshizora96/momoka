@@ -7,11 +7,11 @@
 #include "core/factory/BulletFactory.h"
 #include "core/system/MonsterAISystem.h"
 
-void MonsterAISystem::Update(float& dt, GameCore& core) {
-	core.entityPool.Each<MonsterComponent>(
+void MonsterAISystem::Update(float& dt) {
+	core->entityPool.Each<MonsterComponent>(
 		[&](GameEntityPool::Entity monster) {
 
-		core.entityPool.Each<PlayerComponent>(
+		core->entityPool.Each<PlayerComponent>(
 			[&](GameEntityPool::Entity player) {
 
 			if (utility::CollisionDetector(

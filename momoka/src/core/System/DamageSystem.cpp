@@ -4,17 +4,15 @@
 #include "core/GameCore.h"
 #include "core/utility/bahavior.h"
 
-void DamageSystem::Update(float& dt, GameCore& core) {
-	LONGLONG begin = 0, end = 0;
+void DamageSystem::Update(float& dt) {
 
-	//人物与怪物碰撞
-	begin = GetCurrentTick();
-	core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, PlayerComponent>(
-		[&](GameEntityPool::Entity player) {
+	auto& players = core->groupManager.GetGroup<groups::PlayerGroup>();
+	auto& monsters = core->groupManager.GetGroup<groups::MonsterGroup>();
 
-		core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, MonsterComponent>(
-			[&](GameEntityPool::Entity monster) {
-
+	for(int i = 0; i < players.Size(); i++) {
+		auto player = players[i];
+		for(int j = 0; j < monsters.Size(); j++) {			
+			auto monster = monsters[j];
 			auto playerPositionCom = player.Get<PositionComponent>();
 			auto monsterPositionCom = monster.Get<PositionComponent>();
 			if (utility::CollisionDetector(
@@ -39,22 +37,15 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 					player.Activate<DeadComponent>();
 				}
 			}
-		});
-	});
-	end = GetCurrentTick();
-//
-//	if (Engine::aSecond) {
-//		MOMOKA_LOG(momoka::debug) << " +-- first loop cost " << (end - begin) * 1000 / Engine::freq;
-//	}
+		}
+	}
 
-	begin = GetCurrentTick();
-	core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, FriendComponent, BulletComponent>(
-		[&](GameEntityPool::Entity playerbullet) {
+	auto& friendBullets = core->groupManager.GetGroup<groups::FriendBulletGroup>();
+	for(int i = 0; i < friendBullets.Size(); i++) {
+		auto playerbullet = friendBullets[i];
+		for(int j = 0; j < monsters.Size(); j++) {
+			auto monster = monsters[j];
 
-		core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, MonsterComponent>(
-				[&](GameEntityPool::Entity monster) {
-			//人物与怪物子弹碰撞
-			auto PlayerBullet = playerbullet.Get<VelocityComponent>();
 			if (utility::CollisionDetector(
 				Vector2F(playerbullet.Get<PositionComponent>()->x,
 					playerbullet.Get<PositionComponent>()->y),
@@ -70,12 +61,8 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 					monster.Activate<DeadComponent>();
 				}
 			}
-		});
-	});
-	end = GetCurrentTick();
+		}
+	}
 
-//	if(Engine::aSecond) {
-//		MOMOKA_LOG(momoka::debug) << " +-- second loop cost " << (end - begin) * 1000 / Engine::freq;
-//	}
-//	
 }
+

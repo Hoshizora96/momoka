@@ -22,24 +22,28 @@
 #include "Engine.h"
 #include "services/GraphicService.h"
 
+#include "core/object/GroupManager.h"
+#include "core/object/GameGroupSet.h"
+
 class GameCore : public Core {
 public:
 	GameEntityPool entityPool;
 	TilePool tilePool;
+	GameGroupSet groupManager;
 
 	Camera camera;
 
 	std::vector<System*> systems;
 
-	GravitySystem gravitySystem;
-	MoveSystem moveSystem;
-	PlayerControlSystem playerControlSystem;
-	WorldObstacleSystem worldObstacleSystem;
-	RenderSystem renderSystem;
-	DamageSystem damageSystem;
-	DeadSystem deadSystem;
-	PickPropSystem pickpropSystem;
-	MonsterAISystem monsterAISystem;
+	//	GravitySystem gravitySystem;
+	//	MoveSystem moveSystem;
+	//	PlayerControlSystem playerControlSystem;
+	//	WorldObstacleSystem worldObstacleSystem;
+	//	RenderSystem renderSystem;
+	//	DamageSystem damageSystem;
+	//	DeadSystem deadSystem;
+	//	PickPropSystem pickpropSystem;
+	//	MonsterAISystem monsterAISystem;
 
 	ID2D1Bitmap* heroBitmap;
 
@@ -55,8 +59,6 @@ private:
 
 	template <typename T>
 	void InitializeSystem();
-
-
 };
 
 
@@ -75,21 +77,24 @@ void GameCore::InitializeSystem() {
 	systems.push_back(t);
 }
 
-inline GameCore::GameCore() {
+inline GameCore::GameCore() : entityPool(),
+                              groupManager(GameGroupSet(&entityPool)) {
 	Initialize();
 }
 
 inline void GameCore::Initialize() {
 
+	// 注意这个是有严格的顺序要求的
 	InitializeSystem<
 		GravitySystem,
 		MoveSystem,
 		PlayerControlSystem,
 		WorldObstacleSystem,
-		RenderSystem,
 		DamageSystem,
-		DeadSystem,
-		PickPropSystem
+		PickPropSystem,
+		MonsterAISystem,
+		RenderSystem,
+		DeadSystem
 	>();
 
 	auto graphicService = Engine::serviceLoader.LocateService<GraphicService>(Service_graphic).lock();
@@ -126,64 +131,7 @@ inline void GameCore::Update(float& dt) {
 		MOMOKA_LOG(momoka::debug) << "Entities num: " << entityPool.AliveNum();
 	}
 
-	begin = GetCurrentTick();
-	gravitySystem.Update(dt, *this);
-	end = GetCurrentTick();
-	if (Engine::aSecond) {
-		MOMOKA_LOG(momoka::debug) << "gravitySystem: " << (end - begin) * 1000 / Engine::freq;
+	for (int i = 0; i < systems.size(); i++) {
+		systems[i]->Update(dt);
 	}
-
-	begin = GetCurrentTick();
-	playerControlSystem.Update(dt, *this);
-	end = GetCurrentTick();
-	if (Engine::aSecond) {
-		MOMOKA_LOG(momoka::debug) << "playerControlSystem: " << (end - begin) * 1000 / Engine::freq;
-	}
-
-	begin = GetCurrentTick();
-	moveSystem.Update(dt, *this);
-	end = GetCurrentTick();
-	if (Engine::aSecond) {
-		MOMOKA_LOG(momoka::debug) << "moveSystem: " << (end - begin) * 1000 / Engine::freq;
-	}
-
-	begin = GetCurrentTick();
-	worldObstacleSystem.Update(dt, *this);
-	end = GetCurrentTick();
-	if (Engine::aSecond) {
-		MOMOKA_LOG(momoka::debug) << "worldObstacleSystem: " << (end - begin) * 1000 / Engine::freq;
-	}
-
-	begin = GetCurrentTick();
-	damageSystem.Update(dt, *this);
-	end = GetCurrentTick();
-	if (Engine::aSecond) {
-		MOMOKA_LOG(momoka::debug) << "damageSystem: " << (end - begin) * 1000 / Engine::freq;
-	}
-
-	begin = GetCurrentTick();
-	renderSystem.Update(dt, *this);
-	end = GetCurrentTick();
-	if (Engine::aSecond) {
-		MOMOKA_LOG(momoka::debug) << "renderSystem: " << (end - begin) * 1000 / Engine::freq;
-	}
-
-	begin = GetCurrentTick();
-	deadSystem.Update(dt, *this);
-	end = GetCurrentTick();
-	if (Engine::aSecond) {
-		MOMOKA_LOG(momoka::debug) << "deadSystem: " << (end - begin) * 1000 / Engine::freq << std::endl;
-	}
-
-
-	//	gravitySystem.Update(dt, *this);
-	//	playerControlSystem.Update(dt, *this);
-	//	moveSystem.Update(dt, *this);
-	//	worldObstacleSystem.Update(dt, *this);
-	//	damageSystem.Update(dt, *this);
-	//	renderSystem.Update(dt, *this);
-	//	deadSystem.Update(dt, *this);
-	pickpropSystem.Update(dt, *this);
-	monsterAISystem.Update(dt, *this);
-	
 }

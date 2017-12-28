@@ -1,24 +1,11 @@
 #pragma once
 #include "core/object/components/Component.h"
 #include "util/Signal.h"
-#include <set>
 #include <vector>
 #include <bitset>
 #include <stack>
 #include <functional>
 #include "util/Log.h"
-
-// 用于类型计数    
-template <typename T, typename... Ts>
-struct Index;
-
-template <typename T, typename... Ts>
-struct Index<T, T, Ts...> : std::integral_constant<std::uint16_t, 0> {
-};
-
-template <typename T, typename U, typename... Ts>
-struct Index<T, U, Ts...> : std::integral_constant<std::uint16_t, 1 + Index<T, Ts...>::value> {
-};
 
 template <typename T>
 bool AllTrue(T val) {
@@ -36,6 +23,18 @@ typedef unsigned int EntityIndex;
 
 template <class... TComps>
 class EntityPool {
+
+	// 用于类型计数    
+	template <typename T, typename... Ts>
+	struct Index;
+
+	template <typename T, typename... Ts>
+	struct Index<T, T, Ts...> : std::integral_constant<std::uint16_t, 0> {
+	};
+
+	template <typename T, typename U, typename... Ts>
+	struct Index<T, U, Ts...> : std::integral_constant<std::uint16_t, 1 + Index<T, Ts...>::value> {
+	};
 
 	struct EntityInfo {
 		std::bitset<sizeof...(TComps)> componentActiveBit;
@@ -283,8 +282,8 @@ public:
 		// TODO：修改删除函数的实现
 		if (IsEntityAlive(entity.GetVersion(), entity.GetIndex())) {
 			(GetEntityInfo(entity.GetIndex())->version) += 1;
-			for(int i = 0; i < m_cachedEntities_.size(); i++) {
-				if(entity.GetIndex() == m_cachedEntities_[i]) {
+			for (int i = 0; i < m_cachedEntities_.size(); i++) {
+				if (entity.GetIndex() == m_cachedEntities_[i]) {
 					m_cachedEntities_[i] = m_cachedEntities_.back();
 					m_cachedEntities_.pop_back();
 				}
@@ -305,16 +304,7 @@ public:
 		typename ComponentEventDelegate::SignalConnection m_removeListener_;
 		EntityPool* m_entityPool_;
 
-		explicit Group(EntityPool* entityPool) : m_entityPool_(entityPool),
-		                                        m_addListener_(m_entityPool_->OnEntityCreatedListeners.Connect(std::bind(&Group::Add, this, std::placeholders::_1))),
-			                                    m_removeListener_(m_entityPool_->OnEntityCreatedListeners.Connect(std::bind(&Group::Remove, this, std::placeholders::_1))) {
-			m_entityPool_->template Each<TGroupComps...>([&](Entity entity) {
-				m_cache_.push_back(entity.GetIndex());
-			});
-
-		}
-
-		void Remove(Entity &entity) {
+		void Remove(Entity& entity) {
 			for (int i = 0; i < m_cache_.size(); i++) {
 				if (m_cache_[i] == entity.GetIndex()) {
 					m_cache_[i] = m_cache_.back();
@@ -323,7 +313,7 @@ public:
 			}
 		}
 
-		void Add(Entity &entity) {
+		void Add(Entity& entity) {
 			if (AllTrue(m_entityPool_->HasComponent<TGroupComps>(entity.GetIndex())...)) {
 				m_cache_.push_back(entity.GetIndex());
 			}
@@ -331,19 +321,27 @@ public:
 
 	public:
 		Entity operator[](int i) const {
-			return Entity(m_entityPool_, m_cache_[i], m_entityPool_->GetEntityInfo(m_cache_[i])->version);
+			return Entity(m_entityPool_, m_entityPool_->GetEntityInfo(m_cache_[i])->version, m_cache_[i]);
 		}
 
 		size_t Size() const {
 			return m_cache_.size();
 		}
 
-	};
+		explicit Group(EntityPool* entityPool) : 
+			m_entityPool_(entityPool),
+			m_addListener_(
+				entityPool->OnEntityCreatedListeners.Connect(
+					std::bind(&Group::Add, this, std::placeholders::_1))),
+			m_removeListener_(
+				entityPool->OnEntityDestroyedListeners.Connect(
+					std::bind(&Group::Remove, this, std::placeholders::_1))) {
 
-	template <typename... UComps>
-	Group<UComps...> CreateGroup() {
-		return Group<UComps...>(this);
-	}
+			m_entityPool_->template Each<TGroupComps...>([&](Entity entity) {
+				m_cache_.push_back(entity.GetIndex());
+			});
+		}
+	};
 
 	template <typename T>
 	struct Identity {
@@ -359,7 +357,7 @@ public:
 		}
 	}
 
-	size_t AliveNum() {
+	size_t AliveNum() const {
 		return m_cachedEntities_.size();
 	}
 };

@@ -4,6 +4,6 @@
 class GravitySystem:public System {
 
 public:
-	void Update(float& dt, GameCore& core) override;
+	void Update(float& dt) override;
 };
 

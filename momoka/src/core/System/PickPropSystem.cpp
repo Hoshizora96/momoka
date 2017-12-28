@@ -4,12 +4,12 @@
 #include "core/GameCore.h"
 #include "core/utility/prop.h"
 
-void PickPropSystem::Update(float& dt, GameCore& core) {
+void PickPropSystem::Update(float& dt) {
 	//人物与道具碰撞
-	core.entityPool.Each<HealthComponent, PlayerComponent>(
+	core->entityPool.Each<HealthComponent, PlayerComponent>(
 		[&](GameEntityPool::Entity player) {
 
-		core.entityPool.Each<PropComponent>(
+		core->entityPool.Each<PropComponent>(
 			[&](GameEntityPool::Entity prop) {
 			if (utility::CollisionDetector(
 				Vector2F(player.Get<PositionComponent>()->x,

@@ -2,8 +2,8 @@
 #include "core/system/WorldObstacleSystem.h"
 #include "core/GameCore.h"
 
-void WorldObstacleSystem::Update(float& dt, GameCore& core) {
-	core.entityPool.Each<ObstacleComponent, VelocityComponent, PositionComponent>([&](GameEntityPool::Entity entity) {
+void WorldObstacleSystem::Update(float& dt) {
+	core->entityPool.Each<ObstacleComponent, VelocityComponent, PositionComponent>([&](GameEntityPool::Entity entity) {
 		auto positionPtr = entity.Get<PositionComponent>();
 		auto obstaclePtr = entity.Get<ObstacleComponent>();
 		auto velocityPtr = entity.Get<VelocityComponent>();
@@ -45,7 +45,7 @@ void WorldObstacleSystem::Update(float& dt, GameCore& core) {
 		auto correctedRight = xEndTile * momoka::TILE_SIZE - width;
 
 		// ¼ì²â×óÏÂ½Ç¿é
-		if (core.tilePool.HasTile(xStartTile, yEndTile)) {
+		if (core->tilePool.HasTile(xStartTile, yEndTile)) {
 			// info.tileType = m_tileSet_.GetTileTypeId(xStartTile, yEndTile);
 
 			if (vx < 0 && vy > 0) {
@@ -71,7 +71,7 @@ void WorldObstacleSystem::Update(float& dt, GameCore& core) {
 		}
 
 		// ¼ì²âÓÒÏÂ½Ç¿é
-		if (core.tilePool.HasTile(xEndTile, yEndTile)) {
+		if (core->tilePool.HasTile(xEndTile, yEndTile)) {
 			// info.tileType = m_tileSet_.GetTileTypeId(xEndTile, yEndTile);
 
 			if (vx > 0 && vy > 0) {
@@ -99,7 +99,7 @@ void WorldObstacleSystem::Update(float& dt, GameCore& core) {
 		}
 
 		// ¼ì²â×óÉÏ½Ç¿é
-		if (core.tilePool.HasTile(xStartTile, yStartTile)) {
+		if (core->tilePool.HasTile(xStartTile, yStartTile)) {
 			// info.tileType = m_tileSet_.GetTileTypeId(xStartTile, yStartTile);
 
 			if (vx < 0 && vy < 0) {
@@ -121,7 +121,7 @@ void WorldObstacleSystem::Update(float& dt, GameCore& core) {
 		}
 
 		// ¼ì²âÓÒÉÏ½Ç¿é
-		if (core.tilePool.HasTile(xEndTile, yStartTile)) {
+		if (core->tilePool.HasTile(xEndTile, yStartTile)) {
 			// info.tileType = m_tileSet_.GetTileTypeId(xEndTile, yStartTile);
 
 			if (vx > 0 && vy < 0) {
@@ -150,14 +150,14 @@ void WorldObstacleSystem::Update(float& dt, GameCore& core) {
 
 		// ËÄÌõ±ßµÄÅö×²¼ì²â
 		for (__int64 i = xStartTile; i < xEndTile; i++) {
-			if (core.tilePool.HasTile(i, yStartTile)) {
+			if (core->tilePool.HasTile(i, yStartTile)) {
 				TakeObstacle(entity, Up, correctedUp);
 				// info.tileType = m_tileSet_.GetTileTypeId(i, yStartTile);
 				velocityPtr->vy = 0;
 				positionPtr->y = correctedUp;
 				break;
 			}
-			if (core.tilePool.HasTile(i, yEndTile)) {
+			if (core->tilePool.HasTile(i, yEndTile)) {
 				if (vy > 0) {
 					TakeObstacle(entity, Down, correctedDown);
 				}
@@ -168,12 +168,12 @@ void WorldObstacleSystem::Update(float& dt, GameCore& core) {
 		}
 
 		for (__int64 i = yStartTile + 1; i < yEndTile; i++) {
-			if (core.tilePool.HasTile(xStartTile, i)) {
+			if (core->tilePool.HasTile(xStartTile, i)) {
 				TakeObstacle(entity, Left, correctedLeft);
 				// info.tileType = m_tileSet_.GetTileTypeId(xStartTile, i);
 				break;
 			}
-			if (core.tilePool.HasTile(xEndTile, i)) {
+			if (core->tilePool.HasTile(xEndTile, i)) {
 				TakeObstacle(entity, Right, correctedRight);
 				// info.tileType = m_tileSet_.GetTileTypeId(xEndTile, i);
 				break;
