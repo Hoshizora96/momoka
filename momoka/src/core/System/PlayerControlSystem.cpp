@@ -70,3 +70,7 @@ void PlayerControlSystem::Update(float& dt) {
 	});
 }
 
+std::string PlayerControlSystem::toString() {
+	return std::string("player control system");
+}
+

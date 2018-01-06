@@ -43,3 +43,7 @@ void MonsterAISystem::Update(float& dt) {
 		});
 	});
 }
+
+std::string MonsterAISystem::toString() {
+	return std::string("moster AI sytem");
+}

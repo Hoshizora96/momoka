@@ -3,7 +3,11 @@
 #include "core/GameCore.h"
 
 void WorldObstacleSystem::Update(float& dt) {
-	core->entityPool.Each<ObstacleComponent, VelocityComponent, PositionComponent>([&](GameEntityPool::Entity entity) {
+
+	auto& obstacles = core->groupManager.GetGroup<groups::ObstacleGroup>();
+
+	for(int i = 0; i < obstacles.Size(); i++) {
+		auto entity = obstacles[i];
 		auto positionPtr = entity.Get<PositionComponent>();
 		auto obstaclePtr = entity.Get<ObstacleComponent>();
 		auto velocityPtr = entity.Get<VelocityComponent>();
@@ -145,7 +149,7 @@ void WorldObstacleSystem::Update(float& dt) {
 		}
 
 		if (velocityPtr->vx == 0 && velocityPtr->vy == 0) {
-			return;
+			continue;
 		}
 
 		// ËÄÌõ±ßµÄÅö×²¼ì²â
@@ -180,7 +184,7 @@ void WorldObstacleSystem::Update(float& dt) {
 			}
 		}
 
-	});
+	}
 }
 
 bool WorldObstacleSystem::IsOnTileLine(float o) {
@@ -207,4 +211,8 @@ void WorldObstacleSystem::TakeObstacle(GameEntityPool::Entity& entity, DIRECTION
 		entity.Activate<DeadComponent>();
 	}
 
+}
+
+std::string WorldObstacleSystem::toString() {
+	return std::string("world obstacle system");
 }

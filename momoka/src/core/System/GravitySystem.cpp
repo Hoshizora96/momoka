@@ -21,3 +21,7 @@ void GravitySystem::Update(float& dt) {
 
 	});
 }
+
+std::string GravitySystem::toString() {
+	return std::string("gravity system");
+}

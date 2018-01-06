@@ -40,3 +40,7 @@ void PickPropSystem::Update(float& dt) {
 	});
 
 }
+
+std::string PickPropSystem::toString() {
+	return std::string("pickprop system");
+}

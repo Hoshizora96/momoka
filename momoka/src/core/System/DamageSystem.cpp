@@ -66,3 +66,7 @@ void DamageSystem::Update(float& dt) {
 
 }
 
+std::string DamageSystem::toString() {
+	return std::string("damage system");
+}
+

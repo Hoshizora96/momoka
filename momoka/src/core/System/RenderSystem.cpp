@@ -19,3 +19,7 @@ void RenderSystem::Update(float& dt) {
 	core->tilePool.Render(core->camera);
 	graphicService->DrawBitmap(core->heroBitmap);
 }
+
+std::string RenderSystem::toString() {
+	return std::string("render system");
+}

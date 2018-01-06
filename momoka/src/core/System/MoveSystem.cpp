@@ -10,3 +10,7 @@ void MoveSystem::Update(float& dt) {
 		positionComp->y += velocityComp->vy * dt;
 	});
 }
+
+std::string MoveSystem::toString() {
+	return std::string("move system");
+}

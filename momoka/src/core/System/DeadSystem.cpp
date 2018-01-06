@@ -9,3 +9,7 @@ void DeadSystem::Update(float& dt) {
 		entity.Destory();
 	});
 }
+
+std::string DeadSystem::toString() {
+	return std::string("dead system");
+}

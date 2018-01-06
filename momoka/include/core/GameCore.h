@@ -9,6 +9,7 @@
 #include "factory/HeroFactory.h"
 #include "factory/MonsterFactory.h"
 #include "factory/PropFactory.h"
+
 #include "system/MoveSystem.h"
 #include "system/PlayerControlSystem.h"
 #include "system/WorldObstacleSystem.h"
@@ -34,16 +35,6 @@ public:
 	Camera camera;
 
 	std::vector<System*> systems;
-
-	//	GravitySystem gravitySystem;
-	//	MoveSystem moveSystem;
-	//	PlayerControlSystem playerControlSystem;
-	//	WorldObstacleSystem worldObstacleSystem;
-	//	RenderSystem renderSystem;
-	//	DamageSystem damageSystem;
-	//	DeadSystem deadSystem;
-	//	PickPropSystem pickpropSystem;
-	//	MonsterAISystem monsterAISystem;
 
 	ID2D1Bitmap* heroBitmap;
 
@@ -124,14 +115,17 @@ inline void GameCore::Initialize() {
 
 inline void GameCore::Update(float& dt) {
 
-	LONGLONG begin = 0, end = 0;
-
-
 	if (Engine::aSecond) {
+		MOMOKA_LOG(momoka::debug);
 		MOMOKA_LOG(momoka::debug) << "Entities num: " << entityPool.AliveNum();
 	}
 
 	for (int i = 0; i < systems.size(); i++) {
+		LONGLONG begin = GetCurrentTick();
 		systems[i]->Update(dt);
+		LONGLONG end = GetCurrentTick();
+		if (Engine::aSecond) {
+			MOMOKA_LOG(momoka::debug) << systems[i]->toString() << ": " << (end - begin) * 1000 / Engine::freq;
+		}
 	}
 }
