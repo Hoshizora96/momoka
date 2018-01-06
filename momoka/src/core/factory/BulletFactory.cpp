@@ -25,18 +25,28 @@ GameEntityPool::Entity BulletFactory::Create(GameEntityPool& pool, int curGenreN
 
 	switch (curGenreNum) {
 	case 0:
-		velocityCom.vx = 550;
+		velocityCom.vx = 600;
 		velocityCom.vy = 0;
 		bulletCom.obstacleWidth = momoka::BULLET_SIZE;
 		bulletCom.obstacleHeight = momoka::BULLET_SIZE;
 		bulletCom.damage = 20;
+		bulletCom.MaxFlyTime = 2;
 		break;
 	case 1:
+		velocityCom.vx = 500;
+		velocityCom.vy = 0;
+		bulletCom.obstacleWidth = 4 * momoka::BULLET_SIZE;
+		bulletCom.obstacleHeight = 2 * momoka::BULLET_SIZE;
+		bulletCom.damage = 30;
+		bulletCom.MaxFlyTime = 3;
+		break;
+	case 2:
 		velocityCom.vx = 700;
 		velocityCom.vy = 0;
-		bulletCom.obstacleWidth = 4*momoka::BULLET_SIZE;
-		bulletCom.obstacleHeight = 2*momoka::BULLET_SIZE;
+		bulletCom.obstacleWidth = 2 * momoka::BULLET_SIZE;
+		bulletCom.obstacleHeight = 1.5 * momoka::BULLET_SIZE;
 		bulletCom.damage = 10;
+		bulletCom.MaxFlyTime = 2;
 		break;
 	default:
 		break;
