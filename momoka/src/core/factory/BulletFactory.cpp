@@ -21,13 +21,15 @@ GameEntityPool::Entity BulletFactory::Create(GameEntityPool& pool, int curGenreN
 
 	auto obstacleCom = ObstacleComponent();
 
+	auto friendCom = FriendComponent();
+
 	switch (curGenreNum) {
 	case 0:
 		velocityCom.vx = 550;
 		velocityCom.vy = 0;
 		bulletCom.obstacleWidth = momoka::BULLET_SIZE;
 		bulletCom.obstacleHeight = momoka::BULLET_SIZE;
-		bulletCom.damage = 15;
+		bulletCom.damage = 20;
 		break;
 	case 1:
 		velocityCom.vx = 700;
@@ -60,6 +62,7 @@ GameEntityPool::Entity BulletFactory::Create(GameEntityPool& pool, int curGenreN
 		renderCom,
 		bulletCom,
 		hurtCom,
-		timingCom
+		timingCom,
+		friendCom
 		);
 }

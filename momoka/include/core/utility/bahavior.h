@@ -94,9 +94,6 @@ namespace behavior {
 		auto bulletStorage = entity.Get<BulletStorageComponent>();
 		BulletFactory bulletFactory;
 		GameEntityPool::Entity bullet = bulletFactory.Create(core.entityPool, bulletStorage->curGenreNum);
-		if (entity.Has<PlayerComponent>()) {
-			bullet.Activate<FriendComponent>();
-		}
 		if (direction == Right) {
 			bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x + momoka::TILE_SIZE;
 			bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;

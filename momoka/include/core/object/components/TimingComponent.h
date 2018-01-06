@@ -4,7 +4,5 @@
 class TimingComponent :public Component {
 public:
 	float InputDisabledTime = 0;
-	float MaxInputDisabledTime = 0.3;
-	float ShootDisabledTime = 0;
-	float ShootInterval = 0.8;
+	float MaxInputDisabledTime = 0.1;
 };
