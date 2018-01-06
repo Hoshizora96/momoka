@@ -16,7 +16,8 @@ namespace prop {
 
 	inline void AddBullet(GameEntityPool::Entity& player, GameEntityPool::Entity& prop) {
 		if (prop.Get<PropComponent>()->PropIndex < player.Get<BulletStorageComponent>()->MaxGenreNum) {
-			player.Get<BulletStorageComponent>()->genre[prop.Get<PropComponent>()->PropIndex] = 1;
+			int i = prop.Get<PropComponent>()->PropIndex;
+			player.Get<BulletStorageComponent>()->genre[prop.Get<PropComponent>()->PropIndex] = 1;///////////////////
 		}
 		
 	}

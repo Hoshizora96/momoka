@@ -31,6 +31,8 @@ GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool, int monsterI
 
 	auto monsterCom = MonsterComponent();
 
+	auto timingCom = TimingComponent();
+
 	auto DetectAreaCom = DetectAreaComponent();
 
 	auto healthCom = HealthComponent();
@@ -64,6 +66,7 @@ GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool, int monsterI
 		healthCom,
 		DetectAreaCom,
 		bulletStorageCom,
-		inputControlCom
+		inputControlCom,
+		timingCom
 		);
 }

@@ -30,6 +30,16 @@ GameEntityPool::Entity PropFactory::Create(GameEntityPool& pool, int propIndex) 
 		positionCom.y = momoka::TILE_SIZE;
 		propCom.PropIndex = 1;
 		break;
+	case 2:
+		positionCom.x = 7 * momoka::TILE_SIZE;
+		positionCom.y = momoka::TILE_SIZE;
+		propCom.PropIndex = 2;
+		break;
+	case 3:
+		positionCom.x = 8 * momoka::TILE_SIZE;
+		positionCom.y = momoka::TILE_SIZE;
+		propCom.PropIndex = 3;
+		break;
 	default:
 		break;
 	}

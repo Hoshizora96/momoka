@@ -61,6 +61,15 @@ void DamageSystem::Update(float& dt) {
 					monster.Get<PositionComponent>()->y),
 				Vector2F(monster.Get<HealthComponent>()->width,
 					monster.Get<HealthComponent>()->height))) {
+				if (playerbullet.Get<BulletComponent>()->bulletType == 2) {
+					monster.Disable<InputControlComponent>();
+					if (playerbullet.Get<PositionComponent>()->x > monster.Get<PositionComponent>()->x) {
+						behavior::Repel(monster, Left);
+					}
+					else {
+						behavior::Repel(monster, Right);
+					}
+				}
 				playerbullet.Activate<DeadComponent>();
 				monster.Get<HealthComponent>()->healthPower -= playerbullet.Get<BulletComponent>()->damage;
 				if (monster.Get<HealthComponent>()->healthPower <= 0) {
