@@ -1,5 +1,5 @@
 #pragma once
-#include <map>
+#include <unordered_map>
 #include "core/tools/Camera.h"
 
 class TilePool {
@@ -33,8 +33,8 @@ private:
 	
 	void AddTileType(Type& type);
 
-	using TileMap = std::map<TileHash, TypeIndex>;
-	using TypeMap = std::map<TypeIndex, Type>;
+	using TileMap = std::unordered_map<TileHash, TypeIndex>;
+	using TypeMap = std::unordered_map<TypeIndex, Type>;
 
 	TileMap m_tileMap_;
 	TypeMap m_typeMap_;

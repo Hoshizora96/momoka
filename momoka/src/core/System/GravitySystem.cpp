@@ -2,8 +2,8 @@
 #include "core/system/GravitySystem.h"
 #include "core/GameCore.h"
 
-void GravitySystem::Update(float& dt, GameCore& core) {
-	core.entityPool.Each<GravityComponent, VelocityComponent>([&](GameEntityPool::Entity entity) {
+void GravitySystem::Update(float& dt) {
+	core->entityPool.Each<GravityComponent, VelocityComponent>([&](GameEntityPool::Entity entity) {
 		auto gravityComp = entity.Get<GravityComponent>();
 		auto velocityComp = entity.Get<VelocityComponent>();
 		
@@ -20,4 +20,8 @@ void GravitySystem::Update(float& dt, GameCore& core) {
 		}
 
 	});
+}
+
+std::string GravitySystem::toString() {
+	return std::string("gravity system");
 }

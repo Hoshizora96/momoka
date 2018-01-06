@@ -5,9 +5,11 @@
 
 class WorldObstacleSystem : public System {
 public:
-	void Update(float& dt, GameCore& core) override;
+	void Update(float& dt) override;
 	static bool IsOnTileLine(float o);
 
 private:
 	void TakeObstacle(GameEntityPool::Entity& entity, DIRECTION direction, float correntPosition);
+public:
+	std::string toString() override;
 };

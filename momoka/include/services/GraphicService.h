@@ -44,16 +44,18 @@ private:
 	// 这是一个设备相关资源，蓝色笔刷
 	ID2D1SolidColorBrush* m_pCornflowerBlueBrush_ = nullptr;
 
-	IWICImagingFactory2* m_pWicFactory_ = nullptr;
+	IWICImagingFactory* m_pWicFactory_ = nullptr;
 
 	ID2D1Bitmap1* m_pMapAsset_ = nullptr;
 
 	bool m_bufferLock_;
+	bool m_deviceResetFlag_ = true;
 
 	HWND m_hwnd_;
 	LPCWSTR m_appName_;
 	FLOAT m_dpiX_;
 	FLOAT m_dpiY_;
+	
 	UINT m_windowWidth_;
 	UINT m_windowHeight_;
 

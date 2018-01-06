@@ -1,22 +1,11 @@
 #pragma once
 #include "core/object/components/Component.h"
 #include "util/Signal.h"
-#include <set>
 #include <vector>
 #include <bitset>
 #include <stack>
-
-// 用于类型计数    
-template <typename T, typename... Ts>
-struct Index;
-
-template <typename T, typename... Ts>
-struct Index<T, T, Ts...> : std::integral_constant<std::uint16_t, 0> {
-};
-
-template <typename T, typename U, typename... Ts>
-struct Index<T, U, Ts...> : std::integral_constant<std::uint16_t, 1 + Index<T, Ts...>::value> {
-};
+#include <functional>
+#include "util/Log.h"
 
 template <typename T>
 bool AllTrue(T val) {
@@ -35,6 +24,18 @@ typedef unsigned int EntityIndex;
 template <class... TComps>
 class EntityPool {
 
+	// 用于类型计数    
+	template <typename T, typename... Ts>
+	struct Index;
+
+	template <typename T, typename... Ts>
+	struct Index<T, T, Ts...> : std::integral_constant<std::uint16_t, 0> {
+	};
+
+	template <typename T, typename U, typename... Ts>
+	struct Index<T, U, Ts...> : std::integral_constant<std::uint16_t, 1 + Index<T, Ts...>::value> {
+	};
+
 	struct EntityInfo {
 		std::bitset<sizeof...(TComps)> componentActiveBit;
 		EntityIndex version = 0;
@@ -46,7 +47,7 @@ class EntityPool {
 	EntityInfo* m_entityInfoArray_;
 
 	std::stack<EntityIndex> m_freePosition_;
-	std::set<EntityIndex> m_cachedEntities_;
+	std::vector<EntityIndex> m_cachedEntities_;
 
 	unsigned int m_poolSize_;
 
@@ -153,7 +154,7 @@ public:
 		m_entityInfoArray_ = new EntityInfo[m_poolSize_];
 		m_ppComponent_ = new pComponent[sizeof...(TComps)];
 		InitializeComponents<0, TComps...>();
-		for(int i = m_poolSize_ - 1; i >=0; i--) {
+		for (int i = m_poolSize_ - 1; i >= 0; i--) {
 			m_freePosition_.push(i);
 		}
 	}
@@ -166,9 +167,10 @@ public:
 		EntityIndex m_index_;
 
 		Entity(EntityPool* pool, EntityIndex version, EntityIndex index) : m_pool_(pool),
-		                                                              m_version_(version),
-		                                                              m_index_(index) {
+		                                                                   m_version_(version),
+		                                                                   m_index_(index) {
 		}
+
 	public:
 		EntityIndex GetVersion() const {
 			return m_version_;
@@ -231,7 +233,19 @@ public:
 		bool operator<(const Entity& right) const {
 			return this->m_index_ < right.m_index_;
 		}
+
+		bool operator==(const Entity& right) const {
+			return this->m_index_ == right.m_index_ && this->m_version_ == this->m_version_;
+		}
+
+		bool operator!=(const Entity& right) const {
+			return this->m_index_ != right.m_index_ || this->m_version_ != this->m_version_;
+		}
 	};
+
+	using ComponentEventDelegate = Signal<Entity>;
+	ComponentEventDelegate OnEntityCreatedListeners;
+	ComponentEventDelegate OnEntityDestroyedListeners;
 
 	Entity CreateEntity() {
 		auto index = GetUnusedEntityPosition();
@@ -241,8 +255,10 @@ public:
 		DisableAllComponent(index);
 
 		auto ptr = GetEntityInfo(index);
-		m_cachedEntities_.insert(index);
-		return Entity(this, ptr->version, index);
+		m_cachedEntities_.push_back(index);
+		auto entity = Entity(this, ptr->version, index);
+		OnEntityCreatedListeners.Invoke(entity);
+		return entity;
 	}
 
 	template <typename T, typename... UComps>
@@ -256,26 +272,76 @@ public:
 		AddProvidedComponents(index, comp, comps...);
 
 		EntityInfo* ptr = GetEntityInfo(index);
-		m_cachedEntities_.insert(index);
-		return Entity(this, ptr->version, index);
+		m_cachedEntities_.push_back(index);
+		auto entity = Entity(this, ptr->version, index);
+		OnEntityCreatedListeners.Invoke(entity);
+		return entity;
 	}
 
 	void DestroyEntity(const Entity& entity) {
+		// TODO：修改删除函数的实现
 		if (IsEntityAlive(entity.GetVersion(), entity.GetIndex())) {
 			(GetEntityInfo(entity.GetIndex())->version) += 1;
-			m_cachedEntities_.erase(entity.GetIndex());
+			for (int i = 0; i < m_cachedEntities_.size(); i++) {
+				if (entity.GetIndex() == m_cachedEntities_[i]) {
+					m_cachedEntities_[i] = m_cachedEntities_.back();
+					m_cachedEntities_.pop_back();
+				}
+			}
 			m_freePosition_.push(entity.GetIndex());
+			OnEntityDestroyedListeners.Invoke(entity);
 		}
 		else {
 			// throw std::logic_error("Try to destroy entity twice!");
 		}
 	}
 
-//	using ComponentEventDelegate = Signal<Entity>;
-//	ComponentEventDelegate OnComponentRemovedListeners;
-//	ComponentEventDelegate OnComponentAddedListeners;
-//	ComponentEventDelegate OnEntityCreatedListeners;
-//	ComponentEventDelegate OnEntityDestroyedListeners;
+	template <typename ...TGroupComps>
+	class Group {
+		friend EntityPool;
+		std::vector<EntityIndex> m_cache_;
+		typename ComponentEventDelegate::SignalConnection m_addListener_;
+		typename ComponentEventDelegate::SignalConnection m_removeListener_;
+		EntityPool* m_entityPool_;
+
+		void Remove(Entity& entity) {
+			for (int i = 0; i < m_cache_.size(); i++) {
+				if (m_cache_[i] == entity.GetIndex()) {
+					m_cache_[i] = m_cache_.back();
+					m_cache_.pop_back();
+				}
+			}
+		}
+
+		void Add(Entity& entity) {
+			if (AllTrue(m_entityPool_->HasComponent<TGroupComps>(entity.GetIndex())...)) {
+				m_cache_.push_back(entity.GetIndex());
+			}
+		}
+
+	public:
+		Entity operator[](int i) const {
+			return Entity(m_entityPool_, m_entityPool_->GetEntityInfo(m_cache_[i])->version, m_cache_[i]);
+		}
+
+		size_t Size() const {
+			return m_cache_.size();
+		}
+
+		explicit Group(EntityPool* entityPool) : 
+			m_entityPool_(entityPool),
+			m_addListener_(
+				entityPool->OnEntityCreatedListeners.Connect(
+					std::bind(&Group::Add, this, std::placeholders::_1))),
+			m_removeListener_(
+				entityPool->OnEntityDestroyedListeners.Connect(
+					std::bind(&Group::Remove, this, std::placeholders::_1))) {
+
+			m_entityPool_->template Each<TGroupComps...>([&](Entity entity) {
+				m_cache_.push_back(entity.GetIndex());
+			});
+		}
+	};
 
 	template <typename T>
 	struct Identity {
@@ -289,5 +355,9 @@ public:
 			if (AllTrue(HasComponent<TSubComps>(index)...))
 				func(Entity(this, m_entityInfoArray_[index].version, index));
 		}
+	}
+
+	size_t AliveNum() const {
+		return m_cachedEntities_.size();
 	}
 };

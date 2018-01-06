@@ -15,6 +15,7 @@ public:
 	static LONGLONG freq;
 	static float refreshRate;
 	static ServiceLoader serviceLoader;
+	static bool aSecond;
 
 private:
 	GameController m_gameController_;

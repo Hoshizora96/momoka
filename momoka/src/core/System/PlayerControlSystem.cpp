@@ -7,9 +7,9 @@
 #include "util/Log.h"
 #include "core/utility/bahavior.h"
 
-void PlayerControlSystem::Update(float& dt, GameCore& core) {
+void PlayerControlSystem::Update(float& dt) {
 	auto inputService = Engine::serviceLoader.LocateService<InputService>(Service_input).lock();
-	core.entityPool.Each<
+	core->entityPool.Each<
 		PlayerComponent,
 		VelocityComponent,
 		MoveComponent,
@@ -37,8 +37,6 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 				behavior::StopJumpAndFall(entity);
 			}
 
-
-
 			if (entity.Has<BulletStorageComponent>()) {
 				auto bulletStorage = entity.Get<BulletStorageComponent>();
 				if (inputService->IsKeyEventHappened(DIK_TAB, Key_press)) {
@@ -49,7 +47,7 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 				}
 				if (inputService->IsKeyEventHappened(DIK_J, Key_press)) {
 					//Éä»÷
-					behavior::Shoot(entity, core, playerCom->direction);
+					behavior::Shoot(entity, *core, playerCom->direction);
 					}
 			}
 		}
@@ -70,5 +68,9 @@ void PlayerControlSystem::Update(float& dt, GameCore& core) {
 			}
 		}
 	});
+}
+
+std::string PlayerControlSystem::toString() {
+	return std::string("player control system");
 }
 

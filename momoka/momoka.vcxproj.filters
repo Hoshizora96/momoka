@@ -392,5 +392,14 @@
     <ClInclude Include="include\core\system\MonsterAISystem.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\core\object\GroupManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\object\GameGroupSet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\system\GuiSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

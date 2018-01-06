@@ -4,15 +4,15 @@
 #include "core/GameCore.h"
 #include "core/utility/bahavior.h"
 
-void DamageSystem::Update(float& dt, GameCore& core) {
-	//人物与怪物碰撞
-	core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, PlayerComponent>(
-		[&](GameEntityPool::Entity player) {
+void DamageSystem::Update(float& dt) {
 
-		core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, MonsterComponent>(
-			[&](GameEntityPool::Entity monster) {
+	auto& players = core->groupManager.GetGroup<groups::PlayerGroup>();
+	auto& monsters = core->groupManager.GetGroup<groups::MonsterGroup>();
 
-			auto playerVelocityCom = player.Get<VelocityComponent>();
+	for(int i = 0; i < players.Size(); i++) {
+		auto player = players[i];
+		for(int j = 0; j < monsters.Size(); j++) {			
+			auto monster = monsters[j];
 			auto playerPositionCom = player.Get<PositionComponent>();
 			auto monsterPositionCom = monster.Get<PositionComponent>();
 			if (utility::CollisionDetector(
@@ -37,18 +37,15 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 					player.Activate<DeadComponent>();
 				}
 			}
-		});
-	});
+		}
+	}
 
+	auto& friendBullets = core->groupManager.GetGroup<groups::FriendBulletGroup>();
+	for(int i = 0; i < friendBullets.Size(); i++) {
+		auto playerbullet = friendBullets[i];
+		for(int j = 0; j < monsters.Size(); j++) {
+			auto monster = monsters[j];
 
-
-	core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, FriendComponent, BulletComponent>(
-		[&](GameEntityPool::Entity playerbullet) {
-
-		core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, MonsterComponent>(
-				[&](GameEntityPool::Entity monster) {
-			//人物子弹与怪物碰撞
-			auto PlayerBullet = playerbullet.Get<VelocityComponent>();
 			if (utility::CollisionDetector(
 				Vector2F(playerbullet.Get<PositionComponent>()->x,
 					playerbullet.Get<PositionComponent>()->y),
@@ -64,32 +61,12 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 					monster.Activate<DeadComponent>();
 				}
 			}
-		});
-	});
+		}
+	}
 
-		core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, BulletComponent>(
-			[&](GameEntityPool::Entity monsterbullet) {
-			if (!monsterbullet.Has<FriendComponent>()) {
-				core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, PlayerComponent>(
-					[&](GameEntityPool::Entity player) {
-					//人物与怪物子弹碰撞
-					if (utility::CollisionDetector(
-						Vector2F(monsterbullet.Get<PositionComponent>()->x,
-							monsterbullet.Get<PositionComponent>()->y),
-						Vector2F(monsterbullet.Get<HealthComponent>()->width,
-							monsterbullet.Get<HealthComponent>()->height),
-						Vector2F(player.Get<PositionComponent>()->x,
-							player.Get<PositionComponent>()->y),
-						Vector2F(player.Get<HealthComponent>()->width,
-							player.Get<HealthComponent>()->height))) {
-						monsterbullet.Activate<DeadComponent>();
-						player.Get<HealthComponent>()->healthPower -= monsterbullet.Get<BulletComponent>()->damage;
-						if (player.Get<HealthComponent>()->healthPower <= 0) {
-							player.Activate<DeadComponent>();
-						}
-					}
-				});
-			}
-			
-	});
 }
+
+std::string DamageSystem::toString() {
+	return std::string("damage system");
+}
+
