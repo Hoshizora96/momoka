@@ -100,7 +100,7 @@ inline void GameCore::Initialize() {
 
 	PropFactory propFactory;
 	propFactory.Create(entityPool, 0);
-	propFactory.Create(entityPool, 2);
+	propFactory.Create(entityPool, 1);
 
 	tilePool.AddTile(0, 11, 0);
 	tilePool.AddTile(1, 11, 0);
