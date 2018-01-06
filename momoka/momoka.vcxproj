@@ -161,6 +161,7 @@
     <ClCompile Include="src\core\System\DamageSystem.cpp" />
     <ClCompile Include="src\core\System\DeadSystem.cpp" />
     <ClCompile Include="src\core\System\GravitySystem.cpp" />
+    <ClCompile Include="src\core\System\GuiSystem.cpp" />
     <ClCompile Include="src\core\System\MonsterAISystem.cpp" />
     <ClCompile Include="src\core\System\MoveSystem.cpp" />
     <ClCompile Include="src\core\System\PickPropSystem.cpp" />
