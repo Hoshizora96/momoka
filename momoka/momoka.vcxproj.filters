@@ -96,6 +96,9 @@
     <ClCompile Include="src\core\tools\Gui.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\System\BulletStorageControlSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.md" />
@@ -408,6 +411,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\core\tools\Gui.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\system\BulletStorageControlSystem.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

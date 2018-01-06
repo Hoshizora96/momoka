@@ -158,6 +158,7 @@
     <ClCompile Include="src\core\factory\MonsterFactory.cpp" />
     <ClCompile Include="src\core\factory\PropFactory.cpp" />
     <ClCompile Include="src\core\map\TilePool.cpp" />
+    <ClCompile Include="src\core\System\BulletStorageControlSystem.cpp" />
     <ClCompile Include="src\core\System\DamageSystem.cpp" />
     <ClCompile Include="src\core\System\DeadSystem.cpp" />
     <ClCompile Include="src\core\System\GravitySystem.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="include\core\object\GameObjectPool.h" />
     <ClInclude Include="include\core\object\GroupManager.h" />
     <ClInclude Include="include\core\object\GameGroupSet.h" />
+    <ClInclude Include="include\core\system\BulletStorageControlSystem.h" />
     <ClInclude Include="include\core\system\DamageSystem.h" />
     <ClInclude Include="include\core\system\DeadSystem.h" />
     <ClInclude Include="include\core\system\GravitySystem.h" />

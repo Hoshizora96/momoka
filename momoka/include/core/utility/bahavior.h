@@ -93,15 +93,18 @@ namespace behavior {
 	inline void Shoot(GameEntityPool::Entity& entity, GameCore& core, DIRECTION direction) {
 		auto bulletStorage = entity.Get<BulletStorageComponent>();
 		BulletFactory bulletFactory;
-		GameEntityPool::Entity bullet = bulletFactory.Create(core.entityPool, bulletStorage->curGenreNum);
-		if (direction == Right) {
-			bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x + momoka::TILE_SIZE;
-			bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
-		}
-		else {
-			bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x;
-			bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
-			bullet.Get<VelocityComponent>()->vx = -bullet.Get<VelocityComponent>()->vx;
+		if (bulletStorage->storage[bulletStorage->curGenreNum] > 0) {
+			bulletStorage->storage[bulletStorage->curGenreNum] -= 1;
+			GameEntityPool::Entity bullet = bulletFactory.Create(core.entityPool, bulletStorage->curGenreNum);
+			if (direction == Right) {
+				bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x + momoka::TILE_SIZE;
+				bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
+			}
+			else {
+				bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x;
+				bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;
+				bullet.Get<VelocityComponent>()->vx = -bullet.Get<VelocityComponent>()->vx;
+			}
 		}
 	}
 }
