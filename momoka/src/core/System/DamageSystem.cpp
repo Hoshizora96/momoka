@@ -43,12 +43,6 @@ void DamageSystem::Update(float& dt) {
 	auto& friendBullets = core->groupManager.GetGroup<groups::FriendBulletGroup>();
 	for(int i = 0; i < friendBullets.Size(); i++) {
 		auto playerbullet = friendBullets[i];
-		if (playerbullet.Get<TimingComponent>()->BulletFlyingTime < playerbullet.Get<BulletComponent>()->MaxFlyTime) {
-			playerbullet.Get<TimingComponent>()->BulletFlyingTime += dt;
-		}
-		else {
-			playerbullet.Activate<DeadComponent>();
-		}
 		for(int j = 0; j < monsters.Size(); j++) {
 			auto monster = monsters[j];
 

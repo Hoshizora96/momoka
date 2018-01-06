@@ -9,5 +9,5 @@ class BulletStorageComponent :public Component {
 public:
 	int MaxGenreNum = maxGenreNum;
 	int curGenreNum = 0;
-	int genre[maxGenreNum] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
+	int genre[maxGenreNum] = { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 };
