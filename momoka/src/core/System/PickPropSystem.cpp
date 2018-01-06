@@ -4,6 +4,13 @@
 #include "core/GameCore.h"
 #include "core/utility/prop.h"
 
+/*
+-----------------------------道具列表---------------------
+0	血药：恢复50%HP
+2 - 9 子弹：
+2	击退弹：有击退效果的子弹
+*/
+
 void PickPropSystem::Update(float& dt) {
 	//人物与道具碰撞
 	core->entityPool.Each<HealthComponent, PlayerComponent>(
@@ -27,8 +34,15 @@ void PickPropSystem::Update(float& dt) {
 					prop.Activate<DeadComponent>();
 					break;
 				case 1:
+					break;
 				case 2:
 				case 3:
+				case 4:
+				case 5:
+				case 6:
+				case 7:
+				case 8:
+				case 9:
 					prop::AddBullet(player, prop);
 					prop.Activate<DeadComponent>();
 					break;
