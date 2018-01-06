@@ -30,18 +30,12 @@ void WorldObstacleSystem::Update(float& dt) {
 			// 碰到左边界
 			velocityPtr->vx = 0;
 			positionPtr->x = 0;
-			if (entity.Has<BulletComponent>()) {
-				entity.Activate<DeadComponent>();
-			}
 		}
 
 		if (y < 0 && vy < 0) {
 			// 碰到上边界
 			velocityPtr->vy = 0;
 			positionPtr->y = 0;
-			if (entity.Has<BulletComponent>()) {
-				entity.Activate<DeadComponent>();
-			}
 		}
 
 		__int64 xStartTile = int(x / momoka::TILE_SIZE);
@@ -201,9 +195,6 @@ void WorldObstacleSystem::TakeObstacle(GameEntityPool::Entity& entity, DIRECTION
 	auto positionPtr = entity.Get<PositionComponent>();
 	auto obstaclePtr = entity.Get<ObstacleComponent>();
 	auto velocityPtr = entity.Get<VelocityComponent>();
-	if (entity.Has<BulletComponent>()) {
-		entity.Activate<DeadComponent>();
-	}
 	if (direction == Left || direction == Right) {
 		obstaclePtr->xObstacle = true;
 		obstaclePtr->xDirection = direction;
