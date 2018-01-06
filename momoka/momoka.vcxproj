@@ -169,6 +169,7 @@
     <ClCompile Include="src\core\System\RenderSystem.cpp" />
     <ClCompile Include="src\core\System\WorldObstacleSystem.cpp" />
     <ClCompile Include="src\core\tools\Camera.cpp" />
+    <ClCompile Include="src\core\tools\Gui.cpp" />
     <ClCompile Include="src\game\GameController.cpp" />
     <ClCompile Include="src\util\HashedString.cpp" />
     <ClCompile Include="src\util\Log.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="include\core\system\WorldObstacleSystem.h" />
     <ClInclude Include="include\core\system\System.h" />
     <ClInclude Include="include\core\tools\Camera.h" />
+    <ClInclude Include="include\core\tools\Gui.h" />
     <ClInclude Include="include\core\utility\bahavior.h" />
     <ClInclude Include="include\core\utility\prop.h" />
     <ClInclude Include="include\core\utility\utility.h" />
@@ -293,6 +295,10 @@
     <ClInclude Include="include\util\Log.h" />
     <ClInclude Include="include\util\ServiceLoader.h" />
     <ClInclude Include="include\util\Vector2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="content\assert\40.png" />
+    <Image Include="content\assert\hero-hp-bar.PNG" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
