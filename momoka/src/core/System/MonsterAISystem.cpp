@@ -4,13 +4,12 @@
 #include "core/utility/utility.h"
 #include "core/GameCore.h"
 #include "core/utility/bahavior.h"
-#include "core/factory/BulletFactory.h"
 #include "core/system/MonsterAISystem.h"
 
 void MonsterAISystem::Update(float& dt, GameCore& core) {
 	core.entityPool.Each<MonsterComponent>(
 		[&](GameEntityPool::Entity monster) {
-
+		behavior::Stand(monster);
 		core.entityPool.Each<PlayerComponent>(
 			[&](GameEntityPool::Entity player) {
 
@@ -32,12 +31,30 @@ void MonsterAISystem::Update(float& dt, GameCore& core) {
 				if (player.Get<PositionComponent>()->x < monster.Get<PositionComponent>()->x) {
 					monster.Get<MoveComponent>()->runningVelocity = 200;
 					behavior::Running(monster, dt, Left);
-					//behavior::Shoot(monster, core, Left);
+					if (monster.Get<TimingComponent>()->ShootDisabledTime == 0) {
+						behavior::Shoot(monster, core, Left);
+						monster.Get<TimingComponent>()->ShootDisabledTime += dt;
+					}
+					else {
+						if (monster.Get<TimingComponent>()->ShootDisabledTime >= monster.Get<TimingComponent>()->ShootInterval) {
+							monster.Get<TimingComponent>()->ShootDisabledTime = 0;
+						}
+						monster.Get<TimingComponent>()->ShootDisabledTime += dt;
+					}
 				}
 				else {
 					monster.Get<MoveComponent>()->runningVelocity = 200;
 					behavior::Running(monster, dt, Right);
-					//behavior::Shoot(monster, core, Right);
+					if (monster.Get<TimingComponent>()->ShootDisabledTime == 0) {
+						behavior::Shoot(monster, core, Right);
+						monster.Get<TimingComponent>()->ShootDisabledTime += dt;
+					}
+					else {
+						if (monster.Get<TimingComponent>()->ShootDisabledTime >= monster.Get<TimingComponent>()->ShootInterval) {
+							monster.Get<TimingComponent>()->ShootDisabledTime = 0;
+						}
+						monster.Get<TimingComponent>()->ShootDisabledTime += dt;
+					}
 				}
 			}
 		});

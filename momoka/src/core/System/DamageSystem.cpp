@@ -47,7 +47,7 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 
 		core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, MonsterComponent>(
 				[&](GameEntityPool::Entity monster) {
-			//人物与怪物子弹碰撞
+			//人物子弹与怪物碰撞
 			auto PlayerBullet = playerbullet.Get<VelocityComponent>();
 			if (utility::CollisionDetector(
 				Vector2F(playerbullet.Get<PositionComponent>()->x,
@@ -65,5 +65,31 @@ void DamageSystem::Update(float& dt, GameCore& core) {
 				}
 			}
 		});
+	});
+
+		core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, BulletComponent>(
+			[&](GameEntityPool::Entity monsterbullet) {
+			if (!monsterbullet.Has<FriendComponent>()) {
+				core.entityPool.Each<HealthComponent, VelocityComponent, PositionComponent, PlayerComponent>(
+					[&](GameEntityPool::Entity player) {
+					//人物与怪物子弹碰撞
+					if (utility::CollisionDetector(
+						Vector2F(monsterbullet.Get<PositionComponent>()->x,
+							monsterbullet.Get<PositionComponent>()->y),
+						Vector2F(monsterbullet.Get<HealthComponent>()->width,
+							monsterbullet.Get<HealthComponent>()->height),
+						Vector2F(player.Get<PositionComponent>()->x,
+							player.Get<PositionComponent>()->y),
+						Vector2F(player.Get<HealthComponent>()->width,
+							player.Get<HealthComponent>()->height))) {
+						monsterbullet.Activate<DeadComponent>();
+						player.Get<HealthComponent>()->healthPower -= monsterbullet.Get<BulletComponent>()->damage;
+						if (player.Get<HealthComponent>()->healthPower <= 0) {
+							player.Activate<DeadComponent>();
+						}
+					}
+				});
+			}
+			
 	});
 }

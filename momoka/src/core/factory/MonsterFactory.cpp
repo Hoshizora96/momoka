@@ -31,6 +31,8 @@ GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool, int monsterI
 
 	auto DetectAreaCom = DetectAreaComponent();
 
+	auto timingCom = TimingComponent();
+
 	auto healthCom = HealthComponent();
 	healthCom.height = 2 * momoka::TILE_SIZE;
 	healthCom.width = momoka::TILE_SIZE;
@@ -61,6 +63,7 @@ GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool, int monsterI
 		monsterCom,
 		healthCom,
 		DetectAreaCom,
-		bulletStorageCom
+		bulletStorageCom,
+		timingCom
 		);
 }
