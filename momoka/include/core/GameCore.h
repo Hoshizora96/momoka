@@ -26,6 +26,9 @@
 #include "core/object/GroupManager.h"
 #include "core/object/GameGroupSet.h"
 
+#include "core/tools/Gui.h"
+#include "system/GuiSystem.h"
+
 class GameCore : public Core {
 public:
 	GameEntityPool entityPool;
@@ -37,6 +40,8 @@ public:
 	std::vector<System*> systems;
 
 	ID2D1Bitmap* heroBitmap;
+
+	Gui gui;
 
 	GameCore();
 	void Initialize();
@@ -85,6 +90,7 @@ inline void GameCore::Initialize() {
 		PickPropSystem,
 		MonsterAISystem,
 		RenderSystem,
+		GuiSystem,
 		DeadSystem
 	>();
 
@@ -107,6 +113,10 @@ inline void GameCore::Initialize() {
 	tilePool.AddTile(2, 11, 0);
 	tilePool.AddTile(3, 11, 0);
 	tilePool.AddTile(4, 11, 0);
+	tilePool.AddTile(5, 11, 0);
+	tilePool.AddTile(6, 11, 0);
+	tilePool.AddTile(7, 11, 0);
+	tilePool.AddTile(8, 11, 0);
 	tilePool.AddTile(4, 5, 0);
 	tilePool.AddTile(5, 11, 0);
 	tilePool.AddTile(5, 7, 0);

@@ -107,6 +107,14 @@ bool GraphicService::CreateDeviceResources() {
 			&m_pCornflowerBlueBrush_
 		);
 	}
+
+	if (SUCCEEDED(hr)) {
+		hr = m_pRenderTarget_->CreateSolidColorBrush(
+			D2D1::ColorF(D2D1::ColorF::Red),
+			&m_pRedBrush_
+		);
+	}
+
 	return SUCCEEDED(hr);
 }
 
@@ -116,6 +124,7 @@ void GraphicService::DiscardDeviceResources() {
 	SafeRelease(&m_pRenderTarget_);
 	SafeRelease(&m_pDWriteFactory_);
 	SafeRelease(&m_pCornflowerBlueBrush_);
+	SafeRelease(&m_pRedBrush_);
 	SafeRelease(&m_pWicFactory_);
 }
 
@@ -128,7 +137,7 @@ bool GraphicService::BeginDraw() {
 	if (m_bufferLock_) {
 		m_bufferLock_ = false;
 		bool result = true;
-		if(m_deviceResetFlag_) {
+		if (m_deviceResetFlag_) {
 			result = CreateDeviceResources();
 		}
 		if (result) {
@@ -189,45 +198,54 @@ bool GraphicService::LoadBitMap(LPWSTR path, ID2D1Bitmap** ppBitmap) {
 	if (SUCCEEDED(hr)) {
 		hr = m_pWicFactory_->CreateFormatConverter(&pConverter);
 	}
+//
+//	auto destinationWidth = 50;
+//	auto destinationHeight = 100;
+//	// If a new width or height was specified, create an
+//	// IWICBitmapScaler and use it to resize the image.
+//	if (destinationWidth != 0 || destinationHeight != 0) {
+//		UINT originalWidth, originalHeight;
+//		hr = pSource->GetSize(&originalWidth, &originalHeight);
+//		if (SUCCEEDED(hr)) {
+//			if (destinationWidth == 0) {
+//				FLOAT scalar = static_cast<FLOAT>(destinationHeight) / static_cast<FLOAT>(originalHeight);
+//				destinationWidth = static_cast<UINT>(scalar * static_cast<FLOAT>(originalWidth));
+//			}
+//			else if (destinationHeight == 0) {
+//				FLOAT scalar = static_cast<FLOAT>(destinationWidth) / static_cast<FLOAT>(originalWidth);
+//				destinationHeight = static_cast<UINT>(scalar * static_cast<FLOAT>(originalHeight));
+//			}
+//
+//
+//		}
+//	}
 
-	auto destinationWidth = 50;
-	auto destinationHeight = 100;
+	if (SUCCEEDED(hr)) {
+		hr = m_pWicFactory_->CreateBitmapScaler(&pScaler);
+	}
 
-	// If a new width or height was specified, create an
-	// IWICBitmapScaler and use it to resize the image.
-	if (destinationWidth != 0 || destinationHeight != 0) {
-		UINT originalWidth, originalHeight;
+	UINT originalWidth = 0, originalHeight = 0;
+	if (SUCCEEDED(hr)) {
 		hr = pSource->GetSize(&originalWidth, &originalHeight);
-		if (SUCCEEDED(hr)) {
-			if (destinationWidth == 0) {
-				FLOAT scalar = static_cast<FLOAT>(destinationHeight) / static_cast<FLOAT>(originalHeight);
-				destinationWidth = static_cast<UINT>(scalar * static_cast<FLOAT>(originalWidth));
-			}
-			else if (destinationHeight == 0) {
-				FLOAT scalar = static_cast<FLOAT>(destinationWidth) / static_cast<FLOAT>(originalWidth);
-				destinationHeight = static_cast<UINT>(scalar * static_cast<FLOAT>(originalHeight));
-			}
+	}
 
-			hr = m_pWicFactory_->CreateBitmapScaler(&pScaler);
-			if (SUCCEEDED(hr)) {
-				hr = pScaler->Initialize(
-					pSource,
-					destinationWidth,
-					destinationHeight,
-					WICBitmapInterpolationModeCubic
-				);
-			}
-			if (SUCCEEDED(hr)) {
-				hr = pConverter->Initialize(
-					pScaler,
-					GUID_WICPixelFormat32bppPBGRA,
-					WICBitmapDitherTypeNone,
-					NULL,
-					0.f,
-					WICBitmapPaletteTypeMedianCut
-				);
-			}
-		}
+	if (SUCCEEDED(hr)) {
+		hr = pScaler->Initialize(
+			pSource,
+			originalWidth,
+			originalHeight,
+			WICBitmapInterpolationModeCubic
+		);
+	}
+	if (SUCCEEDED(hr)) {
+		hr = pConverter->Initialize(
+			pScaler,
+			GUID_WICPixelFormat32bppPBGRA,
+			WICBitmapDitherTypeNone,
+			NULL,
+			0.f,
+			WICBitmapPaletteTypeMedianCut
+		);
 	}
 
 	if (SUCCEEDED(hr)) {
@@ -239,15 +257,14 @@ bool GraphicService::LoadBitMap(LPWSTR path, ID2D1Bitmap** ppBitmap) {
 	return false;
 }
 
-void GraphicService::DrawBitmap(ID2D1Bitmap* pBitmap) {
-
+void GraphicService::DrawBitmap(ID2D1Bitmap* pBitmap, float x, float y) {
 
 
 	// Clear background color to dark cyan
 	// m_pRenderTarget_->Clear(D2D1::ColorF(D2D1::ColorF::White));
 
 	D2D1_SIZE_F size = pBitmap->GetSize();
-	D2D1_POINT_2F upperLeftCorner = D2D1::Point2F(0.f, 0.f);
+	D2D1_POINT_2F upperLeftCorner = D2D1::Point2F(x, y);
 
 	// Draw bitmap
 	m_pRenderTarget_->DrawBitmap(
@@ -259,10 +276,10 @@ void GraphicService::DrawBitmap(ID2D1Bitmap* pBitmap) {
 			upperLeftCorner.y + size.height)
 	);
 
-//	if (FAILED(hr)) {
-//		MessageBox(nullptr, L"Draw failed!", L"Error", 0);
-//		return;
-//	}
+	//	if (FAILED(hr)) {
+	//		MessageBox(nullptr, L"Draw failed!", L"Error", 0);
+	//		return;
+	//	}
 }
 
 void GraphicService::KillWindow() {
@@ -274,9 +291,17 @@ void GraphicService::KillWindow() {
 	UnregisterClass(L"momoka", HINST_THISCOMPONENT);
 }
 
-void GraphicService::DrawRect(float x, float y, float width, float height) const {
+void GraphicService::DrawRect(float x, float y, float width, float height, MyColor color) const {
 	auto rect = D2D1::RectF(x, y, x + width, y + height);
-	m_pRenderTarget_->FillRectangle(&rect, m_pCornflowerBlueBrush_);
+	ID2D1SolidColorBrush* pBrush = m_pCornflowerBlueBrush_;
+	switch (color) {
+	case CornFlowerBlue:
+		pBrush = m_pCornflowerBlueBrush_;
+		break;
+	case Red:
+		pBrush = m_pRedBrush_;
+	}
+	m_pRenderTarget_->FillRectangle(&rect, pBrush);
 }
 
 void GraphicService::DrawTestWhiteBackGround() {

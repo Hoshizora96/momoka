@@ -4,6 +4,12 @@
 
 class GraphicService : public Service {
 public:
+
+	enum MyColor {
+		Red,
+		CornFlowerBlue
+	};
+
 	explicit GraphicService();
 	~GraphicService();
 
@@ -16,7 +22,7 @@ public:
 	bool EndDraw();
 
 	bool LoadBitMap(LPWSTR path, ID2D1Bitmap** ppBitmap);
-	void DrawBitmap(ID2D1Bitmap* pBitmap);
+	void DrawBitmap(ID2D1Bitmap* pBitmap, float x=0, float y=0);
 
 	void KillWindow();
 
@@ -24,7 +30,7 @@ public:
 	void OnResize(UINT width, UINT height);
 	static LRESULT CALLBACK WndProc(HWND hwnd, UINT umsg, WPARAM wParam, LPARAM lParam);
 
-	void DrawRect(float x, float y, float width, float height) const;
+	void DrawRect(float x, float y, float width, float height, MyColor color=CornFlowerBlue) const;
 
 	void DrawTestWhiteBackGround();
 
@@ -43,6 +49,7 @@ private:
 
 	// 这是一个设备相关资源，蓝色笔刷
 	ID2D1SolidColorBrush* m_pCornflowerBlueBrush_ = nullptr;
+	ID2D1SolidColorBrush* m_pRedBrush_ = nullptr;
 
 	IWICImagingFactory* m_pWicFactory_ = nullptr;
 
