@@ -109,8 +109,9 @@ inline void GameCore::Initialize() {
 	propFactory.Create(entityPool, 0);
 	propFactory.Create(entityPool, 2);
 	propFactory.Create(entityPool, 3);
+	propFactory.Create(entityPool, 9);
 
-	for (int i = 0;i < 20;i++) {
+	for (int i = 0;i < 50;i++) {
 		tilePool.AddTile(i, 11, 0);
 	}
 	tilePool.AddTile(4, 5, 0);

@@ -61,13 +61,13 @@ void PlayerControlSystem::Update(float& dt) {
 					}
 			}
 			if (inputService->IsKeyEventHappened(DIK_1, Key_press)) {
-				entity.Get<PropStorageComponent>()->useRequest = 1;
+				entity.Get<PropStorageComponent>()->useRequest = 0;
 			}
 			if (inputService->IsKeyEventHappened(DIK_2, Key_press)) {
-				entity.Get<PropStorageComponent>()->useRequest = 2;
+				entity.Get<PropStorageComponent>()->useRequest = 1;
 			}
 			if (inputService->IsKeyEventHappened(DIK_3, Key_press)) {
-				entity.Get<PropStorageComponent>()->useRequest = 3;
+				entity.Get<PropStorageComponent>()->useRequest = 2;
 			}
 		}
 		else {

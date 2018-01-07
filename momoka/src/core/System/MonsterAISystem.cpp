@@ -46,12 +46,25 @@ void MonsterAISystem::Update(float& dt) {
 			});
 		}
 		else {
-			if (monster.Get<TimingComponent>()->InputDisabledTime < monster.Get<TimingComponent>()->MaxInputDisabledTime) {
-				monster.Get<TimingComponent>()->InputDisabledTime += dt;
+			if (!monster.Get<MonsterComponent>()->isStatic) {
+				if (monster.Get<TimingComponent>()->InputDisabledTime < monster.Get<TimingComponent>()->MaxInputDisabledTime) {
+					monster.Get<TimingComponent>()->InputDisabledTime += dt;
+				}
+				else {
+					monster.Get<TimingComponent>()->InputDisabledTime = 0;
+					monster.Activate<InputControlComponent>();
+				}
 			}
 			else {
-				monster.Get<TimingComponent>()->InputDisabledTime = 0;
-				monster.Activate<InputControlComponent>();
+				if (monster.Get<TimingComponent>()->StaticTime < monster.Get<TimingComponent>()->MaxStaticTime) {
+					monster.Get<TimingComponent>()->StaticTime += dt;
+				}
+				else {
+					monster.Get<TimingComponent>()->StaticTime = 0;
+					monster.Activate<InputControlComponent>();
+					monster.Activate<HealthComponent>();
+					monster.Get<MonsterComponent>()->isStatic = false;
+				}
 			}
 		}
 	});

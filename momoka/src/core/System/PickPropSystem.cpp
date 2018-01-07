@@ -11,6 +11,7 @@
 2 - 8	×Óµ¯
 2	»÷ÍËµ¯
 3	·¶Î§Õ¨µ¯
+9	¹ÖÎïÍ£Ö¹Æ÷
 */
 
 void PickPropSystem::Update(float& dt) {
@@ -36,8 +37,6 @@ void PickPropSystem::Update(float& dt) {
 					prop.Activate<DeadComponent>();
 					break;
 				case 1:
-					prop::AddProp(player, prop);
-					prop.Activate<DeadComponent>();
 					break;
 				case 2:
 				case 3:
@@ -47,6 +46,10 @@ void PickPropSystem::Update(float& dt) {
 				case 7:
 				case 8:
 					prop::AddBullet(player, prop);
+					prop.Activate<DeadComponent>();
+					break;
+				case 9:
+					prop::AddProp(player, prop);
 					prop.Activate<DeadComponent>();
 					break;
 				default:

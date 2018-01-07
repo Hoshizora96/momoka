@@ -25,10 +25,7 @@ GameEntityPool::Entity PropFactory::Create(GameEntityPool& pool, int propIndex) 
 		positionCom.y = 0;
 		propCom.PropIndex = 0;
 		break;
-	case 1:  //怪物停止器（人物有无敌效果）
-		positionCom.x = 6 * momoka::TILE_SIZE;
-		positionCom.y = momoka::TILE_SIZE;
-		propCom.PropIndex = 1;
+	case 1:
 		break;
 	case 2:  //击退弹
 		positionCom.x = 7 * momoka::TILE_SIZE;
@@ -39,6 +36,21 @@ GameEntityPool::Entity PropFactory::Create(GameEntityPool& pool, int propIndex) 
 		positionCom.x = 8 * momoka::TILE_SIZE;
 		positionCom.y = momoka::TILE_SIZE;
 		propCom.PropIndex = 3;
+		break;
+	case 4:
+		break;
+	case 5:
+		break;
+	case 6:
+		break;
+	case 7:
+		break;
+	case 8:
+		break;
+	case 9:  //怪物停止器（人物有无敌效果）
+		positionCom.x = 6 * momoka::TILE_SIZE;
+		positionCom.y = momoka::TILE_SIZE;
+		propCom.PropIndex = 9;
 		break;
 	default:
 		break;

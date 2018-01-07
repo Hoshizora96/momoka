@@ -23,6 +23,7 @@ namespace prop {
 	}
 
 	inline void AddProp(GameEntityPool::Entity& player, GameEntityPool::Entity& prop) {
-		player.Get<PropStorageComponent>()->PropStorage[prop.Get<PropComponent>()->PropIndex] += 1;
+		int i = prop.Get<PropComponent>()->PropIndex;
+		player.Get<PropStorageComponent>()->PropStorage[prop.Get<PropComponent>()->PropIndex - 9] += 1;
 	}
 }
