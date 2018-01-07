@@ -19,6 +19,7 @@
 #include "system/DeadSystem.h"
 #include "system/PickPropSystem.h"
 #include "system/MonsterAISystem.h"
+#include "system/BulletStorageControlSystem.h"
 
 #include "Engine.h"
 #include "services/GraphicService.h"
@@ -93,8 +94,8 @@ inline void GameCore::Initialize() {
 		PickPropSystem,
 		MonsterAISystem,
 		RenderSystem,
-		GuiSystem,
-		DeadSystem
+		DeadSystem,
+		BulletStorageControlSystem
 	>();
 
 //	heroAnimator.LoadAnimationSet(L"content/asset/hero-frame-set.png");
@@ -111,21 +112,13 @@ inline void GameCore::Initialize() {
 
 	PropFactory propFactory;
 	propFactory.Create(entityPool, 0);
-	propFactory.Create(entityPool, 1);
+	propFactory.Create(entityPool, 2);
 
-	tilePool.AddTile(0, 11, 0);
-	tilePool.AddTile(1, 11, 0);
-	tilePool.AddTile(2, 11, 0);
-	tilePool.AddTile(3, 11, 0);
-	tilePool.AddTile(4, 11, 0);
-	tilePool.AddTile(5, 11, 0);
-	tilePool.AddTile(6, 11, 0);
-	tilePool.AddTile(7, 11, 0);
-	tilePool.AddTile(8, 11, 0);
+	for (int i = 0;i < 20;i++) {
+		tilePool.AddTile(i, 11, 0);
+	}
 	tilePool.AddTile(4, 5, 0);
-	tilePool.AddTile(5, 11, 0);
 	tilePool.AddTile(5, 7, 0);
-	tilePool.AddTile(6, 11, 0);
 }
 
 inline void GameCore::Update(float& dt) {

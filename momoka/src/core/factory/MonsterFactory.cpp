@@ -16,6 +16,8 @@ GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool, int monsterI
 
 	auto jumpCom = JumpComponent();
 
+	auto inputControlCom = InputControlComponent();
+
 	auto moveCom = MoveComponent();
 	moveCom.runningVelocity = 500;
 
@@ -28,6 +30,8 @@ GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool, int monsterI
 	renderCom.renderWidth = obstacleCom.obstacleWidth;
 
 	auto monsterCom = MonsterComponent();
+
+	auto timingCom = TimingComponent();
 
 	auto DetectAreaCom = DetectAreaComponent();
 
@@ -61,6 +65,8 @@ GameEntityPool::Entity MonsterFactory::Create(GameEntityPool& pool, int monsterI
 		monsterCom,
 		healthCom,
 		DetectAreaCom,
-		bulletStorageCom
+		bulletStorageCom,
+		inputControlCom,
+		timingCom
 		);
 }
