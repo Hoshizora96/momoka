@@ -27,6 +27,7 @@ namespace behavior {
 		}
 	}
 
+
 	/**
 	 * \brief 使entity处于 vx==0 的状态
 	 * \param entity 目标entity

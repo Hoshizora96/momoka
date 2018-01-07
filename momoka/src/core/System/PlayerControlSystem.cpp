@@ -20,11 +20,13 @@ void PlayerControlSystem::Update(float& dt) {
 		if (entity.Has<InputControlComponent>()) {
 			if (inputService->IsKeyEventHappened(DIK_D)) {
 				behavior::Running(entity, dt, Right);
-				playerCom->direction = Right;
+				if(!playerCom->isBacking)
+					playerCom->direction = Right;
 			}
 			else if (inputService->IsKeyEventHappened(DIK_A)) {
 				behavior::Running(entity, dt, Left);
-				playerCom->direction = Left;
+				if (!playerCom->isBacking)
+					playerCom->direction = Left;
 			}
 			else {
 				behavior::Stand(entity);
@@ -35,6 +37,14 @@ void PlayerControlSystem::Update(float& dt) {
 			}
 			else if (inputService->IsKeyEventHappened(DIK_K, Key_release)) {
 				behavior::StopJumpAndFall(entity);
+			}
+
+			if (inputService->IsKeyEventHappened(DIK_LSHIFT, Key_down)) {
+				playerCom->isBacking = true;
+			}
+
+			if (inputService->IsKeyEventHappened(DIK_LSHIFT, Key_release)) {
+				playerCom->isBacking = false;
 			}
 
 			if (entity.Has<BulletStorageComponent>()) {

@@ -3,5 +3,6 @@
 
 class PlayerComponent:public Component {
 public:
-	DIRECTION direction = DIRECTION::Left;
+	DIRECTION direction = DIRECTION::Right;
+	bool isBacking = false;
 };
