@@ -202,7 +202,9 @@ void WorldObstacleSystem::TakeObstacle(GameEntityPool::Entity& entity, DIRECTION
 	auto obstaclePtr = entity.Get<ObstacleComponent>();
 	auto velocityPtr = entity.Get<VelocityComponent>();
 	if (entity.Has<BulletComponent>()) {
-		entity.Activate<DeadComponent>();
+		entity.Get<VelocityComponent>()->vx = 0;
+		if(entity.Get<BulletComponent>()->bulletType != 3) //不是炸弹就直接消失
+			entity.Activate<DeadComponent>();
 	}
 	if (direction == Left || direction == Right) {
 		obstaclePtr->xObstacle = true;
@@ -216,9 +218,7 @@ void WorldObstacleSystem::TakeObstacle(GameEntityPool::Entity& entity, DIRECTION
 		positionPtr->y = correntPosition;
 		velocityPtr->vy = 0;
 	}
-	if (entity.Has<BulletComponent>()) {
-		entity.Activate<DeadComponent>();
-	}
+	
 
 }
 

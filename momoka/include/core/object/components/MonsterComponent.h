@@ -4,4 +4,5 @@
 class MonsterComponent :public Component {
 public:
 	float CollisionDamage = 10;
+	bool isStatic = false;
 };

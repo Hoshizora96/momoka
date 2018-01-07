@@ -12,6 +12,11 @@ void GravitySystem::Update(float& dt) {
 			if (!(entity.Has<ObstacleComponent>()
 				&& entity.Get<ObstacleComponent>()->yObstacle
 				&& entity.Get<ObstacleComponent>()->yDirection == Down)) {
+				if (entity.Has<BulletComponent>()) {
+					if (entity.Get<BulletComponent>()->bulletType == 3) {
+						velocityComp->vy += 300 * dt;
+					}
+				}
 				velocityComp->vy += gravityComp->acceleration * dt;
 			}
 		}

@@ -24,6 +24,7 @@
 #include "core/object/components/DeadComponent.h"
 #include "core/object/components/PropComponent.h"
 #include "core/object/components/DetectAreaComponent.h"
+#include "core/object/components/PropStorageComponent.h"
 #include "components/AnimationComponent.h"
 
 using GameEntityPool = EntityPool<
@@ -46,6 +47,9 @@ using GameEntityPool = EntityPool<
 	VelocityComponent,
 	DeadComponent,
 	PropComponent,
+	DetectAreaComponent,
+	PropStorageComponent
+>;
 	AnimationComponent,
 	DetectAreaComponent
 >;

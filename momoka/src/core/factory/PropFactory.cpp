@@ -20,25 +20,37 @@ GameEntityPool::Entity PropFactory::Create(GameEntityPool& pool, int propIndex) 
 	auto friendCom = FriendComponent();
 
 	switch (propIndex) {
-	case 0:
+	case 0:  //血药
 		positionCom.x = 5 * momoka::TILE_SIZE;
 		positionCom.y = 0;
 		propCom.PropIndex = 0;
 		break;
 	case 1:
-		positionCom.x = 6 * momoka::TILE_SIZE;
-		positionCom.y = momoka::TILE_SIZE;
-		propCom.PropIndex = 1;
 		break;
-	case 2:
+	case 2:  //击退弹
 		positionCom.x = 7 * momoka::TILE_SIZE;
 		positionCom.y = momoka::TILE_SIZE;
 		propCom.PropIndex = 2;
 		break;
-	case 3:
+	case 3:  //炸弹
 		positionCom.x = 8 * momoka::TILE_SIZE;
 		positionCom.y = momoka::TILE_SIZE;
 		propCom.PropIndex = 3;
+		break;
+	case 4:
+		break;
+	case 5:
+		break;
+	case 6:
+		break;
+	case 7:
+		break;
+	case 8:
+		break;
+	case 9:  //怪物停止器（人物有无敌效果）
+		positionCom.x = 6 * momoka::TILE_SIZE;
+		positionCom.y = momoka::TILE_SIZE;
+		propCom.PropIndex = 9;
 		break;
 	default:
 		break;

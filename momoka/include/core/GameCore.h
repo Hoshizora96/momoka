@@ -20,6 +20,7 @@
 #include "system/PickPropSystem.h"
 #include "system/MonsterAISystem.h"
 #include "system/BulletStorageControlSystem.h"
+#include "system/SpecialPropSystem.h"
 
 #include "Engine.h"
 #include "services/GraphicService.h"
@@ -110,14 +111,20 @@ inline void GameCore::Initialize() {
 	heroFactroy.Create(entityPool);
 
 	MonsterFactory monsterFactroy;
-	monsterFactroy.Create(entityPool, 0);
+	for (int i = 0;i < 1;i++) {
+		auto monster = monsterFactroy.Create(entityPool, 0);
+		monster.Get<PositionComponent>()->x = (i * 2 + 6) * momoka::TILE_SIZE;
+	}
 
 	PropFactory propFactory;
 	propFactory.Create(entityPool, 0);
 	propFactory.Create(entityPool, 2);
+	propFactory.Create(entityPool, 3);
+	propFactory.Create(entityPool, 9);
 
-	for (int i = 0; i < 20; i++) {
-		tilePool.AddTile(i, 11, 0);
+	for (int i = 0;i < 50;i++) {
+		if (i >= 15 || i <= 12)
+			tilePool.AddTile(i, 11, 0);
 	}
 	tilePool.AddTile(4, 5, 0);
 	tilePool.AddTile(5, 7, 0);
