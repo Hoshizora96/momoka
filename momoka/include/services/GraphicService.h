@@ -22,7 +22,7 @@ public:
 	bool EndDraw();
 
 	bool LoadBitMap(LPWSTR path, ID2D1Bitmap** ppBitmap);
-	void DrawBitmap(ID2D1Bitmap* pBitmap, float x = 0, float y = 0, float width = 0, float height = 0, float startX = 0, float startY = 0);
+	void DrawBitmap(ID2D1Bitmap* pBitmap, float posX = 0, float posY = 0, float width = 0, float height = 0, float startX = 0, float startY = 0);
 
 	void KillWindow();
 

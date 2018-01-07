@@ -24,6 +24,7 @@
 #include "core/object/components/DeadComponent.h"
 #include "core/object/components/PropComponent.h"
 #include "core/object/components/DetectAreaComponent.h"
+#include "components/AnimationComponent.h"
 
 using GameEntityPool = EntityPool<
 	// 以下参数列表为安装的组件
@@ -45,5 +46,6 @@ using GameEntityPool = EntityPool<
 	VelocityComponent,
 	DeadComponent,
 	PropComponent,
+	AnimationComponent,
 	DetectAreaComponent
 >;

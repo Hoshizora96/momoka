@@ -257,15 +257,14 @@ bool GraphicService::LoadBitMap(LPWSTR path, ID2D1Bitmap** ppBitmap) {
 	return false;
 }
 
-void GraphicService::DrawBitmap(ID2D1Bitmap* pBitmap, float x, float y, float width, float height, float startX,
+void GraphicService::DrawBitmap(ID2D1Bitmap* pBitmap, float posX, float posY, float width, float height, float startX,
                                 float startY) {
-
 
 	// Clear background color to dark cyan
 	// m_pRenderTarget_->Clear(D2D1::ColorF(D2D1::ColorF::White));
 
 	D2D1_SIZE_F size = pBitmap->GetSize();
-	D2D1_POINT_2F upperLeftCorner = D2D1::Point2F(x, y);
+	D2D1_POINT_2F upperLeftCorner = D2D1::Point2F(posX, posY);
 
 	// Draw bitmap
 
@@ -274,21 +273,16 @@ void GraphicService::DrawBitmap(ID2D1Bitmap* pBitmap, float x, float y, float wi
 		D2D1::RectF(
 			upperLeftCorner.x,
 			upperLeftCorner.y,
-			upperLeftCorner.x + (width == 0 ? size.width : width),
-			upperLeftCorner.y + (height == 0 ? size.height : height))
-//		1,
-//		D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
-//		D2D1::RectF(
-//			startX,
-//			startY,
-//			startX + width,
-//			startY + height)
+			upperLeftCorner.x + (width <= 0 ? size.width : width),
+			upperLeftCorner.y + (height <= 0 ? size.height : height)),
+		1,
+		D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+		D2D1::RectF(
+			startX,
+			startY,
+			startX + (width <= 0 ? size.width : width),
+			startY + (height <= 0 ? size.height : height))
 	);
-
-	//	if (FAILED(hr)) {
-	//		MessageBox(nullptr, L"Draw failed!", L"Error", 0);
-	//		return;
-	//	}
 }
 
 void GraphicService::KillWindow() {

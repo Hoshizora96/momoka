@@ -96,6 +96,9 @@
     <ClCompile Include="src\core\tools\Gui.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\System\BulletStorageControlSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.md" />
@@ -416,6 +419,9 @@
     <ClInclude Include="include\core\tools\animator\HeroAnimator.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\core\system\BulletStorageControlSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="content\asset\40.png">
@@ -431,6 +437,9 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="content\asset\hero-frame-set.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="content\asset\hero-frame-set-flip.png">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

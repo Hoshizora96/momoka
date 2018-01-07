@@ -95,10 +95,12 @@ inline void GameCore::Initialize() {
 		MonsterAISystem,
 		RenderSystem,
 		DeadSystem,
+		GuiSystem,
 		BulletStorageControlSystem
 	>();
 
-//	heroAnimator.LoadAnimationSet(L"content/asset/hero-frame-set.png");
+		heroAnimator.LoadAnimationSet(L"content/asset/hero-frame-set.png",
+			L"content/asset/hero-frame-set-flip.png");
 
 	auto graphicService = Engine::serviceLoader.LocateService<GraphicService>(Service_graphic).lock();
 
@@ -114,7 +116,7 @@ inline void GameCore::Initialize() {
 	propFactory.Create(entityPool, 0);
 	propFactory.Create(entityPool, 2);
 
-	for (int i = 0;i < 20;i++) {
+	for (int i = 0; i < 20; i++) {
 		tilePool.AddTile(i, 11, 0);
 	}
 	tilePool.AddTile(4, 5, 0);
