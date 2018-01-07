@@ -28,6 +28,7 @@
 
 #include "core/tools/Gui.h"
 #include "system/GuiSystem.h"
+#include "tools/animator/HeroAnimator.h"
 
 class GameCore : public Core {
 public:
@@ -42,6 +43,8 @@ public:
 	ID2D1Bitmap* heroBitmap;
 
 	Gui gui;
+
+	HeroAnimator heroAnimator;
 
 	GameCore();
 	void Initialize();
@@ -94,9 +97,11 @@ inline void GameCore::Initialize() {
 		DeadSystem
 	>();
 
+//	heroAnimator.LoadAnimationSet(L"content/asset/hero-frame-set.png");
+
 	auto graphicService = Engine::serviceLoader.LocateService<GraphicService>(Service_graphic).lock();
 
-	graphicService->LoadBitMap(L"content/assert/40.png", &heroBitmap);
+	graphicService->LoadBitMap(L"content/asset/40.png", &heroBitmap);
 
 	HeroFactory heroFactroy;
 	heroFactroy.Create(entityPool);

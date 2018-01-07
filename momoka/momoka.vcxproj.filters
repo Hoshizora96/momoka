@@ -410,12 +410,27 @@
     <ClInclude Include="include\core\tools\Gui.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\core\tools\animator\Animator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\tools\animator\HeroAnimator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="content\assert\hero-hp-bar.PNG">
+    <Image Include="content\asset\40.png">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="content\assert\40.png">
+    <Image Include="content\asset\hero-hp-bar.PNG">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="content\asset\npc-hp-bar.PNG">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="C:\Users\Hoshizora\Desktop\hero-frame-set.png">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="content\asset\hero-frame-set.png">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

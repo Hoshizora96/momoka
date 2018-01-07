@@ -22,7 +22,7 @@ public:
 	bool EndDraw();
 
 	bool LoadBitMap(LPWSTR path, ID2D1Bitmap** ppBitmap);
-	void DrawBitmap(ID2D1Bitmap* pBitmap, float x=0, float y=0);
+	void DrawBitmap(ID2D1Bitmap* pBitmap, float x = 0, float y = 0, float width = 0, float height = 0, float startX = 0, float startY = 0);
 
 	void KillWindow();
 
@@ -30,7 +30,7 @@ public:
 	void OnResize(UINT width, UINT height);
 	static LRESULT CALLBACK WndProc(HWND hwnd, UINT umsg, WPARAM wParam, LPARAM lParam);
 
-	void DrawRect(float x, float y, float width, float height, MyColor color=CornFlowerBlue) const;
+	void DrawRect(float x, float y, float width, float height, MyColor color = CornFlowerBlue) const;
 
 	void DrawTestWhiteBackGround();
 
@@ -62,7 +62,7 @@ private:
 	LPCWSTR m_appName_;
 	FLOAT m_dpiX_;
 	FLOAT m_dpiY_;
-	
+
 	UINT m_windowWidth_;
 	UINT m_windowHeight_;
 

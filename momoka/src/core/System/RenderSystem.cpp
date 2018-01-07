@@ -14,10 +14,16 @@ void RenderSystem::Update(float& dt) {
 		auto renderComp = entity.Get<RenderComponent>();
 		auto positionComp = entity.Get<PositionComponent>();
 		core->camera.DrawRect(positionComp->x, positionComp->y, renderComp->renderWidth, renderComp->renderHeight);
+		float time = 0;
+//		if(entity.Has<PlayerComponent>()) {
+//			auto point = core->camera.TransformedCoordinate(positionComp->x, positionComp->y);
+//			core->heroAnimator.Play(time, Animator::Stand, point.GetX(), point.GetY());
+//		}
 	});
 
 	core->tilePool.Render(core->camera);
 	graphicService->DrawBitmap(core->heroBitmap);
+	
 }
 
 std::string RenderSystem::toString() {

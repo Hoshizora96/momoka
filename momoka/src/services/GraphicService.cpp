@@ -198,27 +198,27 @@ bool GraphicService::LoadBitMap(LPWSTR path, ID2D1Bitmap** ppBitmap) {
 	if (SUCCEEDED(hr)) {
 		hr = m_pWicFactory_->CreateFormatConverter(&pConverter);
 	}
-//
-//	auto destinationWidth = 50;
-//	auto destinationHeight = 100;
-//	// If a new width or height was specified, create an
-//	// IWICBitmapScaler and use it to resize the image.
-//	if (destinationWidth != 0 || destinationHeight != 0) {
-//		UINT originalWidth, originalHeight;
-//		hr = pSource->GetSize(&originalWidth, &originalHeight);
-//		if (SUCCEEDED(hr)) {
-//			if (destinationWidth == 0) {
-//				FLOAT scalar = static_cast<FLOAT>(destinationHeight) / static_cast<FLOAT>(originalHeight);
-//				destinationWidth = static_cast<UINT>(scalar * static_cast<FLOAT>(originalWidth));
-//			}
-//			else if (destinationHeight == 0) {
-//				FLOAT scalar = static_cast<FLOAT>(destinationWidth) / static_cast<FLOAT>(originalWidth);
-//				destinationHeight = static_cast<UINT>(scalar * static_cast<FLOAT>(originalHeight));
-//			}
-//
-//
-//		}
-//	}
+	//
+	//	auto destinationWidth = 50;
+	//	auto destinationHeight = 100;
+	//	// If a new width or height was specified, create an
+	//	// IWICBitmapScaler and use it to resize the image.
+	//	if (destinationWidth != 0 || destinationHeight != 0) {
+	//		UINT originalWidth, originalHeight;
+	//		hr = pSource->GetSize(&originalWidth, &originalHeight);
+	//		if (SUCCEEDED(hr)) {
+	//			if (destinationWidth == 0) {
+	//				FLOAT scalar = static_cast<FLOAT>(destinationHeight) / static_cast<FLOAT>(originalHeight);
+	//				destinationWidth = static_cast<UINT>(scalar * static_cast<FLOAT>(originalWidth));
+	//			}
+	//			else if (destinationHeight == 0) {
+	//				FLOAT scalar = static_cast<FLOAT>(destinationWidth) / static_cast<FLOAT>(originalWidth);
+	//				destinationHeight = static_cast<UINT>(scalar * static_cast<FLOAT>(originalHeight));
+	//			}
+	//
+	//
+	//		}
+	//	}
 
 	if (SUCCEEDED(hr)) {
 		hr = m_pWicFactory_->CreateBitmapScaler(&pScaler);
@@ -257,7 +257,8 @@ bool GraphicService::LoadBitMap(LPWSTR path, ID2D1Bitmap** ppBitmap) {
 	return false;
 }
 
-void GraphicService::DrawBitmap(ID2D1Bitmap* pBitmap, float x, float y) {
+void GraphicService::DrawBitmap(ID2D1Bitmap* pBitmap, float x, float y, float width, float height, float startX,
+                                float startY) {
 
 
 	// Clear background color to dark cyan
@@ -267,13 +268,21 @@ void GraphicService::DrawBitmap(ID2D1Bitmap* pBitmap, float x, float y) {
 	D2D1_POINT_2F upperLeftCorner = D2D1::Point2F(x, y);
 
 	// Draw bitmap
+
 	m_pRenderTarget_->DrawBitmap(
 		pBitmap,
 		D2D1::RectF(
 			upperLeftCorner.x,
 			upperLeftCorner.y,
-			upperLeftCorner.x + size.width,
-			upperLeftCorner.y + size.height)
+			upperLeftCorner.x + (width == 0 ? size.width : width),
+			upperLeftCorner.y + (height == 0 ? size.height : height))
+//		1,
+//		D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+//		D2D1::RectF(
+//			startX,
+//			startY,
+//			startX + width,
+//			startY + height)
 	);
 
 	//	if (FAILED(hr)) {
