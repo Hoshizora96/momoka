@@ -97,6 +97,9 @@ namespace behavior {
 		if (bulletStorage->storage[bulletStorage->curGenreNum] > 0) {
 			bulletStorage->storage[bulletStorage->curGenreNum] -= 1;
 			GameEntityPool::Entity bullet = bulletFactory.Create(core.entityPool, bulletStorage->curGenreNum);
+			if (bulletStorage->curGenreNum == 3) { //Õ¨µ¯
+				bullet.Activate<GravityComponent>();
+			}
 			if (direction == Right) {
 				bullet.Get<PositionComponent>()->x = entity.Get<PositionComponent>()->x + momoka::TILE_SIZE;
 				bullet.Get<PositionComponent>()->y = entity.Get<PositionComponent>()->y + momoka::TILE_SIZE;

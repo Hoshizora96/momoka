@@ -17,17 +17,6 @@ void BulletStorageControlSystem::Update(float& dt) {
 				}
 			}
 		}
-	/*core->entityPool.Each<BulletComponent>([&](GameEntityPool::Entity entity) {
-		if (entity.Get<TimingComponent>()->BulletCoolDown < bulletStorage->bulletCD[entity.Get<BulletComponent>()->bulletType]) {
-			entity.Get<TimingComponent>()->BulletCoolDown += dt;
-		}
-		else {
-			entity.Get<TimingComponent>()->BulletCoolDown = 0;
-			if (bulletStorage->storage[entity.Get<BulletComponent>()->bulletType] < bulletStorage->maxStorage[entity.Get<BulletComponent>()->bulletType]) {
-				bulletStorage->storage[entity.Get<BulletComponent>()->bulletType] += 1;
-			}
-		}
-	});*/
 }
 
 std::string BulletStorageControlSystem::toString() {

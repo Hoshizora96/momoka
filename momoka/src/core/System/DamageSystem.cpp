@@ -61,13 +61,36 @@ void DamageSystem::Update(float& dt) {
 					monster.Get<PositionComponent>()->y),
 				Vector2F(monster.Get<HealthComponent>()->width,
 					monster.Get<HealthComponent>()->height))) {
-				if (playerbullet.Get<BulletComponent>()->bulletType == 2) {
+				if (playerbullet.Get<BulletComponent>()->bulletType == 2) { //击退弹的效果
 					monster.Disable<InputControlComponent>();
 					if (playerbullet.Get<PositionComponent>()->x > monster.Get<PositionComponent>()->x) {
 						behavior::Repel(monster, Left);
 					}
 					else {
 						behavior::Repel(monster, Right);
+					}
+				}
+				if (playerbullet.Get<BulletComponent>()->bulletType == 3) { //范围炸弹的效果
+					for (int j = 0; j < monsters.Size(); j++) {
+						auto monster = monsters[j];
+						if (utility::CollisionDetector(
+							Vector2F(playerbullet.Get<PositionComponent>()->x + playerbullet.Get<BulletComponent>()->explosionRange,
+								playerbullet.Get<PositionComponent>()->y + playerbullet.Get<BulletComponent>()->explosionRange),
+							Vector2F(playerbullet.Get<HealthComponent>()->width,
+								playerbullet.Get<HealthComponent>()->height),
+							Vector2F(monster.Get<PositionComponent>()->x,
+								monster.Get<PositionComponent>()->y),
+							Vector2F(monster.Get<HealthComponent>()->width,
+								monster.Get<HealthComponent>()->height))) {
+
+						}
+						monster.Disable<InputControlComponent>();
+						if (playerbullet.Get<PositionComponent>()->x > monster.Get<PositionComponent>()->x) {
+							behavior::Repel(monster, Left);
+						}
+						else {
+							behavior::Repel(monster, Right);
+						}
 					}
 				}
 				playerbullet.Activate<DeadComponent>();

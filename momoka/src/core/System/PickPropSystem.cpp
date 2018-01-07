@@ -10,6 +10,7 @@
 1	
 2 - 8	×Óµ¯
 2	»÷ÍËµ¯
+3	·¶Î§Õ¨µ¯
 */
 
 void PickPropSystem::Update(float& dt) {

@@ -217,7 +217,8 @@ void WorldObstacleSystem::TakeObstacle(GameEntityPool::Entity& entity, DIRECTION
 		velocityPtr->vy = 0;
 	}
 	if (entity.Has<BulletComponent>()) {
-		entity.Activate<DeadComponent>();
+		if(entity.Get<BulletComponent>()->bulletType != 3) //不是炸弹就直接消失
+			entity.Activate<DeadComponent>();
 	}
 
 }

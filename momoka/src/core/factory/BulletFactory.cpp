@@ -51,6 +51,15 @@ GameEntityPool::Entity BulletFactory::Create(GameEntityPool& pool, int curGenreN
 		bulletCom.MaxFlyTime = 2;
 		bulletCom.bulletType = 2;
 		break;
+	case 3:
+		velocityCom.vx = 700;
+		velocityCom.vy = -2000;
+		bulletCom.obstacleWidth = 3 * momoka::BULLET_SIZE;
+		bulletCom.obstacleHeight = 3 * momoka::BULLET_SIZE;
+		bulletCom.damage = 50;
+		bulletCom.MaxFlyTime = 2;
+		bulletCom.bulletType = 3;
+		break;
 	default:
 		break;
 	}

@@ -20,7 +20,7 @@ GameEntityPool::Entity PropFactory::Create(GameEntityPool& pool, int propIndex) 
 	auto friendCom = FriendComponent();
 
 	switch (propIndex) {
-	case 0:
+	case 0:  //ÑªÒ©
 		positionCom.x = 5 * momoka::TILE_SIZE;
 		positionCom.y = 0;
 		propCom.PropIndex = 0;
@@ -30,12 +30,12 @@ GameEntityPool::Entity PropFactory::Create(GameEntityPool& pool, int propIndex) 
 		positionCom.y = momoka::TILE_SIZE;
 		propCom.PropIndex = 1;
 		break;
-	case 2:
+	case 2:  //»÷ÍËµ¯
 		positionCom.x = 7 * momoka::TILE_SIZE;
 		positionCom.y = momoka::TILE_SIZE;
 		propCom.PropIndex = 2;
 		break;
-	case 3:
+	case 3:  //Õ¨µ¯
 		positionCom.x = 8 * momoka::TILE_SIZE;
 		positionCom.y = momoka::TILE_SIZE;
 		propCom.PropIndex = 3;
