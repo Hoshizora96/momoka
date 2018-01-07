@@ -97,6 +97,7 @@ inline void GameCore::Initialize() {
 		RenderSystem,
 		DeadSystem,
 		GuiSystem,
+		SpecialPropSystem,
 		BulletStorageControlSystem
 	>();
 

@@ -31,7 +31,7 @@ void DamageSystem::Update(float& dt) {
 					if (player.Get<HealthComponent>()->healthPower <= 0) {
 						player.Activate<DeadComponent>();
 					}
-					player.Disable<HealthComponent>();
+					//player.Disable<HealthComponent>();
 					if (playerPositionCom->x < monsterPositionCom->x) {
 						behavior::Repel(player, Left);
 					}

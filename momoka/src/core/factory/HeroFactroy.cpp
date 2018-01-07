@@ -54,7 +54,7 @@ GameEntityPool::Entity HeroFactory::Create(GameEntityPool& pool) {
 		inputCom,
 		timingCom,
 		bulletstorageCom,
-		propStorageCom
+		propStorageCom,
 		animationCom,
 		bulletstorageCom
 	);

@@ -47,9 +47,7 @@ using GameEntityPool = EntityPool<
 	VelocityComponent,
 	DeadComponent,
 	PropComponent,
-	DetectAreaComponent,
-	PropStorageComponent
->;
+	PropStorageComponent,
 	AnimationComponent,
 	DetectAreaComponent
 >;
