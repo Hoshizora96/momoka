@@ -36,6 +36,8 @@ void PickPropSystem::Update(float& dt) {
 					prop.Activate<DeadComponent>();
 					break;
 				case 1:
+					prop::AddProp(player, prop);
+					prop.Activate<DeadComponent>();
 					break;
 				case 2:
 				case 3:

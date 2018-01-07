@@ -168,6 +168,7 @@
     <ClCompile Include="src\core\System\PickPropSystem.cpp" />
     <ClCompile Include="src\core\System\PlayerControlSystem.cpp" />
     <ClCompile Include="src\core\System\RenderSystem.cpp" />
+    <ClCompile Include="src\core\System\SpecialPropSystem.cpp" />
     <ClCompile Include="src\core\System\WorldObstacleSystem.cpp" />
     <ClCompile Include="src\core\tools\Camera.cpp" />
     <ClCompile Include="src\core\tools\Gui.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="include\core\object\components\PlayerComponent.h" />
     <ClInclude Include="include\core\object\components\PositionComponent.h" />
     <ClInclude Include="include\core\object\components\PropComponent.h" />
+    <ClInclude Include="include\core\object\components\PropStorageComponent.h" />
     <ClInclude Include="include\core\object\components\RenderComponent.h" />
     <ClInclude Include="include\core\object\components\TimingComponent.h" />
     <ClInclude Include="include\core\object\components\VelocityComponent.h" />
@@ -236,6 +238,7 @@
     <ClInclude Include="include\core\system\PickPropSystem.h" />
     <ClInclude Include="include\core\system\PlayerControlSystem.h" />
     <ClInclude Include="include\core\system\RenderSystem.h" />
+    <ClInclude Include="include\core\system\SpecialPropSystem.h" />
     <ClInclude Include="include\core\system\WorldObstacleSystem.h" />
     <ClInclude Include="include\core\system\System.h" />
     <ClInclude Include="include\core\tools\Camera.h" />

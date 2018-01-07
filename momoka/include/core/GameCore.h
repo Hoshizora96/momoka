@@ -20,6 +20,7 @@
 #include "system/PickPropSystem.h"
 #include "system/MonsterAISystem.h"
 #include "system/BulletStorageControlSystem.h"
+#include "system/SpecialPropSystem.h"
 
 #include "Engine.h"
 #include "services/GraphicService.h"
@@ -87,7 +88,8 @@ inline void GameCore::Initialize() {
 		MonsterAISystem,
 		RenderSystem,
 		DeadSystem,
-		BulletStorageControlSystem
+		BulletStorageControlSystem,
+		SpecialPropSystem
 	>();
 
 	auto graphicService = Engine::serviceLoader.LocateService<GraphicService>(Service_graphic).lock();
@@ -100,7 +102,7 @@ inline void GameCore::Initialize() {
 	MonsterFactory monsterFactroy;
 	for (int i = 0;i < 3;i++) {
 		auto monster = monsterFactroy.Create(entityPool, 0);
-		monster.Get<PositionComponent>()->x = i * 2 + 6 * momoka::TILE_SIZE;
+		monster.Get<PositionComponent>()->x = (i * 2 + 6) * momoka::TILE_SIZE;
 	}
 
 	PropFactory propFactory;

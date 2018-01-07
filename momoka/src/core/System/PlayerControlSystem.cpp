@@ -60,6 +60,15 @@ void PlayerControlSystem::Update(float& dt) {
 					behavior::Shoot(entity, *core, playerCom->direction);
 					}
 			}
+			if (inputService->IsKeyEventHappened(DIK_1, Key_press)) {
+				entity.Get<PropStorageComponent>()->useRequest = 1;
+			}
+			if (inputService->IsKeyEventHappened(DIK_2, Key_press)) {
+				entity.Get<PropStorageComponent>()->useRequest = 2;
+			}
+			if (inputService->IsKeyEventHappened(DIK_3, Key_press)) {
+				entity.Get<PropStorageComponent>()->useRequest = 3;
+			}
 		}
 		else {
 			if (entity.Has<TimingComponent>()) {
