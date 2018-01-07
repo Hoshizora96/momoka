@@ -22,18 +22,15 @@ void SpecialPropSystem::Update(float& dt) {
 				monsters[i].Get<MonsterComponent>()->isStatic = true;
 				monsters[i].Disable<HealthComponent>();
 			}
-			useRequest = -1;
 			break;
 		case 1:
-			useRequest = -1;
 			break;
 		case 2:
-			useRequest = -1;
 			break;
 		default:
 			break;
-			
 		}
+		useRequest = -1;
 	});
 }
 

@@ -8,4 +8,6 @@ public:
 	float StaticTime = 0;
 	float MaxStaticTime = 3;
 	float BulletFlyingTime = 0;
+	float TimeofInvincibleAfterHurt = 0;
+	float MaxTimeofInvincibleAfterHurt = 0.3;
 };

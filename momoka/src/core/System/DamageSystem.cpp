@@ -15,7 +15,7 @@ void DamageSystem::Update(float& dt) {
 			auto monster = monsters[j];
 			auto playerPositionCom = player.Get<PositionComponent>();
 			auto monsterPositionCom = monster.Get<PositionComponent>();
-			if (monster.Has<HealthComponent>()) {
+			if (monster.Has<HealthComponent>() && player.Has<HealthComponent>()) {
 				if (utility::CollisionDetector(
 					Vector2F(player.Get<PositionComponent>()->x,
 						player.Get<PositionComponent>()->y),
@@ -27,20 +27,21 @@ void DamageSystem::Update(float& dt) {
 						monster.Get<HealthComponent>()->height))
 					) {
 					player.Disable<InputControlComponent>();
+					player.Get<HealthComponent>()->healthPower -= monster.Get<MonsterComponent>()->CollisionDamage;
+					if (player.Get<HealthComponent>()->healthPower <= 0) {
+						player.Activate<DeadComponent>();
+					}
+					player.Disable<HealthComponent>();
 					if (playerPositionCom->x < monsterPositionCom->x) {
 						behavior::Repel(player, Left);
 					}
 					else {
 						behavior::Repel(player, Right);
 					}
-					player.Get<HealthComponent>()->healthPower -= monster.Get<MonsterComponent>()->CollisionDamage;
-					if (player.Get<HealthComponent>()->healthPower <= 0) {
-						player.Activate<DeadComponent>();
+					
 				}
 			}
-			}
-			
-		}
+		}		
 	}
 
 	auto& friendBullets = core->groupManager.GetGroup<groups::FriendBulletGroup>();

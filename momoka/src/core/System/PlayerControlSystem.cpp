@@ -72,18 +72,28 @@ void PlayerControlSystem::Update(float& dt) {
 		}
 		else {
 			if (entity.Has<TimingComponent>()) {
-				auto inputableTime = entity.Get<TimingComponent>();
-				if (inputableTime->InputDisabledTime < inputableTime->MaxInputDisabledTime) {
-					inputableTime->InputDisabledTime += dt;
+				auto StatusTime = entity.Get<TimingComponent>();
+				if (StatusTime->InputDisabledTime < StatusTime->MaxInputDisabledTime) {
+					StatusTime->InputDisabledTime += dt;
 				}
 				else {
-					inputableTime->InputDisabledTime = 0;
+					StatusTime->InputDisabledTime = 0;
 					if (entity.Get<ObstacleComponent>()->yObstacle && entity.Get<ObstacleComponent>()->yDirection == Down) {
 						entity.Get<VelocityComponent>()->vx = 0;
 						entity.Get<VelocityComponent>()->vy = 0;
 						entity.Activate<InputControlComponent>();
+					}	
+				}
+				if (!entity.Has<HealthComponent>()) { //处于受伤保护的无敌状态
+					if (StatusTime->TimeofInvincibleAfterHurt < StatusTime->MaxTimeofInvincibleAfterHurt) {
+						StatusTime->TimeofInvincibleAfterHurt += dt;
+					}
+					else {
+						StatusTime->TimeofInvincibleAfterHurt = 0;
+						entity.Activate<HealthComponent>();
 					}
 				}
+					
 			}
 		}
 	});

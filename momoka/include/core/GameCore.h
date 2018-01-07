@@ -100,7 +100,7 @@ inline void GameCore::Initialize() {
 	heroFactroy.Create(entityPool);
 
 	MonsterFactory monsterFactroy;
-	for (int i = 0;i < 3;i++) {
+	for (int i = 0;i < 1;i++) {
 		auto monster = monsterFactroy.Create(entityPool, 0);
 		monster.Get<PositionComponent>()->x = (i * 2 + 6) * momoka::TILE_SIZE;
 	}
@@ -112,7 +112,8 @@ inline void GameCore::Initialize() {
 	propFactory.Create(entityPool, 9);
 
 	for (int i = 0;i < 50;i++) {
-		tilePool.AddTile(i, 11, 0);
+		if (i >= 15 || i <= 12)
+			tilePool.AddTile(i, 11, 0);
 	}
 	tilePool.AddTile(4, 5, 0);
 	tilePool.AddTile(5, 7, 0);

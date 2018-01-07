@@ -34,6 +34,8 @@ GameEntityPool::Entity HeroFactory::Create(GameEntityPool& pool) {
 	auto inputCom = InputControlComponent();
 
 	auto timingCom = TimingComponent();
+	timingCom.TimeofInvincibleAfterHurt = 0;
+	timingCom.MaxTimeofInvincibleAfterHurt = 0.2;
 
 	auto propStorageCom = PropStorageComponent();
 
