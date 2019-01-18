@@ -1,5 +1,5 @@
 #pragma once
-#include "game/GameState.h"
+#include "core/Core.h"
 
 class GameController {
 public:
@@ -7,7 +7,6 @@ public:
 	~GameController();
 	
 	void Update(float dt);
-	void Render();
 
 	void Initialize();
 	void Shutdown();
@@ -15,5 +14,5 @@ public:
 	void SwitchGameState(int state);
 
 private:
-	GameState* m_pGameState_;
+	Core* m_pGameState_;
 };

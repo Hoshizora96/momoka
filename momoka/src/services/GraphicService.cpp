@@ -3,10 +3,7 @@
 
 GraphicService* GraphicService::m_handle_ = nullptr;
 
-GraphicService::GraphicService() : m_pDirect2DFactory_(nullptr),
-                                   m_pDWriteFactory_(nullptr),
-                                   m_pRenderTarget_(nullptr),
-                                   m_bufferLock_(true) {
+GraphicService::GraphicService(): m_bufferLock_(true) {
 	m_handle_ = this;
 	CreateDeviceIndependentResources();
 	InitializeWindow();
@@ -19,8 +16,13 @@ GraphicService::~GraphicService() {
 
 bool GraphicService::CreateDeviceIndependentResources() {
 	HRESULT hr = S_OK;
+	CoInitialize(nullptr);
 	if (SUCCEEDED(hr)) {
 		hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pDirect2DFactory_);
+	}
+
+	if (SUCCEEDED(hr)) {
+		hr = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_pWicFactory_));
 	}
 
 	if (SUCCEEDED(hr)) {
@@ -91,6 +93,7 @@ bool GraphicService::CreateDeviceResources() {
 			rc.bottom - rc.top
 		);
 
+		// 创建m_pRenderTarget_
 		hr = m_pDirect2DFactory_->CreateHwndRenderTarget(
 			D2D1::RenderTargetProperties(),
 			D2D1::HwndRenderTargetProperties(m_hwnd_, size),
@@ -104,14 +107,25 @@ bool GraphicService::CreateDeviceResources() {
 			&m_pCornflowerBlueBrush_
 		);
 	}
+
+	if (SUCCEEDED(hr)) {
+		hr = m_pRenderTarget_->CreateSolidColorBrush(
+			D2D1::ColorF(D2D1::ColorF::Red),
+			&m_pRedBrush_
+		);
+	}
+
 	return SUCCEEDED(hr);
 }
 
 void GraphicService::DiscardDeviceResources() {
+	// 销毁一切资源
 	SafeRelease(&m_pDirect2DFactory_);
 	SafeRelease(&m_pRenderTarget_);
 	SafeRelease(&m_pDWriteFactory_);
 	SafeRelease(&m_pCornflowerBlueBrush_);
+	SafeRelease(&m_pRedBrush_);
+	SafeRelease(&m_pWicFactory_);
 }
 
 void GraphicService::GetDpi(FLOAT& dpiX, FLOAT& dpiY) const {
@@ -122,8 +136,10 @@ bool GraphicService::BeginDraw() {
 	// 防止连续调用两次BeginDraw
 	if (m_bufferLock_) {
 		m_bufferLock_ = false;
-		bool result;
-		result = CreateDeviceResources();
+		bool result = true;
+		if (m_deviceResetFlag_) {
+			result = CreateDeviceResources();
+		}
 		if (result) {
 			m_pRenderTarget_->BeginDraw();
 		}
@@ -143,6 +159,7 @@ bool GraphicService::EndDraw() {
 		if (hr == D2DERR_RECREATE_TARGET) {
 			hr = S_OK;
 			DiscardDeviceResources();
+			m_deviceResetFlag_ = true;
 		}
 		return SUCCEEDED(hr);
 	}
@@ -150,6 +167,122 @@ bool GraphicService::EndDraw() {
 		// TODO: 添加调试信息
 		return false;
 	}
+}
+
+bool GraphicService::LoadBitMap(LPWSTR path, ID2D1Bitmap** ppBitmap) {
+	// LoadBitmapFromFile();
+
+	CreateDeviceResources();
+
+	HRESULT hr = S_OK;
+
+	IWICBitmapDecoder* pDecoder = nullptr;
+	IWICBitmapFrameDecode* pSource = nullptr;
+	IWICStream* pStream = nullptr;
+	IWICFormatConverter* pConverter = nullptr;
+	IWICBitmapScaler* pScaler = nullptr;
+
+	hr = m_pWicFactory_->CreateDecoderFromFilename(
+		path,
+		nullptr,
+		GENERIC_READ,
+		WICDecodeMetadataCacheOnLoad,
+		&pDecoder
+	);
+	if (SUCCEEDED(hr)) {
+
+		// Create the initial frame.
+		hr = pDecoder->GetFrame(0, &pSource);
+	}
+
+	if (SUCCEEDED(hr)) {
+		hr = m_pWicFactory_->CreateFormatConverter(&pConverter);
+	}
+	//
+	//	auto destinationWidth = 50;
+	//	auto destinationHeight = 100;
+	//	// If a new width or height was specified, create an
+	//	// IWICBitmapScaler and use it to resize the image.
+	//	if (destinationWidth != 0 || destinationHeight != 0) {
+	//		UINT originalWidth, originalHeight;
+	//		hr = pSource->GetSize(&originalWidth, &originalHeight);
+	//		if (SUCCEEDED(hr)) {
+	//			if (destinationWidth == 0) {
+	//				FLOAT scalar = static_cast<FLOAT>(destinationHeight) / static_cast<FLOAT>(originalHeight);
+	//				destinationWidth = static_cast<UINT>(scalar * static_cast<FLOAT>(originalWidth));
+	//			}
+	//			else if (destinationHeight == 0) {
+	//				FLOAT scalar = static_cast<FLOAT>(destinationWidth) / static_cast<FLOAT>(originalWidth);
+	//				destinationHeight = static_cast<UINT>(scalar * static_cast<FLOAT>(originalHeight));
+	//			}
+	//
+	//
+	//		}
+	//	}
+
+	if (SUCCEEDED(hr)) {
+		hr = m_pWicFactory_->CreateBitmapScaler(&pScaler);
+	}
+
+	UINT originalWidth = 0, originalHeight = 0;
+	if (SUCCEEDED(hr)) {
+		hr = pSource->GetSize(&originalWidth, &originalHeight);
+	}
+
+	if (SUCCEEDED(hr)) {
+		hr = pScaler->Initialize(
+			pSource,
+			originalWidth,
+			originalHeight,
+			WICBitmapInterpolationModeCubic
+		);
+	}
+	if (SUCCEEDED(hr)) {
+		hr = pConverter->Initialize(
+			pScaler,
+			GUID_WICPixelFormat32bppPBGRA,
+			WICBitmapDitherTypeNone,
+			NULL,
+			0.f,
+			WICBitmapPaletteTypeMedianCut
+		);
+	}
+
+	if (SUCCEEDED(hr)) {
+		// Create a Direct2D bitmap from the WIC bitmap.
+		hr = m_pRenderTarget_->CreateBitmapFromWicBitmap(pConverter,
+		                                                 nullptr,
+		                                                 ppBitmap);
+	}
+	return false;
+}
+
+void GraphicService::DrawBitmap(ID2D1Bitmap* pBitmap, float posX, float posY, float width, float height, float startX,
+                                float startY) {
+
+	// Clear background color to dark cyan
+	// m_pRenderTarget_->Clear(D2D1::ColorF(D2D1::ColorF::White));
+
+	D2D1_SIZE_F size = pBitmap->GetSize();
+	D2D1_POINT_2F upperLeftCorner = D2D1::Point2F(posX, posY);
+
+	// Draw bitmap
+
+	m_pRenderTarget_->DrawBitmap(
+		pBitmap,
+		D2D1::RectF(
+			upperLeftCorner.x,
+			upperLeftCorner.y,
+			upperLeftCorner.x + (width <= 0 ? size.width : width),
+			upperLeftCorner.y + (height <= 0 ? size.height : height)),
+		1,
+		D2D1_BITMAP_INTERPOLATION_MODE_LINEAR,
+		D2D1::RectF(
+			startX,
+			startY,
+			startX + (width <= 0 ? size.width : width),
+			startY + (height <= 0 ? size.height : height))
+	);
 }
 
 void GraphicService::KillWindow() {
@@ -161,15 +294,24 @@ void GraphicService::KillWindow() {
 	UnregisterClass(L"momoka", HINST_THISCOMPONENT);
 }
 
-void GraphicService::DrawRect(float x, float y, float width, float height) const {
+void GraphicService::DrawRect(float x, float y, float width, float height, MyColor color) const {
 	auto rect = D2D1::RectF(x, y, x + width, y + height);
-	m_pRenderTarget_->FillRectangle(&rect, m_pCornflowerBlueBrush_);
+	ID2D1SolidColorBrush* pBrush = m_pCornflowerBlueBrush_;
+	switch (color) {
+	case CornFlowerBlue:
+		pBrush = m_pCornflowerBlueBrush_;
+		break;
+	case Red:
+		pBrush = m_pRedBrush_;
+	}
+	m_pRenderTarget_->FillRectangle(&rect, pBrush);
 }
 
 void GraphicService::DrawTestWhiteBackGround() {
 	m_pRenderTarget_->SetTransform(D2D1::Matrix3x2F::Identity());
 	m_pRenderTarget_->Clear(D2D1::ColorF(D2D1::ColorF::White));
 }
+
 
 HWND& GraphicService::GetHwnd() {
 	return m_hwnd_;
